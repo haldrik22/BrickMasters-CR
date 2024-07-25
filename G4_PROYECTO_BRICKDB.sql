@@ -1,0 +1,2 @@
+--INICIO: Creación del usuario y esquema para el proyecto. Ambos nombrados G4_PROYECTO_BRICKDB
+--GRANTS CONCEDIDOS: DBA, CONNECT, RESOURCE.
