@@ -193,3 +193,713 @@ CREATE TABLE FIDE_VENTAS_TB (
 );
 -- Comentario ejemplo
 
+--Procedimientos CRUD para FIDE_LOCALES_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_LOCAL (
+    p_V_Id_local IN VARCHAR2,
+    p_V_Nom_local IN VARCHAR2,
+    p_V_Tel_local IN NUMBER,
+    p_V_Direccion_local IN VARCHAR2,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_LOCALES_TB (
+        V_Id_local, V_Nom_local, V_Tel_local, V_Direccion_local, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_local, p_V_Nom_local, p_V_Tel_local, p_V_Direccion_local, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_LOCAL (
+    p_V_Id_local IN VARCHAR2,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_LOCALES_TB
+    WHERE V_Id_local = p_V_Id_local;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_LOCAL (
+    p_V_Id_local IN VARCHAR2,
+    p_V_Nom_local IN VARCHAR2,
+    p_V_Tel_local IN NUMBER,
+    p_V_Direccion_local IN VARCHAR2,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_LOCALES_TB
+    SET V_Nom_local = p_V_Nom_local,
+        V_Tel_local = p_V_Tel_local,
+        V_Direccion_local = p_V_Direccion_local,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_local = p_V_Id_local;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_LOCAL (
+    p_V_Id_local IN VARCHAR2
+) AS
+BEGIN
+    DELETE FROM FIDE_LOCALES_TB
+    WHERE V_Id_local = p_V_Id_local;
+END;
+/
+
+--Procedimientos CRUD para FIDE_CLIENTES_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_CLIENTE (
+    p_V_Id_cliente IN NUMBER,
+    p_V_Nom_cliente IN VARCHAR2,
+    p_V_Ape_cliente IN VARCHAR2,
+    p_V_Correo_cliente IN VARCHAR2,
+    p_V_Tel_cliente IN NUMBER,
+    p_V_Direccion_cliente IN VARCHAR2,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_CLIENTES_TB (
+        V_Id_cliente, V_Nom_cliente, V_Ape_cliente, V_Correo_cliente, V_Tel_cliente, V_Direccion_cliente, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_cliente, p_V_Nom_cliente, p_V_Ape_cliente, p_V_Correo_cliente, p_V_Tel_cliente, p_V_Direccion_cliente, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_CLIENTE (
+    p_V_Id_cliente IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_CLIENTES_TB
+    WHERE V_Id_cliente = p_V_Id_cliente;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_CLIENTE (
+    p_V_Id_cliente IN NUMBER,
+    p_V_Nom_cliente IN VARCHAR2,
+    p_V_Ape_cliente IN VARCHAR2,
+    p_V_Correo_cliente IN VARCHAR2,
+    p_V_Tel_cliente IN NUMBER,
+    p_V_Direccion_cliente IN VARCHAR2,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_CLIENTES_TB
+    SET V_Nom_cliente = p_V_Nom_cliente,
+        V_Ape_cliente = p_V_Ape_cliente,
+        V_Correo_cliente = p_V_Correo_cliente,
+        V_Tel_cliente = p_V_Tel_cliente,
+        V_Direccion_cliente = p_V_Direccion_cliente,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_cliente = p_V_Id_cliente;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_CLIENTE (
+    p_V_Id_cliente IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_CLIENTES_TB
+    WHERE V_Id_cliente = p_V_Id_cliente;
+END;
+/
+
+--Procedimientos CRUD para FIDE_PRODUCTOS_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_PRODUCTO (
+    p_V_Id_producto IN NUMBER,
+    p_V_Nom_producto IN VARCHAR2,
+    p_V_Piezas_producto IN NUMBER,
+    p_V_Precio_producto IN NUMBER,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Descripcion_producto IN VARCHAR2,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_PRODUCTOS_TB (
+        V_Id_producto, V_Nom_producto, V_Piezas_producto, V_Precio_producto, V_Cantidad_producto, V_Descripcion_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_producto, p_V_Nom_producto, p_V_Piezas_producto, p_V_Precio_producto, p_V_Cantidad_producto, p_V_Descripcion_producto, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_PRODUCTO (
+    p_V_Id_producto IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_PRODUCTOS_TB
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_PRODUCTO (
+    p_V_Id_producto IN NUMBER,
+    p_V_Nom_producto IN VARCHAR2,
+    p_V_Piezas_producto IN NUMBER,
+    p_V_Precio_producto IN NUMBER,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Descripcion_producto IN VARCHAR2,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_PRODUCTOS_TB
+    SET V_Nom_producto = p_V_Nom_producto,
+        V_Piezas_producto = p_V_Piezas_producto,
+        V_Precio_producto = p_V_Precio_producto,
+        V_Cantidad_producto = p_V_Cantidad_producto,
+        V_Descripcion_producto = p_V_Descripcion_producto,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_PRODUCTO (
+    p_V_Id_producto IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_PRODUCTOS_TB
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+--Procedimientos CRUD para FIDE_PROVEEDORES_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_PROVEEDOR (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Nom_provedor IN VARCHAR2,
+    p_V_Correo_proveedor IN VARCHAR2,
+    p_V_Producto_proveedor IN VARCHAR2,
+    p_V_Tel_proveedor IN NUMBER,
+    p_V_Direccion_proveedor IN VARCHAR2,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_PROVEEDORES_TB (
+        V_Id_proveedor, V_Nom_provedor, V_Correo_proveedor, V_Producto_proveedor, V_Tel_proveedor, V_Direccion_proveedor, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_proveedor, p_V_Nom_provedor, p_V_Correo_proveedor, p_V_Producto_proveedor, p_V_Tel_proveedor, p_V_Direccion_proveedor, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_PROVEEDOR (
+    p_V_Id_proveedor IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_PROVEEDORES_TB
+    WHERE V_Id_proveedor = p_V_Id_proveedor;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_PROVEEDOR (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Nom_provedor IN VARCHAR2,
+    p_V_Correo_proveedor IN VARCHAR2,
+    p_V_Producto_proveedor IN VARCHAR2,
+    p_V_Tel_proveedor IN NUMBER,
+    p_V_Direccion_proveedor IN VARCHAR2,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_PROVEEDORES_TB
+    SET V_Nom_provedor = p_V_Nom_provedor,
+        V_Correo_proveedor = p_V_Correo_proveedor,
+        V_Producto_proveedor = p_V_Producto_proveedor,
+        V_Tel_proveedor = p_V_Tel_proveedor,
+        V_Direccion_proveedor = p_V_Direccion_proveedor,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_proveedor = p_V_Id_proveedor;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_PROVEEDOR (
+    p_V_Id_proveedor IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_PROVEEDORES_TB
+    WHERE V_Id_proveedor = p_V_Id_proveedor;
+END;
+/
+
+--Procedimientos CRUD para FIDE_CATALOGO_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_CATALOGO (
+    p_V_Id_producto IN NUMBER,
+    p_V_Nom_producto IN VARCHAR2,
+    p_V_Precio_producto IN NUMBER,
+    p_V_Descripcion_producto IN VARCHAR2,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_CATALOGO_TB (
+        V_Id_producto, V_Nom_producto, V_Precio_producto, V_Descripcion_producto, V_Cantidad_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_producto, p_V_Nom_producto, p_V_Precio_producto, p_V_Descripcion_producto, p_V_Cantidad_producto, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_CATALOGO (
+    p_V_Id_producto IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_CATALOGO_TB
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_CATALOGO (
+    p_V_Id_producto IN NUMBER,
+    p_V_Nom_producto IN VARCHAR2,
+    p_V_Precio_producto IN NUMBER,
+    p_V_Descripcion_producto IN VARCHAR2,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_CATALOGO_TB
+    SET V_Nom_producto = p_V_Nom_producto,
+        V_Precio_producto = p_V_Precio_producto,
+        V_Descripcion_producto = p_V_Descripcion_producto,
+        V_Cantidad_producto = p_V_Cantidad_producto,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_CATALOGO (
+    p_V_Id_producto IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_CATALOGO_TB
+    WHERE V_Id_producto = p_V_Id_producto;
+END;
+/
+
+--Procedimientos CRUD para FIDE_TIPO_DESCUENTO_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_TIPO_DESCUENTO (
+    p_V_Id_tipo_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_estado IN NUMBER,
+    p_V_Porcentaje_descuento IN NUMBER,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_TIPO_DESCUENTO_TB (
+        V_Id_tipo_descuento, V_Id_cliente, V_Id_estado, V_Porcentaje_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_tipo_descuento, p_V_Id_cliente, p_V_Id_estado, p_V_Porcentaje_descuento, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_TIPO_DESCUENTO (
+    p_V_Id_tipo_descuento IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_TIPO_DESCUENTO_TB
+    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_TIPO_DESCUENTO (
+    p_V_Id_tipo_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_estado IN NUMBER,
+    p_V_Porcentaje_descuento IN NUMBER,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_TIPO_DESCUENTO_TB
+    SET V_Id_cliente = p_V_Id_cliente,
+        V_Id_estado = p_V_Id_estado,
+        V_Porcentaje_descuento = p_V_Porcentaje_descuento,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_TIPO_DESCUENTO (
+    p_V_Id_tipo_descuento IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_TIPO_DESCUENTO_TB
+    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+END;
+/
+
+--Procedimientos CRUD para FIDE_ESTADO_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_ESTADO (
+    p_V_Id_estado IN NUMBER,
+    p_V_Tipo IN VARCHAR2,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_ESTADO_TB (
+        V_Id_estado, V_Tipo, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_estado, p_V_Tipo, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_ESTADO (
+    p_V_Id_estado IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_ESTADO_TB
+    WHERE V_Id_estado = p_V_Id_estado;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_ESTADO (
+    p_V_Id_estado IN NUMBER,
+    p_V_Tipo IN VARCHAR2,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_ESTADO_TB
+    SET V_Tipo = p_V_Tipo,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_estado = p_V_Id_estado;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_ESTADO (
+    p_V_Id_estado IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_ESTADO_TB
+    WHERE V_Id_estado = p_V_Id_estado;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_DESCUENTO (
+    p_V_Id_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_tipo_descuento IN NUMBER,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_DESCUENTOS_TB (
+        V_Id_descuento, V_Id_cliente, V_Id_tipo_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_descuento, p_V_Id_cliente, p_V_Id_tipo_descuento, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_DESCUENTO (
+    p_V_Id_descuento IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_DESCUENTOS_TB
+    WHERE V_Id_descuento = p_V_Id_descuento;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_DESCUENTO (
+    p_V_Id_descuento IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_DESCUENTOS_TB
+    WHERE V_Id_descuento = p_V_Id_descuento;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_DESCUENTO (
+    p_V_Id_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_tipo_descuento IN NUMBER,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_DESCUENTOS_TB
+    SET V_Id_cliente = p_V_Id_cliente,
+        V_Id_tipo_descuento = p_V_Id_tipo_descuento,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_descuento = p_V_Id_descuento;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_DESCUENTO (
+    p_V_Id_descuento IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_DESCUENTOS_TB
+    WHERE V_Id_descuento = p_V_Id_descuento;
+END;
+/
+
+--Procedimientos CRUD para FIDE_PROVEEDORES_PRODUCTO_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_PROVEEDORES_PRODUCTO (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Id_producto IN NUMBER,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_PROVEEDORES_PRODUCTO_TB (
+        V_Id_proveedor, V_Id_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_proveedor, p_V_Id_producto, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_PROVEEDORES_PRODUCTO (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Id_producto IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_PROVEEDORES_PRODUCTO_TB
+    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_PROVEEDORES_PRODUCTO (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Id_producto IN NUMBER,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_PROVEEDORES_PRODUCTO_TB
+    SET V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_PROVEEDORES_PRODUCTO (
+    p_V_Id_proveedor IN NUMBER,
+    p_V_Id_producto IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_PROVEEDORES_PRODUCTO_TB
+    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+END;
+/
+
+
+--Procedimientos CRUD para  FIDE_FACTURACION_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_FACTURACION (
+    p_V_Id_factura IN NUMBER,
+    p_V_Id_producto IN NUMBER,
+    p_V_Id_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_local IN VARCHAR2,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Precio_Subtotal IN NUMBER,
+    p_V_Precio_Total IN NUMBER,
+    p_V_Fecha_pago IN DATE,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_FACTURACION_TB (
+        V_Id_factura, V_Id_producto, V_Id_descuento, V_Id_cliente, V_Id_local, V_Cantidad_producto, V_Precio_Subtotal, V_Precio_Total, V_Fecha_pago, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_factura, p_V_Id_producto, p_V_Id_descuento, p_V_Id_cliente, p_V_Id_local, p_V_Cantidad_producto, p_V_Precio_Subtotal, p_V_Precio_Total, p_V_Fecha_pago, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_FACTURACION (
+    p_V_Id_factura IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_FACTURACION_TB
+    WHERE V_Id_factura = p_V_Id_factura;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_FACTURACION (
+    p_V_Id_factura IN NUMBER,
+    p_V_Id_producto IN NUMBER,
+    p_V_Id_descuento IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Id_local IN VARCHAR2,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Precio_Subtotal IN NUMBER,
+    p_V_Precio_Total IN NUMBER,
+    p_V_Fecha_pago IN DATE,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_FACTURACION_TB
+    SET V_Id_producto = p_V_Id_producto,
+        V_Id_descuento = p_V_Id_descuento,
+        V_Id_cliente = p_V_Id_cliente,
+        V_Id_local = p_V_Id_local,
+        V_Cantidad_producto = p_V_Cantidad_producto,
+        V_Precio_Subtotal = p_V_Precio_Subtotal,
+        V_Precio_Total = p_V_Precio_Total,
+        V_Fecha_pago = p_V_Fecha_pago,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_factura = p_V_Id_factura;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_FACTURACION (
+    p_V_Id_factura IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_FACTURACION_TB
+    WHERE V_Id_factura = p_V_Id_factura;
+END;
+/
+
+--Procedimientos CRUD para FIDE_VENTAS_TB
+
+CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_VENTAS (
+    p_V_Id_venta IN NUMBER,
+    p_V_Id_factura IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Precio_venta IN NUMBER,
+    p_V_Fecha_venta IN DATE,
+    p_V_Creado_por IN VARCHAR2,
+    p_V_Fecha_de_creacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    INSERT INTO FIDE_VENTAS_TB (
+        V_Id_venta, V_Id_factura, V_Id_cliente, V_Cantidad_producto, V_Precio_venta, V_Fecha_venta, V_Creado_por, V_Fecha_de_creacion, V_Accion
+    ) VALUES (
+        p_V_Id_venta, p_V_Id_factura, p_V_Id_cliente, p_V_Cantidad_producto, p_V_Precio_venta, p_V_Fecha_venta, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+    );
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_READ_FIDE_VENTAS (
+    p_V_Id_venta IN NUMBER,
+    p_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN p_result FOR
+    SELECT * FROM FIDE_VENTAS_TB
+    WHERE V_Id_venta = p_V_Id_venta;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_VENTAS (
+    p_V_Id_venta IN NUMBER,
+    p_V_Id_factura IN NUMBER,
+    p_V_Id_cliente IN NUMBER,
+    p_V_Cantidad_producto IN NUMBER,
+    p_V_Precio_venta IN NUMBER,
+    p_V_Fecha_venta IN DATE,
+    p_V_Modificado_por IN VARCHAR2,
+    p_V_Fecha_de_modificacion IN DATE,
+    p_V_Accion IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_VENTAS_TB
+    SET V_Id_factura = p_V_Id_factura,
+        V_Id_cliente = p_V_Id_cliente,
+        V_Cantidad_producto = p_V_Cantidad_producto,
+        V_Precio_venta = p_V_Precio_venta,
+        V_Fecha_venta = p_V_Fecha_venta,
+        V_Modificado_por = p_V_Modificado_por,
+        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
+        V_Accion = p_V_Accion
+    WHERE V_Id_venta = p_V_Id_venta;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_VENTAS (
+    p_V_Id_venta IN NUMBER
+) AS
+BEGIN
+    DELETE FROM FIDE_VENTAS_TB
+    WHERE V_Id_venta = p_V_Id_venta;
+END;
+/
+
