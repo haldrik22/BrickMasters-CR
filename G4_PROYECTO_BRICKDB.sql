@@ -191,5 +191,5 @@ CREATE TABLE FIDE_VENTAS_TB (
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20)
 );
-
+-- Comentario ejemplo
 
