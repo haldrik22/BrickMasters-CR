@@ -903,3 +903,126 @@ BEGIN
 END;
 /
 
+--Funciones
+
+CREATE OR REPLACE FUNCTION FIDE_PRODUCTOS_OBTENER_PRECIO_FN (
+    P_Id_producto NUMBER
+) RETURN NUMBER IS
+    V_Precio_producto NUMBER;
+BEGIN
+    SELECT V_Precio_producto
+    INTO V_Precio_producto
+    FROM FIDE_PRODUCTOS_TB
+    WHERE FIDE_PRODUCTOS_V_Id_producto_PK = P_Id_producto;
+    
+    RETURN V_Precio_producto;
+END FIDE_PRODUCTOS_OBTENER_PRECIO_FN;
+--Funcion que recupera el precio de un producto basado en su ID.
+
+CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_CORREO_FN (
+    P_Id_cliente NUMBER
+) RETURN VARCHAR2 IS
+    V_Correo_cliente VARCHAR2(50);
+BEGIN
+    SELECT V_Correo_cliente
+    INTO V_Correo_cliente
+    FROM FIDE_CLIENTES_TB
+    WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_Id_cliente;
+    
+    RETURN V_Correo_cliente;
+END FIDE_CLIENTES_OBTENER_CORREO_FN;
+--Funcion que retorna el correo de un cliente basado en su ID.
+
+CREATE OR REPLACE FUNCTION FIDE_DESCUENTOS_CALCULAR_MONTO_FN (
+    P_Id_descuento NUMBER,
+    P_Subtotal NUMBER
+) RETURN NUMBER IS
+    V_Porcentaje_descuento NUMBER;
+    V_Discount_amount NUMBER;
+BEGIN
+    SELECT TD.V_Porcentaje_descuento
+    INTO V_Porcentaje_descuento
+    FROM FIDE_DESCUENTOS_TB D
+    JOIN FIDE_TIPO_DESCUENTO_TB TD ON D.FIDE_DESCUENTOS_V_Id_tipo_descuento_FK = TD.FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK
+    WHERE D.FIDE_DESCUENTOS_V_Id_descuento_PK = P_Id_descuento;
+    
+    V_Discount_amount := P_Subtotal * (V_Porcentaje_descuento / 100);
+    
+    RETURN V_Discount_amount;
+END FIDE_DESCUENTOS_CALCULAR_MONTO_FN;
+--Calcular el monto de descuento basado en el ID Descuento y el subtotal
+
+CREATE OR REPLACE FUNCTION FIDE_PRODUCTOS_CHECK_DISPONIBILIDAD_FN (
+    P_Id_producto NUMBER
+) RETURN VARCHAR2 IS
+    V_Cantidad_producto NUMBER;
+BEGIN
+    SELECT V_Cantidad_producto
+    INTO V_Cantidad_producto
+    FROM FIDE_PRODUCTOS_TB
+    WHERE FIDE_PRODUCTOS_V_Id_producto_PK = P_Id_producto;
+    
+    IF V_Cantidad_producto > 0 THEN
+        RETURN 'Available';
+    ELSE
+        RETURN 'Out of Stock';
+    END IF;
+END FIDE_PRODUCTOS_CHECK_DISPONIBILIDAD_FN;
+--Funcion que retorna la disponibilidad de stock de un producto
+
+CREATE OR REPLACE FUNCTION FIDE_PROVEEDORES_OBTENER_CONTACTO_FN (
+    P_Id_proveedor NUMBER
+) RETURN VARCHAR2 IS
+    V_Contact_info VARCHAR2(100);
+BEGIN
+    SELECT V_Correo_proveedor || ' | ' || V_Tel_proveedor
+    INTO V_Contact_info
+    FROM FIDE_PROVEEDORES_TB
+    WHERE FIDE_PROVEEDORES_V_Id_proveedor_PK = P_Id_proveedor;
+    
+    RETURN V_Contact_info;
+END FIDE_PROVEEDORES_OBTENER_CONTACTO_FN;
+--Funcion que retorna un string concatenado del correo y numero de telefono del provedor 
+
+CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_PORCENTAJE_DESCUENTO_FN (
+    P_Id_cliente NUMBER
+) RETURN NUMBER IS
+    V_Porcentaje_descuento NUMBER;
+BEGIN
+    SELECT V_Porcentaje_descuento
+    INTO V_Porcentaje_descuento
+    FROM FIDE_TIPO_DESCUENTO_TB
+    WHERE FIDE_TIPO_DESCUENTO_V_Id_cliente_FK = P_Id_cliente;
+    
+    RETURN V_Porcentaje_descuento;
+END FIDE_CLIENTES_OBTENER_PORCENTAJE_DESCUENTO_FN;
+--Funcion que retorna el porcentaje de descuento 
+
+CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_TOTAL_ORDENES_FN (
+    P_Id_cliente NUMBER
+) RETURN NUMBER IS
+    V_Total_orders NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO V_Total_orders
+    FROM FIDE_ORDERS_TB
+    WHERE FIDE_ORDERS_V_Id_cliente_FK = P_Id_cliente;
+    
+    RETURN V_Total_orders;
+END FIDE_CLIENTES_OBTENER_TOTAL_ORDENES_FN;
+--Funcion que retorna total de ordenes puestas por un 1 cliente.
+
+CREATE OR REPLACE FUNCTION FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN (
+    P_Id_producto NUMBER
+) RETURN NUMBER IS
+    V_Total_sales NUMBER;
+BEGIN
+    SELECT SUM(V.Cantidad_producto)
+    INTO V_Total_sales
+    FROM FIDE_VENTAS_TB V
+    WHERE V.FIDE_VENTAS_V_Id_producto_FK = P_Id_producto;
+    
+    RETURN V_Total_sales;
+END FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN;
+--Funcion que retorna el total de ventas de un producto
+
