@@ -713,134 +713,144 @@ END;
 
 --Procedimientos CRUD para FIDE_PROVEEDORES_PRODUCTO_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_PROVEEDORES_PRODUCTO (
-    p_V_Id_proveedor IN NUMBER,
-    p_V_Id_producto IN NUMBER,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo registro de proveedor-producto en la tabla FIDE_PROVEEDORES_PRODUCTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_CREATE_SP (
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER,
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_PROVEEDORES_PRODUCTO_TB (
-        V_Id_proveedor, V_Id_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK, FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_proveedor, p_V_Id_producto, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK, P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_PROVEEDORES_PRODUCTO (
-    p_V_Id_proveedor IN NUMBER,
-    p_V_Id_producto IN NUMBER,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un registro de proveedor-producto específico en la tabla FIDE_PROVEEDORES_PRODUCTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_READ_SP (
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER,
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_PROVEEDORES_PRODUCTO_TB
-    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+    WHERE FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK
+      AND FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_PROVEEDORES_PRODUCTO (
-    p_V_Id_proveedor IN NUMBER,
-    p_V_Id_producto IN NUMBER,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un registro de proveedor-producto existente en la tabla FIDE_PROVEEDORES_PRODUCTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP (
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER,
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_PROVEEDORES_PRODUCTO_TB
-    SET V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+    SET V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK
+      AND FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_PROVEEDORES_PRODUCTO (
-    p_V_Id_proveedor IN NUMBER,
-    p_V_Id_producto IN NUMBER
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un registro de proveedor-producto específico de la tabla FIDE_PROVEEDORES_PRODUCTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_DELETE_SP (
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER,
+    P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_PROVEEDORES_PRODUCTO_TB
-    WHERE V_Id_proveedor = p_V_Id_proveedor AND V_Id_producto = p_V_Id_producto;
+    WHERE FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK
+      AND FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK;
 END;
 /
 
-
 --Procedimientos CRUD para  FIDE_FACTURACION_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_FACTURACION (
-    p_V_Id_factura IN NUMBER,
-    p_V_Id_producto IN NUMBER,
-    p_V_Id_descuento IN NUMBER,
-    p_V_Id_cliente IN NUMBER,
-    p_V_Id_local IN VARCHAR2,
-    p_V_Cantidad_producto IN NUMBER,
-    p_V_Precio_Subtotal IN NUMBER,
-    p_V_Precio_Total IN NUMBER,
-    p_V_Fecha_pago IN DATE,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar una nueva factura en la tabla FIDE_FACTURACION_TB.
+CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_CREATE_SP (
+    P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_producto_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_descuento_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_cliente_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_local_FK IN NUMBER,
+    P_Cantidad_producto IN NUMBER,
+    P_Precio_Subtotal IN NUMBER,
+    P_Precio_Total IN NUMBER,
+    P_Fecha_pago IN DATE,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_FACTURACION_TB (
-        V_Id_factura, V_Id_producto, V_Id_descuento, V_Id_cliente, V_Id_local, V_Cantidad_producto, V_Precio_Subtotal, V_Precio_Total, V_Fecha_pago, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_producto_FK, FIDE_FACTURACION_V_Id_descuento_FK, FIDE_FACTURACION_V_Id_cliente_FK, FIDE_FACTURACION_V_Id_local_FK, V_Cantidad_producto, V_Precio_Subtotal, V_Precio_Total, V_Fecha_pago, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_factura, p_V_Id_producto, p_V_Id_descuento, p_V_Id_cliente, p_V_Id_local, p_V_Cantidad_producto, p_V_Precio_Subtotal, p_V_Precio_Total, p_V_Fecha_pago, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_FACTURACION_V_Id_factura_PK, P_FIDE_FACTURACION_V_Id_producto_FK, P_FIDE_FACTURACION_V_Id_descuento_FK, P_FIDE_FACTURACION_V_Id_cliente_FK, P_FIDE_FACTURACION_V_Id_local_FK, P_Cantidad_producto, P_Precio_Subtotal, P_Precio_Total, P_Fecha_pago, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_FACTURACION (
-    p_V_Id_factura IN NUMBER,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar una factura específica en la tabla FIDE_FACTURACION_TB.
+CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_READ_SP (
+    P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_FACTURACION_TB
-    WHERE V_Id_factura = p_V_Id_factura;
+    WHERE FIDE_FACTURACION_V_Id_factura_PK = P_FIDE_FACTURACION_V_Id_factura_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_FACTURACION (
-    p_V_Id_factura IN NUMBER,
-    p_V_Id_producto IN NUMBER,
-    p_V_Id_descuento IN NUMBER,
-    p_V_Id_cliente IN NUMBER,
-    p_V_Id_local IN VARCHAR2,
-    p_V_Cantidad_producto IN NUMBER,
-    p_V_Precio_Subtotal IN NUMBER,
-    p_V_Precio_Total IN NUMBER,
-    p_V_Fecha_pago IN DATE,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar una factura existente en la tabla FIDE_FACTURACION_TB.
+CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_UPDATE_SP (
+    P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_producto_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_descuento_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_cliente_FK IN NUMBER,
+    P_FIDE_FACTURACION_V_Id_local_FK IN NUMBER,
+    P_Cantidad_producto IN NUMBER,
+    P_Precio_Subtotal IN NUMBER,
+    P_Precio_Total IN NUMBER,
+    P_Fecha_pago IN DATE,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_FACTURACION_TB
-    SET V_Id_producto = p_V_Id_producto,
-        V_Id_descuento = p_V_Id_descuento,
-        V_Id_cliente = p_V_Id_cliente,
-        V_Id_local = p_V_Id_local,
-        V_Cantidad_producto = p_V_Cantidad_producto,
-        V_Precio_Subtotal = p_V_Precio_Subtotal,
-        V_Precio_Total = p_V_Precio_Total,
-        V_Fecha_pago = p_V_Fecha_pago,
-        V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_factura = p_V_Id_factura;
+    SET FIDE_FACTURACION_V_Id_producto_FK = P_FIDE_FACTURACION_V_Id_producto_FK,
+        FIDE_FACTURACION_V_Id_descuento_FK = P_FIDE_FACTURACION_V_Id_descuento_FK,
+        FIDE_FACTURACION_V_Id_cliente_FK = P_FIDE_FACTURACION_V_Id_cliente_FK,
+        FIDE_FACTURACION_V_Id_local_FK = P_FIDE_FACTURACION_V_Id_local_FK,
+        V_Cantidad_producto = P_Cantidad_producto,
+        V_Precio_Subtotal = P_Precio_Subtotal,
+        V_Precio_Total = P_Precio_Total,
+        V_Fecha_pago = P_Fecha_pago,
+        V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_FACTURACION_V_Id_factura_PK = P_FIDE_FACTURACION_V_Id_factura_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_FACTURACION (
-    p_V_Id_factura IN NUMBER
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar una factura específica de la tabla FIDE_FACTURACION_TB.
+CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_DELETE_SP (
+    P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_FACTURACION_TB
-    WHERE V_Id_factura = p_V_Id_factura;
+    WHERE FIDE_FACTURACION_V_Id_factura_PK = P_FIDE_FACTURACION_V_Id_factura_PK;
 END;
 /
 
