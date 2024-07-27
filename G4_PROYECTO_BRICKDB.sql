@@ -1052,3 +1052,170 @@ BEGIN
 END FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN;
 /
 --Funcion que retorna el total de ventas de un producto
+
+-----------------------------------------------CURSORES-----------------------------------------------
+-- DESCRIPCIÓN: El siguiente cursor se encarga de obtener los detalles del inventario de productos.
+SET SERVEROUTPUT ON;
+/
+DECLARE
+    CURSOR cursor_inventario IS
+        SELECT FIDE_PRODUCTOS_V_Id_producto_PK, V_Nom_producto, V_Cantidad_producto
+        FROM FIDE_PRODUCTOS_TB;
+    V_Id_producto FIDE_PRODUCTOS_TB.FIDE_PRODUCTOS_V_Id_producto_PK%TYPE;
+    V_Nom_producto FIDE_PRODUCTOS_TB.V_Nom_producto%TYPE;
+    V_Cantidad_producto FIDE_PRODUCTOS_TB.V_Cantidad_producto%TYPE;
+BEGIN
+    OPEN cursor_inventario;
+    LOOP
+        FETCH cursor_inventario INTO V_Id_producto, V_Nom_producto, V_Cantidad_producto;
+        EXIT WHEN cursor_inventario%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Producto: ' || V_Id_producto || ', Nombre: ' || V_Nom_producto || ', Cantidad: ' || V_Cantidad_producto);
+    END LOOP;
+    CLOSE cursor_inventario;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de las órdenes de los clientes.
+DECLARE
+    CURSOR cursor_ordenes IS
+        SELECT FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_cliente_FK, V_Precio_Total
+        FROM FIDE_FACTURACION_TB;
+    V_Id_factura FIDE_FACTURACION_TB.FIDE_FACTURACION_V_Id_factura_PK%TYPE;
+    V_Id_cliente FIDE_FACTURACION_TB.FIDE_FACTURACION_V_Id_cliente_FK%TYPE;
+    V_Precio_Total FIDE_FACTURACION_TB.V_Precio_Total%TYPE;
+BEGIN
+    OPEN cursor_ordenes;
+    LOOP
+        FETCH cursor_ordenes INTO V_Id_factura, V_Id_cliente, V_Precio_Total;
+        EXIT WHEN cursor_ordenes%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID de la Factura: ' || V_Id_factura || ', ID del Cliente: ' || V_Id_cliente || ', Precio Total: ' || V_Precio_Total);
+    END LOOP;
+    CLOSE cursor_ordenes;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de obtener los detalles de los proveedores.
+DECLARE
+    CURSOR cursor_proveedores IS
+        SELECT FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Producto_proveedor
+        FROM FIDE_PROVEEDORES_TB;
+    V_Id_proveedor FIDE_PROVEEDORES_TB.FIDE_PROVEEDORES_V_Id_proveedor_PK%TYPE;
+    V_Nom_provedor FIDE_PROVEEDORES_TB.V_Nom_provedor%TYPE;
+    V_Producto_proveedor FIDE_PROVEEDORES_TB.V_Producto_proveedor%TYPE;
+BEGIN
+    OPEN cursor_proveedores;
+    LOOP
+        FETCH cursor_proveedores INTO V_Id_proveedor, V_Nom_provedor, V_Producto_proveedor;
+        EXIT WHEN cursor_proveedores%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Proveedor: ' || V_Id_proveedor || ', Nombre: ' || V_Nom_provedor || ', Producto: ' || V_Producto_proveedor);
+    END LOOP;
+    CLOSE cursor_proveedores;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de los descuentos por tipo.
+DECLARE
+    CURSOR cursor_descuentos IS
+        SELECT FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, V_Porcentaje_descuento
+        FROM FIDE_TIPO_DESCUENTO_TB;
+    V_Id_tipo_descuento FIDE_TIPO_DESCUENTO_TB.FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK%TYPE;
+    V_Id_cliente FIDE_TIPO_DESCUENTO_TB.FIDE_TIPO_DESCUENTO_V_Id_cliente_FK%TYPE;
+    V_Porcentaje_descuento FIDE_TIPO_DESCUENTO_TB.V_Porcentaje_descuento%TYPE;
+BEGIN
+    OPEN cursor_descuentos;
+    LOOP
+        FETCH cursor_descuentos INTO V_Id_tipo_descuento, V_Id_cliente, V_Porcentaje_descuento;
+        EXIT WHEN cursor_descuentos%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Tipo de Descuento: ' || V_Id_tipo_descuento || ', ID del Cliente: ' || V_Id_cliente || ', Porcentaje: ' || V_Porcentaje_descuento || '%');
+    END LOOP;
+    CLOSE cursor_descuentos;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar la información sobre las tiendas.
+DECLARE
+    CURSOR cursor_tiendas IS
+        SELECT FIDE_LOCALES_V_Id_local_PK, V_Nom_local, V_Tel_local, V_Direccion_local
+        FROM FIDE_LOCALES_TB;
+    V_Id_local FIDE_LOCALES_TB.FIDE_LOCALES_V_Id_local_PK%TYPE;
+    V_Nom_local FIDE_LOCALES_TB.V_Nom_local%TYPE;
+    V_Tel_local FIDE_LOCALES_TB.V_Tel_local%TYPE;
+    V_Direccion_local FIDE_LOCALES_TB.V_Direccion_local%TYPE;
+BEGIN
+    OPEN cursor_tiendas;
+    LOOP
+        FETCH cursor_tiendas INTO V_Id_local, V_Nom_local, V_Tel_local, V_Direccion_local;
+        EXIT WHEN cursor_tiendas%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID de la Tienda: ' || V_Id_local || ', Nombre: ' || V_Nom_local || ', Teléfono: ' || V_Tel_local || ', Dirección: ' || V_Direccion_local);
+    END LOOP;
+    CLOSE cursor_tiendas;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de listar los productos en el catálogo.
+DECLARE
+    CURSOR cursor_catalogo IS
+        SELECT FIDE_CATALOGO_V_Id_producto_PK, V_Nom_producto, V_Precio_producto
+        FROM FIDE_CATALOGO_TB;
+    V_Id_producto FIDE_CATALOGO_TB.FIDE_CATALOGO_V_Id_producto_PK%TYPE;
+    V_Nom_producto FIDE_CATALOGO_TB.V_Nom_producto%TYPE;
+    V_Precio_producto FIDE_CATALOGO_TB.V_Precio_producto%TYPE;
+BEGIN
+    OPEN cursor_catalogo;
+    LOOP
+        FETCH cursor_catalogo INTO V_Id_producto, V_Nom_producto, V_Precio_producto;
+        EXIT WHEN cursor_catalogo%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Producto: ' || V_Id_producto || ', Nombre: ' || V_Nom_producto || ', Precio: ' || V_Precio_producto);
+    END LOOP;
+    CLOSE cursor_catalogo;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de los clientes.
+DECLARE
+    CURSOR cursor_clientes IS
+        SELECT FIDE_CLIENTES_V_Id_cliente_PK, V_Nom_cliente, V_Ape_cliente
+        FROM FIDE_CLIENTES_TB;
+    V_Id_cliente FIDE_CLIENTES_TB.FIDE_CLIENTES_V_Id_cliente_PK%TYPE;
+    V_Nom_cliente FIDE_CLIENTES_TB.V_Nom_cliente%TYPE;
+    V_Ape_cliente FIDE_CLIENTES_TB.V_Ape_cliente%TYPE;
+BEGIN
+    OPEN cursor_clientes;
+    LOOP
+        FETCH cursor_clientes INTO V_Id_cliente, V_Nom_cliente, V_Ape_cliente;
+        EXIT WHEN cursor_clientes%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Cliente: ' || V_Id_cliente || ', Nombre: ' || V_Nom_cliente || ' ' || V_Ape_cliente);
+    END LOOP;
+    CLOSE cursor_clientes;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de obtener los detalles de las órdenes y sus pagos.
+DECLARE
+    CURSOR cursor_ordenes_pagos IS
+        SELECT FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_cliente_FK, V_Precio_Total
+        FROM FIDE_FACTURACION_TB;
+    V_Id_factura FIDE_FACTURACION_TB.FIDE_FACTURACION_V_Id_factura_PK%TYPE;
+    V_Id_cliente FIDE_FACTURACION_TB.FIDE_FACTURACION_V_Id_cliente_FK%TYPE;
+    V_Precio_Total FIDE_FACTURACION_TB.V_Precio_Total%TYPE;
+BEGIN
+    OPEN cursor_ordenes_pagos;
+    LOOP
+        FETCH cursor_ordenes_pagos INTO V_Id_factura, V_Id_cliente, V_Precio_Total;
+        EXIT WHEN cursor_ordenes_pagos%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Pedido: ' || V_Id_factura || ', ID del Cliente: ' || V_Id_cliente || ', Precio Total: ' || V_Precio_Total);
+    END LOOP;
+    CLOSE cursor_ordenes_pagos;
+END;
+/
+-- DESCRIPCIÓN: El siguiente cursor se encarga de rastrear las entregas realizadas por los proveedores.
+DECLARE
+    CURSOR cursor_entregas_proveedores IS
+        SELECT FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Producto_proveedor
+        FROM FIDE_PROVEEDORES_TB;
+    V_Id_proveedor FIDE_PROVEEDORES_TB.FIDE_PROVEEDORES_V_Id_proveedor_PK%TYPE;
+    V_Nom_provedor FIDE_PROVEEDORES_TB.V_Nom_provedor%TYPE;
+    V_Producto_proveedor FIDE_PROVEEDORES_TB.V_Producto_proveedor%TYPE;
+BEGIN
+    OPEN cursor_entregas_proveedores;
+    LOOP
+        FETCH cursor_entregas_proveedores INTO V_Id_proveedor, V_Nom_provedor, V_Producto_proveedor;
+        EXIT WHEN cursor_entregas_proveedores%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID del Proveedor: ' || V_Id_proveedor || ', Nombre: ' || V_Nom_provedor || ', Producto: ' || V_Producto_proveedor);
+    END LOOP;
+    CLOSE cursor_entregas_proveedores;
+END;
+/
