@@ -475,126 +475,125 @@ END;
 
 --Procedimientos CRUD para FIDE_CATALOGO_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_CATALOGO (
-    p_V_Id_producto IN NUMBER,
-    p_V_Nom_producto IN VARCHAR2,
-    p_V_Precio_producto IN NUMBER,
-    p_V_Descripcion_producto IN VARCHAR2,
-    p_V_Cantidad_producto IN NUMBER,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo catálogo en la tabla FIDE_CATALOGO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_CREATE_SP (
+    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
+    P_Nom_catalogo IN VARCHAR2,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_CATALOGO_TB (
-        V_Id_producto, V_Nom_producto, V_Precio_producto, V_Descripcion_producto, V_Cantidad_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_CATALOGO_V_Id_catalogo_PK, V_Nom_catalogo, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_producto, p_V_Nom_producto, p_V_Precio_producto, p_V_Descripcion_producto, p_V_Cantidad_producto, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_CATALOGO_V_Id_catalogo_PK, P_Nom_catalogo, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_CATALOGO (
-    p_V_Id_producto IN NUMBER,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un catálogo específico en la tabla FIDE_CATALOGO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_READ_SP (
+    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_CATALOGO_TB
-    WHERE V_Id_producto = p_V_Id_producto;
+    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_CATALOGO (
-    p_V_Id_producto IN NUMBER,
-    p_V_Nom_producto IN VARCHAR2,
-    p_V_Precio_producto IN NUMBER,
-    p_V_Descripcion_producto IN VARCHAR2,
-    p_V_Cantidad_producto IN NUMBER,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un catálogo existente en la tabla FIDE_CATALOGO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_UPDATE_SP (
+    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
+    P_Nom_catalogo IN VARCHAR2,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CATALOGO_TB
-    SET V_Nom_producto = p_V_Nom_producto,
-        V_Precio_producto = p_V_Precio_producto,
-        V_Descripcion_producto = p_V_Descripcion_producto,
-        V_Cantidad_producto = p_V_Cantidad_producto,
-        V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_producto = p_V_Id_producto;
+    SET V_Nom_catalogo = P_Nom_catalogo,
+        V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_CATALOGO (
-    p_V_Id_producto IN NUMBER
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un catálogo específico de la tabla FIDE_CATALOGO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_DELETE_SP (
+    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_CATALOGO_TB
-    WHERE V_Id_producto = p_V_Id_producto;
+    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
 END;
 /
 
 --Procedimientos CRUD para FIDE_TIPO_DESCUENTO_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_TIPO_DESCUENTO (
-    p_V_Id_tipo_descuento IN NUMBER,
-    p_V_Id_cliente IN NUMBER,
-    p_V_Id_estado IN NUMBER,
-    p_V_Porcentaje_descuento IN NUMBER,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo tipo de descuento en la tabla FIDE_TIPO_DESCUENTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_CREATE_SP (
+    P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER,
+    P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK IN NUMBER,
+    P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK IN NUMBER,
+    P_Porcentaje_descuento IN NUMBER,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_TIPO_DESCUENTO_TB (
-        V_Id_tipo_descuento, V_Id_cliente, V_Id_estado, V_Porcentaje_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, FIDE_TIPO_DESCUENTO_V_Id_estado_FK, V_Porcentaje_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_tipo_descuento, p_V_Id_cliente, p_V_Id_estado, p_V_Porcentaje_descuento, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK, P_Porcentaje_descuento, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_TIPO_DESCUENTO (
-    p_V_Id_tipo_descuento IN NUMBER,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un tipo de descuento específico en la tabla FIDE_TIPO_DESCUENTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_READ_SP (
+    P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_TIPO_DESCUENTO_TB
-    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+    WHERE FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK = P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_TIPO_DESCUENTO (
-    p_V_Id_tipo_descuento IN NUMBER,
-    p_V_Id_cliente IN NUMBER,
-    p_V_Id_estado IN NUMBER,
-    p_V_Porcentaje_descuento IN NUMBER,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un tipo de descuento existente en la tabla FIDE_TIPO_DESCUENTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_UPDATE_SP (
+    P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER,
+    P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK IN NUMBER,
+    P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK IN NUMBER,
+    P_Porcentaje_descuento IN NUMBER,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_TIPO_DESCUENTO_TB
-    SET V_Id_cliente = p_V_Id_cliente,
-        V_Id_estado = p_V_Id_estado,
-        V_Porcentaje_descuento = p_V_Porcentaje_descuento,
-        V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+    SET FIDE_TIPO_DESCUENTO_V_Id_cliente_FK = P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK,
+        FIDE_TIPO_DESCUENTO_V_Id_estado_FK = P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK,
+        V_Porcentaje_descuento = P_Porcentaje_descuento,
+        V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK = P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_TIPO_DESCUENTO (
-    p_V_Id_tipo_descuento IN NUMBER
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un tipo de descuento específico de la tabla FIDE_TIPO_DESCUENTO_TB.
+CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_DELETE_SP (
+    P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_TIPO_DESCUENTO_TB
-    WHERE V_Id_tipo_descuento = p_V_Id_tipo_descuento;
+    WHERE FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK = P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
 END;
 /
 
