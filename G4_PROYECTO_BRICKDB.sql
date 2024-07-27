@@ -195,129 +195,138 @@ CREATE TABLE FIDE_VENTAS_TB (
 
 --Procedimientos CRUD para FIDE_LOCALES_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_LOCAL (
-    p_V_Id_local IN VARCHAR2,
-    p_V_Nom_local IN VARCHAR2,
-    p_V_Tel_local IN NUMBER,
-    p_V_Direccion_local IN VARCHAR2,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo local en la tabla FIDE_LOCALES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_LOCALES_CREATE_SP (
+    P_FIDE_LOCALES_V_Id_local_PK IN NUMBER,
+    P_Nom_local IN VARCHAR2,
+    P_Tel_local IN VARCHAR2,
+    P_Direccion_local IN VARCHAR2,
+    P_FIDE_LOCALES_V_Id_estado_FK IN NUMBER,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_LOCALES_TB (
-        V_Id_local, V_Nom_local, V_Tel_local, V_Direccion_local, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_LOCALES_V_Id_local_PK, V_Nom_local, V_Tel_local, V_Direccion_local, FIDE_LOCALES_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_local, p_V_Nom_local, p_V_Tel_local, p_V_Direccion_local, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_LOCALES_V_Id_local_PK, P_Nom_local, P_Tel_local, P_Direccion_local, P_FIDE_LOCALES_V_Id_estado_FK, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
-
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_LOCAL (
-    p_V_Id_local IN VARCHAR2,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un local específico en la tabla FIDE_LOCALES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_LOCALES_READ_SP (
+    P_FIDE_LOCALES_V_Id_local_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_LOCALES_TB
-    WHERE V_Id_local = p_V_Id_local;
+    WHERE FIDE_LOCALES_V_Id_local_PK = P_FIDE_LOCALES_V_Id_local_PK;
 END;
 /
-
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_LOCAL (
-    p_V_Id_local IN VARCHAR2,
-    p_V_Nom_local IN VARCHAR2,
-    p_V_Tel_local IN NUMBER,
-    p_V_Direccion_local IN VARCHAR2,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un local existente en la tabla FIDE_LOCALES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_LOCALES_UPDATE_SP (
+    P_FIDE_LOCALES_V_Id_local_PK IN NUMBER,
+    P_Nom_local IN VARCHAR2,
+    P_Tel_local IN VARCHAR2,
+    P_Direccion_local IN VARCHAR2,
+    P_FIDE_LOCALES_V_Id_estado_FK IN NUMBER,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_LOCALES_TB
-    SET V_Nom_local = p_V_Nom_local,
-        V_Tel_local = p_V_Tel_local,
-        V_Direccion_local = p_V_Direccion_local,
-        V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_local = p_V_Id_local;
+    SET V_Nom_local = P_Nom_local,
+        V_Tel_local = P_Tel_local,
+        V_Direccion_local = P_Direccion_local,
+        FIDE_LOCALES_V_Id_estado_FK = P_FIDE_LOCALES_V_Id_estado_FK,
+        V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_LOCALES_V_Id_local_PK = P_FIDE_LOCALES_V_Id_local_PK;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_LOCAL (
-    p_V_Id_local IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un local específico de la tabla FIDE_LOCALES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_LOCALES_DELETE_SP (
+    P_FIDE_LOCALES_V_Id_local_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_LOCALES_TB
-    WHERE V_Id_local = p_V_Id_local;
+    WHERE FIDE_LOCALES_V_Id_local_PK = P_FIDE_LOCALES_V_Id_local_PK;
 END;
 /
 
 --Procedimientos CRUD para FIDE_CLIENTES_TB
 
-CREATE OR REPLACE PROCEDURE SP_CREATE_FIDE_CLIENTE (
-    p_V_Id_cliente IN NUMBER,
-    p_V_Nom_cliente IN VARCHAR2,
-    p_V_Ape_cliente IN VARCHAR2,
-    p_V_Correo_cliente IN VARCHAR2,
-    p_V_Tel_cliente IN NUMBER,
-    p_V_Direccion_cliente IN VARCHAR2,
-    p_V_Creado_por IN VARCHAR2,
-    p_V_Fecha_de_creacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo cliente en la tabla FIDE_CLIENTES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_CREATE_SP (
+    P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER,
+    P_Nom_cliente IN VARCHAR2,
+    P_Ape_cliente IN VARCHAR2,
+    P_Correo_cliente IN VARCHAR2,
+    P_Tel_cliente IN VARCHAR2,
+    P_Direccion_cliente IN VARCHAR2,
+    P_FIDE_CLIENTES_V_Id_estado_FK IN NUMBER,
+    P_Creado_por IN VARCHAR2,
+    P_Fecha_de_creacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_CLIENTES_TB (
-        V_Id_cliente, V_Nom_cliente, V_Ape_cliente, V_Correo_cliente, V_Tel_cliente, V_Direccion_cliente, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_CLIENTES_V_Id_cliente_PK, V_Nom_cliente, V_Ape_cliente, V_Correo_cliente, V_Tel_cliente, V_Direccion_cliente, FIDE_CLIENTES_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        p_V_Id_cliente, p_V_Nom_cliente, p_V_Ape_cliente, p_V_Correo_cliente, p_V_Tel_cliente, p_V_Direccion_cliente, p_V_Creado_por, p_V_Fecha_de_creacion, p_V_Accion
+        P_FIDE_CLIENTES_V_Id_cliente_PK, P_Nom_cliente, P_Ape_cliente, P_Correo_cliente, P_Tel_cliente, P_Direccion_cliente, P_FIDE_CLIENTES_V_Id_estado_FK, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
-
-CREATE OR REPLACE PROCEDURE SP_READ_FIDE_CLIENTE (
-    p_V_Id_cliente IN NUMBER,
-    p_result OUT SYS_REFCURSOR
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un cliente específico en la tabla FIDE_CLIENTES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_READ_SP (
+    P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
-    OPEN p_result FOR
+    OPEN P_result FOR
     SELECT * FROM FIDE_CLIENTES_TB
-    WHERE V_Id_cliente = p_V_Id_cliente;
+    WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
 /
-
-CREATE OR REPLACE PROCEDURE SP_UPDATE_FIDE_CLIENTE (
-    p_V_Id_cliente IN NUMBER,
-    p_V_Nom_cliente IN VARCHAR2,
-    p_V_Ape_cliente IN VARCHAR2,
-    p_V_Correo_cliente IN VARCHAR2,
-    p_V_Tel_cliente IN NUMBER,
-    p_V_Direccion_cliente IN VARCHAR2,
-    p_V_Modificado_por IN VARCHAR2,
-    p_V_Fecha_de_modificacion IN DATE,
-    p_V_Accion IN VARCHAR2
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un cliente existente en la tabla FIDE_CLIENTES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_UPDATE_SP (
+    P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER,
+    P_Nom_cliente IN VARCHAR2,
+    P_Ape_cliente IN VARCHAR2,
+    P_Correo_cliente IN VARCHAR2,
+    P_Tel_cliente IN VARCHAR2,
+    P_Direccion_cliente IN VARCHAR2,
+    P_FIDE_CLIENTES_V_Id_estado_FK IN NUMBER,
+    P_Modificado_por IN VARCHAR2,
+    P_Fecha_de_modificacion IN DATE,
+    P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CLIENTES_TB
-    SET V_Nom_cliente = p_V_Nom_cliente,
-        V_Ape_cliente = p_V_Ape_cliente,
-        V_Correo_cliente = p_V_Correo_cliente,
-        V_Tel_cliente = p_V_Tel_cliente,
-        V_Direccion_cliente = p_V_Direccion_cliente,
-        V_Modificado_por = p_V_Modificado_por,
-        V_Fecha_de_modificacion = p_V_Fecha_de_modificacion,
-        V_Accion = p_V_Accion
-    WHERE V_Id_cliente = p_V_Id_cliente;
+    SET V_Nom_cliente = P_Nom_cliente,
+        V_Ape_cliente = P_Ape_cliente,
+        V_Correo_cliente = P_Correo_cliente,
+        V_Tel_cliente = P_Tel_cliente,
+        V_Direccion_cliente = P_Direccion_cliente,
+        FIDE_CLIENTES_V_Id_estado_FK = P_FIDE_CLIENTES_V_Id_estado_FK,
+        V_Modificado_por = P_Modificado_por,
+        V_Fecha_de_modificacion = P_Fecha_de_modificacion,
+        V_Accion = P_Accion
+    WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
 /
-
-CREATE OR REPLACE PROCEDURE SP_DELETE_FIDE_CLIENTE (
-    p_V_Id_cliente IN NUMBER
+--DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un cliente específico de la tabla FIDE_CLIENTES_TB.
+CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_DELETE_SP (
+    P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_CLIENTES_TB
-    WHERE V_Id_cliente = p_V_Id_cliente;
+    WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
 /
 
