@@ -919,7 +919,7 @@ BEGIN
 END;
 /
 
---Funciones
+-----------------------------------------------FUNCIONES-----------------------------------------------
 
 CREATE OR REPLACE FUNCTION FIDE_PRODUCTOS_OBTENER_PRECIO_FN (
     P_Id_producto NUMBER
@@ -933,6 +933,7 @@ BEGIN
     
     RETURN V_Precio_producto;
 END FIDE_PRODUCTOS_OBTENER_PRECIO_FN;
+/
 --Funcion que recupera el precio de un producto basado en su ID.
 
 CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_CORREO_FN (
@@ -947,6 +948,7 @@ BEGIN
     
     RETURN V_Correo_cliente;
 END FIDE_CLIENTES_OBTENER_CORREO_FN;
+/
 --Funcion que retorna el correo de un cliente basado en su ID.
 
 CREATE OR REPLACE FUNCTION FIDE_DESCUENTOS_CALCULAR_MONTO_FN (
@@ -966,6 +968,7 @@ BEGIN
     
     RETURN V_Discount_amount;
 END FIDE_DESCUENTOS_CALCULAR_MONTO_FN;
+/
 --Calcular el monto de descuento basado en el ID Descuento y el subtotal
 
 CREATE OR REPLACE FUNCTION FIDE_PRODUCTOS_CHECK_DISPONIBILIDAD_FN (
@@ -984,6 +987,7 @@ BEGIN
         RETURN 'Out of Stock';
     END IF;
 END FIDE_PRODUCTOS_CHECK_DISPONIBILIDAD_FN;
+/
 --Funcion que retorna la disponibilidad de stock de un producto
 
 CREATE OR REPLACE FUNCTION FIDE_PROVEEDORES_OBTENER_CONTACTO_FN (
@@ -998,6 +1002,7 @@ BEGIN
     
     RETURN V_Contact_info;
 END FIDE_PROVEEDORES_OBTENER_CONTACTO_FN;
+/
 --Funcion que retorna un string concatenado del correo y numero de telefono del provedor 
 
 CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_PORCENTAJE_DESCUENTO_FN (
@@ -1012,6 +1017,7 @@ BEGIN
     
     RETURN V_Porcentaje_descuento;
 END FIDE_CLIENTES_OBTENER_PORCENTAJE_DESCUENTO_FN;
+/
 --Funcion que retorna el porcentaje de descuento 
 
 CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_TOTAL_ORDENES_FN (
@@ -1021,11 +1027,14 @@ CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_TOTAL_ORDENES_FN (
 BEGIN
     SELECT COUNT(*)
     INTO V_Total_orders
-    FROM FIDE_ORDERS_TB
-    WHERE FIDE_ORDERS_V_Id_cliente_FK = P_Id_cliente;
+    FROM FIDE_VENTAS_TB V
+    JOIN FIDE_FACTURACION_TB F ON V.FIDE_VENTAS_V_Id_factura_FK = F.FIDE_FACTURACION_V_Id_factura_PK
+    WHERE F.FIDE_FACTURACION_V_Id_cliente_FK = P_Id_cliente;
     
     RETURN V_Total_orders;
 END FIDE_CLIENTES_OBTENER_TOTAL_ORDENES_FN;
+/
+
 --Funcion que retorna total de ordenes puestas por un 1 cliente.
 
 CREATE OR REPLACE FUNCTION FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN (
@@ -1033,12 +1042,13 @@ CREATE OR REPLACE FUNCTION FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN (
 ) RETURN NUMBER IS
     V_Total_sales NUMBER;
 BEGIN
-    SELECT SUM(V.Cantidad_producto)
+    SELECT SUM(F.V_Cantidad_producto)
     INTO V_Total_sales
-    FROM FIDE_VENTAS_TB V
+    FROM FIDE_FACTURACION_TB F
+    JOIN FIDE_VENTAS_TB V ON F.FIDE_FACTURACION_V_Id_factura_PK = V.FIDE_VENTAS_V_Id_factura_FK
     WHERE V.FIDE_VENTAS_V_Id_producto_FK = P_Id_producto;
     
     RETURN V_Total_sales;
 END FIDE_VENTAS_OBTENER_TOTAL_VENTAS_FN;
+/
 --Funcion que retorna el total de ventas de un producto
-
