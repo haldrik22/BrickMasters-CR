@@ -1,4 +1,4 @@
---INICIO: Creación del usuario y esquema para el proyecto. Ambos nombrados G4_PROYECTO_BRICKDB
+ --INICIO: Creación del usuario y esquema para el proyecto. Ambos nombrados G4_PROYECTO_BRICKDB
 --GRANTS CONCEDIDOS: DBA, CONNECT, RESOURCE.
 
 --Probando conexión GIT con Oracle SQL Developer
@@ -11,7 +11,8 @@ CREATE TABLE FIDE_ESTADO_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_LOCALES_TB
@@ -25,10 +26,9 @@ CREATE TABLE FIDE_LOCALES_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    FIDE_LOCALES_V_Id_estado_FK NUMBER, -- Nuevo campo para estado
-    FOREIGN KEY (FIDE_LOCALES_V_Id_estado_FK) REFERENCES FIDE_ESTADO_TB(FIDE_ESTADO_V_Id_estado_PK)
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
-
+--Stwart
 -- Tabla FIDE_CLIENTES_TB
 CREATE TABLE FIDE_CLIENTES_TB (
     FIDE_CLIENTES_V_Id_cliente_PK NUMBER PRIMARY KEY,
@@ -42,8 +42,7 @@ CREATE TABLE FIDE_CLIENTES_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    FIDE_CLIENTES_V_Id_estado_FK NUMBER, -- Nuevo campo para estado
-    FOREIGN KEY (FIDE_CLIENTES_V_Id_estado_FK) REFERENCES FIDE_ESTADO_TB(FIDE_ESTADO_V_Id_estado_PK)
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_PRODUCTOS_TB
@@ -59,8 +58,7 @@ CREATE TABLE FIDE_PRODUCTOS_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    FIDE_PRODUCTOS_V_Id_estado_FK NUMBER, -- Nuevo campo para estado
-    FOREIGN KEY (FIDE_PRODUCTOS_V_Id_estado_FK) REFERENCES FIDE_ESTADO_TB(FIDE_ESTADO_V_Id_estado_PK)
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_PROVEEDORES_TB
@@ -76,8 +74,7 @@ CREATE TABLE FIDE_PROVEEDORES_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    FIDE_PROVEEDORES_V_Id_estado_FK NUMBER, -- Nuevo campo para estado
-    FOREIGN KEY (FIDE_PROVEEDORES_V_Id_estado_FK) REFERENCES FIDE_ESTADO_TB(FIDE_ESTADO_V_Id_estado_PK)
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_TIPO_DESCUENTO_TB
@@ -92,7 +89,8 @@ CREATE TABLE FIDE_TIPO_DESCUENTO_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_DESCUENTOS_TB
@@ -106,7 +104,8 @@ CREATE TABLE FIDE_DESCUENTOS_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_CATALOGO_TB
@@ -121,7 +120,8 @@ CREATE TABLE FIDE_CATALOGO_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_PROVEEDORES_PRODUCTO_TB
@@ -135,7 +135,8 @@ CREATE TABLE FIDE_PROVEEDORES_PRODUCTO_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_ENTREGAS_TB
@@ -149,7 +150,8 @@ CREATE TABLE FIDE_ENTREGAS_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_FACTURACION_TB
@@ -171,26 +173,10 @@ CREATE TABLE FIDE_FACTURACION_TB (
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
+    V_Accion VARCHAR2(20),
+    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
 
--- Tabla FIDE_VENTAS_TB
-CREATE TABLE FIDE_VENTAS_TB (
-    FIDE_VENTAS_V_Id_venta_PK NUMBER PRIMARY KEY,
-    FIDE_VENTAS_V_Id_factura_FK NUMBER,
-    FIDE_VENTAS_V_Id_producto_FK NUMBER,
-    FIDE_VENTAS_V_Id_local_FK NUMBER,
-    FIDE_VENTAS_V_Id_entrega_FK NUMBER,
-    FOREIGN KEY (FIDE_VENTAS_V_Id_factura_FK) REFERENCES FIDE_FACTURACION_TB(FIDE_FACTURACION_V_Id_factura_PK),
-    FOREIGN KEY (FIDE_VENTAS_V_Id_producto_FK) REFERENCES FIDE_PRODUCTOS_TB(FIDE_PRODUCTOS_V_Id_producto_PK),
-    FOREIGN KEY (FIDE_VENTAS_V_Id_local_FK) REFERENCES FIDE_LOCALES_TB(FIDE_LOCALES_V_Id_local_PK),
-    FOREIGN KEY (FIDE_VENTAS_V_Id_entrega_FK) REFERENCES FIDE_ENTREGAS_TB(FIDE_ENTREGAS_V_Id_entrega_PK),
-    V_Creado_por VARCHAR2(20),
-    V_Modificado_por VARCHAR2(20),
-    V_Fecha_de_creacion DATE,
-    V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20)
-);
 -- Comentario ejemplo
 
 --Procedimientos CRUD para FIDE_LOCALES_TB
