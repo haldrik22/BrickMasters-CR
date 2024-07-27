@@ -786,7 +786,7 @@ CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_CREATE_SP (
     P_Cantidad_producto IN NUMBER,
     P_Precio_Subtotal IN NUMBER,
     P_Precio_Total IN NUMBER,
-    P_Fecha_pago IN DATE,
+    P_Fecha_pago IN VARCHAR2,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
     P_Accion IN VARCHAR2
@@ -795,7 +795,7 @@ BEGIN
     INSERT INTO FIDE_FACTURACION_TB (
         FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_producto_FK, FIDE_FACTURACION_V_Id_descuento_FK, FIDE_FACTURACION_V_Id_cliente_FK, FIDE_FACTURACION_V_Id_local_FK, V_Cantidad_producto, V_Precio_Subtotal, V_Precio_Total, V_Fecha_pago, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        P_FIDE_FACTURACION_V_Id_factura_PK, P_FIDE_FACTURACION_V_Id_producto_FK, P_FIDE_FACTURACION_V_Id_descuento_FK, P_FIDE_FACTURACION_V_Id_cliente_FK, P_FIDE_FACTURACION_V_Id_local_FK, P_Cantidad_producto, P_Precio_Subtotal, P_Precio_Total, P_Fecha_pago, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
+        P_FIDE_FACTURACION_V_Id_factura_PK, P_FIDE_FACTURACION_V_Id_producto_FK, P_FIDE_FACTURACION_V_Id_descuento_FK, P_FIDE_FACTURACION_V_Id_cliente_FK, P_FIDE_FACTURACION_V_Id_local_FK, P_Cantidad_producto, P_Precio_Subtotal, P_Precio_Total, TO_DATE(P_Fecha_pago, 'YYYY-MM-DD'), P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
     );
 END;
 /
@@ -822,7 +822,7 @@ CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_UPDATE_SP (
     P_Cantidad_producto IN NUMBER,
     P_Precio_Subtotal IN NUMBER,
     P_Precio_Total IN NUMBER,
-    P_Fecha_pago IN DATE,
+    P_Fecha_pago IN VARCHAR2,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
     P_Accion IN VARCHAR2
@@ -836,7 +836,7 @@ BEGIN
         V_Cantidad_producto = P_Cantidad_producto,
         V_Precio_Subtotal = P_Precio_Subtotal,
         V_Precio_Total = P_Precio_Total,
-        V_Fecha_pago = P_Fecha_pago,
+        V_Fecha_pago = TO_DATE(P_Fecha_pago, 'YYYY-MM-DD'),
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
         V_Accion = P_Accion
