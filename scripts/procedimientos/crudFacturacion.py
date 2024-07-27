@@ -2,6 +2,7 @@ import cx_Oracle
 from datetime import datetime
 
 def create_invoice(cur):
+    # Recolecta datos del usuario y llama al procedimiento almacenado para crear una factura
     id_factura = int(input("Ingrese el ID de la factura: "))
     id_producto = int(input("Ingrese el ID del producto: "))
     id_descuento = int(input("Ingrese el ID del descuento: "))
@@ -23,6 +24,7 @@ def create_invoice(cur):
     print("Factura creada exitosamente.")
 
 def read_invoice(cur):
+    # Lee y muestra la información de una factura específica
     id_factura = int(input("Ingrese el ID de la factura a consultar: "))
     
     result = cur.var(cx_Oracle.CURSOR)
@@ -32,6 +34,7 @@ def read_invoice(cur):
         print(row)
 
 def update_invoice(cur):
+    # Actualiza la información de una factura existente
     id_factura = int(input("Ingrese el ID de la factura a actualizar: "))
     id_producto = int(input("Ingrese el nuevo ID del producto: "))
     id_descuento = int(input("Ingrese el nuevo ID del descuento: "))
@@ -53,6 +56,7 @@ def update_invoice(cur):
     print("Factura actualizada exitosamente.")
 
 def delete_invoice(cur):
+    # Elimina una factura existente
     id_factura = int(input("Ingrese el ID de la factura a eliminar: "))
     
     cur.callproc("FIDE_FACTURACION_DELETE_SP", [id_factura])
@@ -61,6 +65,7 @@ def delete_invoice(cur):
     print("Factura eliminada exitosamente.")
 
 try:
+    # Intenta establecer una conexión con la base de datos Oracle
     conn = cx_Oracle.connect('G4_PROYECTO_BRICKDB/123@localhost:1521/orclpdb')
 except Exception as err:
     print('Error al crear la conexión:', err)
@@ -68,6 +73,7 @@ else:
     try:
         cur = conn.cursor()
         
+        # Bucle principal del programa que muestra el menú y ejecuta las operaciones
         while True:
             print("\nSeleccione una operación:")
             print("1. Crear factura")

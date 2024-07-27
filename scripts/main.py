@@ -1,6 +1,7 @@
 import subprocess
 
 def run_script(script_name):
+    # Ejecuta un script de Python y maneja posibles errores
     try:
         subprocess.run(['python', script_name], check=True)
     except subprocess.CalledProcessError as e:
@@ -8,8 +9,8 @@ def run_script(script_name):
 
 def main():
     INVALID_OPTION_MESSAGE = "Opcion invalida. Por favor ingrese una opcion valida."
-
-    
+   
+    # Muestra el menú principal con opciones para el usuario
     print("Bienvenido a la interfaz de desarrollador/admin en Python de BrickMasters!")
     print("Seleccione el tipo de script que desea correr:")
     print("1. Vistas")
@@ -18,6 +19,7 @@ def main():
     opcion = input("Elija una opcion (1/2/3): ")
 
     if opcion == '1':
+        # Maneja la opción de vistas
         print("Elija una vista a mostrar:")
         scripts_vistas = [
             "vistas/vClientesDescuentosEntregas.py",
@@ -35,6 +37,7 @@ def main():
             print(INVALID_OPTION_MESSAGE)
 
     elif opcion == '2':
+        # Maneja la opción de procedimientos almacenados
         print("Elija un procedimiento almacenado a ejecutar:")
         scripts_procedimientos = [
             "procedimientos/crudCatalogo.py",
@@ -58,6 +61,7 @@ def main():
             print(INVALID_OPTION_MESSAGE)
 
     elif opcion == '3':
+        # Ejecuta directamente el script de funciones
         run_script("funciones/scriptFunciones.py")
 
     else:
