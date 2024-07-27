@@ -477,58 +477,58 @@ END;
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo catálogo en la tabla FIDE_CATALOGO_TB.
 CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_CREATE_SP (
-    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
-    P_Nom_catalogo IN VARCHAR2,
+    P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER,
+    P_Nom_producto IN VARCHAR2,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN DATE,
     P_Accion IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_CATALOGO_TB (
-        FIDE_CATALOGO_V_Id_catalogo_PK, V_Nom_catalogo, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_CATALOGO_V_Id_producto_PK, V_Nom_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion
     ) VALUES (
-        P_FIDE_CATALOGO_V_Id_catalogo_PK, P_Nom_catalogo, P_Creado_por, P_Fecha_de_creacion, P_Accion
+        P_FIDE_CATALOGO_V_Id_producto_PK, P_Nom_producto, P_Creado_por, P_Fecha_de_creacion, P_Accion
     );
 END;
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un catálogo específico en la tabla FIDE_CATALOGO_TB.
 CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_READ_SP (
-    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
+    P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER,
     P_result OUT SYS_REFCURSOR
 ) AS
 BEGIN
     OPEN P_result FOR
     SELECT * FROM FIDE_CATALOGO_TB
-    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
+    WHERE FIDE_CATALOGO_V_Id_producto_PK = P_FIDE_CATALOGO_V_Id_producto_PK;
 END;
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un catálogo existente en la tabla FIDE_CATALOGO_TB.
 CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_UPDATE_SP (
-    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER,
-    P_Nom_catalogo IN VARCHAR2,
+    P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER,
+    P_Nom_producto IN VARCHAR2,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN DATE,
     P_Accion IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CATALOGO_TB
-    SET V_Nom_catalogo = P_Nom_catalogo,
+    SET V_Nom_producto = P_Nom_producto,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = P_Fecha_de_modificacion,
         V_Accion = P_Accion
-    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
+    WHERE FIDE_CATALOGO_V_Id_producto_PK = P_FIDE_CATALOGO_V_Id_producto_PK;
 END;
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un catálogo específico de la tabla FIDE_CATALOGO_TB.
 CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_DELETE_SP (
-    P_FIDE_CATALOGO_V_Id_catalogo_PK IN NUMBER
+    P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER
 ) AS
 BEGIN
     DELETE FROM FIDE_CATALOGO_TB
-    WHERE FIDE_CATALOGO_V_Id_catalogo_PK = P_FIDE_CATALOGO_V_Id_catalogo_PK;
+    WHERE FIDE_CATALOGO_V_Id_producto_PK = P_FIDE_CATALOGO_V_Id_producto_PK;
 END;
 /
 
