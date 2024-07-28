@@ -46,10 +46,10 @@
 <div id="Master.0">
 <div class="currentmasterreport">
 <TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
-<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P></P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP">FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</A></B>( P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER , P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER , P_Modificado_por IN VARCHAR2 , P_Fecha_de_modificacion IN VARCHAR2 , P_Accion IN VARCHAR2 ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P></P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP">FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</A></B>( P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER , P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER , P_Modificado_por IN VARCHAR2 , P_Fecha_de_modificacion IN VARCHAR2 , P_Accion IN VARCHAR2 , P_Estado IN VARCHAR2 ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>
 </TABLE>
 <P></P><A NAME="method_detail"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Detail</B></FONT></TD></TABLE><A NAME="FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP"></A>
-<H3>FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</H3><PRE>          <B>FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</B>( P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER , P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER , P_Modificado_por IN VARCHAR2 , P_Fecha_de_modificacion IN VARCHAR2 , P_Accion IN VARCHAR2 ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<DD><DL></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<H3>FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</H3><PRE>          <B>FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP</B>( P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER , P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER , P_Modificado_por IN VARCHAR2 , P_Fecha_de_modificacion IN VARCHAR2 , P_Accion IN VARCHAR2 , P_Estado IN VARCHAR2 ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<DD><DL></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
 <TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE></div>
 </div>
 <div id="Master.1">
@@ -88,11 +88,11 @@
 </tr>
 <tr>
 <td>LAST_DDL_TIME</td>
-<td>27-07-2024&nbsp;01:34:06</td>
+<td>27-07-2024&nbsp;21:51:10</td>
 </tr>
 <tr>
 <td>TIMESTAMP</td>
-<td>2024-07-27:01:34:06</td>
+<td>2024-07-27:21:51:10</td>
 </tr>
 <tr>
 <td>STATUS</td>
@@ -214,13 +214,15 @@ PROCEDURE FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP (
     P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_PROVEEDORES_PRODUCTO_TB
     SET V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK
       AND FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK;
 END;
