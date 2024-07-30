@@ -48,7 +48,7 @@ def delete_state(cur):
 
 try:
     # Intenta establecer una conexión con la base de datos Oracle
-    conn = cx_Oracle.connect('G4_PROYECTO_BRICKDBA/123@localhost:1521/orclpdb')
+    conn = cx_Oracle.connect('G4_PROYECTO_BRICKDB/123@localhost:1521/orclpdb')
 except Exception as err:
     print('Error al crear la conexión:', err)
 else:

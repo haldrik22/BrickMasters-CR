@@ -2,7 +2,7 @@ import cx_Oracle
 
 try:
     # Intenta establecer una conexión con la base de datos Oracle
-    conn = cx_Oracle.connect('G4_PROYECTO_BRICKDBA/123@localhost:1521/orclpdb')
+    conn = cx_Oracle.connect('G4_PROYECTO_BRICKDB/123@localhost:1521/orclpdb')
 except Exception as err:
     # Maneja errores de conexión
     print('Error al crear la conexión:', err)
@@ -10,8 +10,8 @@ else:
     try:
         # Crea un cursor para ejecutar consultas SQL
         cur = conn.cursor()
-        # Ejecuta una consulta SELECT en la vista FIDE_TIPO_DESCUENTOS_CLIENTES_V
-        cur.execute('SELECT * FROM FIDE_TIPO_DESCUENTOS_CLIENTES_V')
+        # Ejecuta una consulta SELECT en la vista FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V
+        cur.execute('SELECT * FROM FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V')
         # Obtiene todos los resultados de la consulta
         rows = cur.fetchall()
 
