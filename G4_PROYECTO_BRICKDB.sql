@@ -1104,6 +1104,17 @@ BEGIN
     CLOSE cursor_inventario;
 END;
 /
+CREATE OR REPLACE FUNCTION FIDE_PRODUCTOS_OBTENER_INVENTARIO_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_inventario SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_inventario FOR
+        SELECT FIDE_PRODUCTOS_V_Id_producto_PK, V_Nom_producto, V_Cantidad_producto
+        FROM FIDE_PRODUCTOS_TB;
+    RETURN cursor_inventario;
+END;
+/
 -- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de las órdenes de los clientes.
 DECLARE
     CURSOR cursor_ordenes IS
@@ -1120,6 +1131,17 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('ID de la Factura: ' || V_Id_factura || ', ID del Cliente: ' || V_Id_cliente || ', Precio Total: ' || V_Precio_Total);
     END LOOP;
     CLOSE cursor_ordenes;
+END;
+/
+CREATE OR REPLACE FUNCTION FIDE_FACTURACION_OBTENER_ORDENES_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_ordenes SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_ordenes FOR
+        SELECT FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_cliente_FK, V_Precio_Total
+        FROM FIDE_FACTURACION_TB;
+    RETURN cursor_ordenes;
 END;
 /
 -- DESCRIPCIÓN: El siguiente cursor se encarga de obtener los detalles de los proveedores.
@@ -1140,6 +1162,17 @@ BEGIN
     CLOSE cursor_proveedores;
 END;
 /
+CREATE OR REPLACE FUNCTION FIDE_PROVEEDORES_OBTENER_PROVEEDORES_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_proveedores SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_proveedores FOR
+        SELECT FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Producto_proveedor
+        FROM FIDE_PROVEEDORES_TB;
+    RETURN cursor_proveedores;
+END;
+/
 -- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de los descuentos por tipo.
 DECLARE
     CURSOR cursor_descuentos IS
@@ -1156,6 +1189,17 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('ID del Tipo de Descuento: ' || V_Id_tipo_descuento || ', ID del Cliente: ' || V_Id_cliente || ', Porcentaje: ' || V_Porcentaje_descuento || '%');
     END LOOP;
     CLOSE cursor_descuentos;
+END;
+/
+CREATE OR REPLACE FUNCTION FIDE_TIPO_DESCUENTO_OBTENER_DESCUENTOS_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_descuentos SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_descuentos FOR
+        SELECT FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, V_Porcentaje_descuento
+        FROM FIDE_TIPO_DESCUENTO_TB;
+    RETURN cursor_descuentos;
 END;
 /
 -- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar la información sobre las tiendas.
@@ -1177,6 +1221,17 @@ BEGIN
     CLOSE cursor_tiendas;
 END;
 /
+CREATE OR REPLACE FUNCTION FIDE_LOCALES_OBTENER_TIENDAS_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_tiendas SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_tiendas FOR
+        SELECT FIDE_LOCALES_V_Id_local_PK, V_Nom_local, V_Tel_local, V_Direccion_local
+        FROM FIDE_LOCALES_TB;
+    RETURN cursor_tiendas;
+END;
+/
 -- DESCRIPCIÓN: El siguiente cursor se encarga de listar los productos en el catálogo.
 DECLARE
     CURSOR cursor_catalogo IS
@@ -1193,6 +1248,17 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('ID del Producto: ' || V_Id_producto || ', Nombre: ' || V_Nom_producto || ', Precio: ' || V_Precio_producto);
     END LOOP;
     CLOSE cursor_catalogo;
+END;
+/
+CREATE OR REPLACE FUNCTION FIDE_CATALOGO_OBTENER_PRODUCTOS_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_catalogo SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_catalogo FOR
+        SELECT FIDE_CATALOGO_V_Id_producto_PK, V_Nom_producto, V_Precio_producto
+        FROM FIDE_CATALOGO_TB;
+    RETURN cursor_catalogo;
 END;
 /
 -- DESCRIPCIÓN: El siguiente cursor se encarga de recuperar los detalles de los clientes.
@@ -1213,6 +1279,17 @@ BEGIN
     CLOSE cursor_clientes;
 END;
 /
+CREATE OR REPLACE FUNCTION FIDE_CLIENTES_OBTENER_CLIENTES_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_clientes SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_clientes FOR
+        SELECT FIDE_CLIENTES_V_Id_cliente_PK, V_Nom_cliente, V_Ape_cliente
+        FROM FIDE_CLIENTES_TB;
+    RETURN cursor_clientes;
+END;
+/
 -- DESCRIPCIÓN: El siguiente cursor se encarga de obtener los detalles de las órdenes y sus pagos.
 DECLARE
     CURSOR cursor_ordenes_pagos IS
@@ -1231,6 +1308,17 @@ BEGIN
     CLOSE cursor_ordenes_pagos;
 END;
 /
+CREATE OR REPLACE FUNCTION FIDE_FACTURACION_OBTENER_ORDENES_PAGOS_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_ordenes_pagos SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_ordenes_pagos FOR
+        SELECT FIDE_FACTURACION_V_Id_factura_PK, FIDE_FACTURACION_V_Id_cliente_FK, V_Precio_Total
+        FROM FIDE_FACTURACION_TB;
+    RETURN cursor_ordenes_pagos;
+END;
+/
 -- DESCRIPCIÓN: El siguiente cursor se encarga de rastrear las entregas realizadas por los proveedores.
 DECLARE
     CURSOR cursor_entregas_proveedores IS
@@ -1247,6 +1335,17 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('ID del Proveedor: ' || V_Id_proveedor || ', Nombre: ' || V_Nom_provedor || ', Producto: ' || V_Producto_proveedor);
     END LOOP;
     CLOSE cursor_entregas_proveedores;
+END;
+/
+CREATE OR REPLACE FUNCTION FIDE_PROVEEDORES_OBTENER_ENTREGAS_PROVEEDORES_FN
+RETURN SYS_REFCURSOR
+IS
+    cursor_entregas_proveedores SYS_REFCURSOR;
+BEGIN
+    OPEN cursor_entregas_proveedores FOR
+        SELECT FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Producto_proveedor
+        FROM FIDE_PROVEEDORES_TB;
+    RETURN cursor_entregas_proveedores;
 END;
 /
 
