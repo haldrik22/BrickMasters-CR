@@ -51,11 +51,12 @@ def obtener_total_ventas_producto(cur):
 
 # Función para obtener el inventario de productos
 def obtener_inventario_productos(cur):
-    cur.callproc('FIDE_PRODUCTOS_OBTENER_INVENTARIO_FN')
-    rows = cur.fetchall()
+    result_cursor = cur.callfunc('FIDE_PRODUCTOS_OBTENER_INVENTARIO_FN', cx_Oracle.CURSOR)
     print('Inventario de productos:')
-    for row in rows:
+    for row in result_cursor:
         print(row)
+    result_cursor.close()
+
 
 # Función para obtener las órdenes de facturación
 def obtener_ordenes_facturacion(cur):

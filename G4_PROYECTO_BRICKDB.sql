@@ -19,14 +19,14 @@ CREATE TABLE FIDE_ESTADO_TB (
 CREATE TABLE FIDE_LOCALES_TB (
     FIDE_LOCALES_V_Id_local_PK NUMBER PRIMARY KEY,
     V_Nom_local VARCHAR2(25),
-    V_Tel_local VARCHAR2(15), -- Cambiado a VARCHAR2 para permitir formatos de teléfono
+    V_Tel_local VARCHAR2(15),
     V_Direccion_local VARCHAR2(200),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) 
 );
 --Stwart
 -- Tabla FIDE_CLIENTES_TB
@@ -42,7 +42,7 @@ CREATE TABLE FIDE_CLIENTES_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_PRODUCTOS_TB
@@ -74,7 +74,7 @@ CREATE TABLE FIDE_PROVEEDORES_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) 
 );
 
 -- Tabla FIDE_TIPO_DESCUENTO_TB
@@ -206,16 +206,16 @@ CREATE OR REPLACE PROCEDURE FIDE_LOCALES_CREATE_SP (
     P_Nom_local IN VARCHAR2,
     P_Tel_local IN VARCHAR2,
     P_Direccion_local IN VARCHAR2,
-    P_FIDE_LOCALES_V_Id_estado_FK IN NUMBER,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_LOCALES_TB (
-        FIDE_LOCALES_V_Id_local_PK, V_Nom_local, V_Tel_local, V_Direccion_local, FIDE_LOCALES_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_LOCALES_V_Id_local_PK, V_Nom_local, V_Tel_local, V_Direccion_local, V_Creado_por, V_Fecha_de_creacion, V_Accion, V_Estado
     ) VALUES (
-        P_FIDE_LOCALES_V_Id_local_PK, P_Nom_local, P_Tel_local, P_Direccion_local, P_FIDE_LOCALES_V_Id_estado_FK, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
+        P_FIDE_LOCALES_V_Id_local_PK, P_Nom_local, P_Tel_local, P_Direccion_local, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion, P_Estado
     );
 END;
 /
@@ -236,20 +236,20 @@ CREATE OR REPLACE PROCEDURE FIDE_LOCALES_UPDATE_SP (
     P_Nom_local IN VARCHAR2,
     P_Tel_local IN VARCHAR2,
     P_Direccion_local IN VARCHAR2,
-    P_FIDE_LOCALES_V_Id_estado_FK IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_LOCALES_TB
     SET V_Nom_local = P_Nom_local,
         V_Tel_local = P_Tel_local,
         V_Direccion_local = P_Direccion_local,
-        FIDE_LOCALES_V_Id_estado_FK = P_FIDE_LOCALES_V_Id_estado_FK,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_LOCALES_V_Id_local_PK = P_FIDE_LOCALES_V_Id_local_PK;
 END;
 /
@@ -274,16 +274,16 @@ CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_CREATE_SP (
     P_Correo_cliente IN VARCHAR2,
     P_Tel_cliente IN VARCHAR2,
     P_Direccion_cliente IN VARCHAR2,
-    P_FIDE_CLIENTES_V_Id_estado_FK IN NUMBER,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_CLIENTES_TB (
-        FIDE_CLIENTES_V_Id_cliente_PK, V_Nom_cliente, V_Ape_cliente, V_Correo_cliente, V_Tel_cliente, V_Direccion_cliente, FIDE_CLIENTES_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_CLIENTES_V_Id_cliente_PK, V_Nom_cliente, V_Ape_cliente, V_Correo_cliente, V_Tel_cliente, V_Direccion_cliente, V_Creado_por, V_Fecha_de_creacion, V_Accion, V_Estado
     ) VALUES (
-        P_FIDE_CLIENTES_V_Id_cliente_PK, P_Nom_cliente, P_Ape_cliente, P_Correo_cliente, P_Tel_cliente, P_Direccion_cliente, P_FIDE_CLIENTES_V_Id_estado_FK, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
+        P_FIDE_CLIENTES_V_Id_cliente_PK, P_Nom_cliente, P_Ape_cliente, P_Correo_cliente, P_Tel_cliente, P_Direccion_cliente, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion, P_Estado
     );
 END;
 /
@@ -306,10 +306,10 @@ CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_UPDATE_SP (
     P_Correo_cliente IN VARCHAR2,
     P_Tel_cliente IN VARCHAR2,
     P_Direccion_cliente IN VARCHAR2,
-    P_FIDE_CLIENTES_V_Id_estado_FK IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CLIENTES_TB
@@ -318,10 +318,10 @@ BEGIN
         V_Correo_cliente = P_Correo_cliente,
         V_Tel_cliente = P_Tel_cliente,
         V_Direccion_cliente = P_Direccion_cliente,
-        FIDE_CLIENTES_V_Id_estado_FK = P_FIDE_CLIENTES_V_Id_estado_FK,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
 /
@@ -345,18 +345,26 @@ CREATE OR REPLACE PROCEDURE FIDE_PRODUCTOS_CREATE_SP (
     P_Precio_producto IN NUMBER,
     P_Cantidad_producto IN NUMBER,
     P_Descripcion_producto IN VARCHAR2,
-    P_FIDE_PRODUCTOS_V_Id_estado_FK IN NUMBER,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
-    INSERT INTO FIDE_PRODUCTOS_TB (
-        FIDE_PRODUCTOS_V_Id_producto_PK, V_Nom_producto, V_Piezas_producto, V_Precio_producto, V_Cantidad_producto, V_Descripcion_producto, FIDE_PRODUCTOS_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
-    ) VALUES (
-        P_FIDE_PRODUCTOS_V_Id_producto_PK, P_Nom_producto, P_Piezas_producto, P_Precio_producto, P_Cantidad_producto, P_Descripcion_producto, P_FIDE_PRODUCTOS_V_Id_estado_FK, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
-    );
+    BEGIN
+        INSERT INTO FIDE_PRODUCTOS_TB (
+            FIDE_PRODUCTOS_V_Id_producto_PK, V_Nom_producto, V_Piezas_producto, V_Precio_producto, V_Cantidad_producto, V_Descripcion_producto, V_Creado_por, V_Fecha_de_creacion, V_Accion, V_Estado
+        ) VALUES (
+            P_FIDE_PRODUCTOS_V_Id_producto_PK, P_Nom_producto, P_Piezas_producto, P_Precio_producto, P_Cantidad_producto, P_Descripcion_producto, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion, P_Estado
+        );
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+            RAISE;
+    END;
 END;
+/
+
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un producto específico en la tabla FIDE_PRODUCTOS_TB.
@@ -378,10 +386,10 @@ CREATE OR REPLACE PROCEDURE FIDE_PRODUCTOS_UPDATE_SP (
     P_Precio_producto IN NUMBER,
     P_Cantidad_producto IN NUMBER,
     P_Descripcion_producto IN VARCHAR2,
-    P_FIDE_PRODUCTOS_V_Id_estado_FK IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_PRODUCTOS_TB
@@ -390,10 +398,10 @@ BEGIN
         V_Precio_producto = P_Precio_producto,
         V_Cantidad_producto = P_Cantidad_producto,
         V_Descripcion_producto = P_Descripcion_producto,
-        FIDE_PRODUCTOS_V_Id_estado_FK = P_FIDE_PRODUCTOS_V_Id_estado_FK,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_PRODUCTOS_V_Id_producto_PK = P_FIDE_PRODUCTOS_V_Id_producto_PK;
 END;
 /
@@ -417,16 +425,16 @@ CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_CREATE_SP (
     P_Producto_proveedor IN VARCHAR2,
     P_Tel_proveedor IN VARCHAR2,
     P_Direccion_proveedor IN VARCHAR2,
-    P_FIDE_PROVEEDORES_V_Id_estado_FK IN NUMBER,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_PROVEEDORES_TB (
-        FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Correo_proveedor, V_Producto_proveedor, V_Tel_proveedor, V_Direccion_proveedor, FIDE_PROVEEDORES_V_Id_estado_FK, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_PROVEEDORES_V_Id_proveedor_PK, V_Nom_provedor, V_Correo_proveedor, V_Producto_proveedor, V_Tel_proveedor, V_Direccion_proveedor, V_Creado_por, V_Fecha_de_creacion, V_Accion, V_Estado
     ) VALUES (
-        P_FIDE_PROVEEDORES_V_Id_proveedor_PK, P_Nom_provedor, P_Correo_proveedor, P_Producto_proveedor, P_Tel_proveedor, P_Direccion_proveedor, P_FIDE_PROVEEDORES_V_Id_estado_FK, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
+        P_FIDE_PROVEEDORES_V_Id_proveedor_PK, P_Nom_provedor, P_Correo_proveedor, P_Producto_proveedor, P_Tel_proveedor, P_Direccion_proveedor, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion, P_Estado
     );
 END;
 /
@@ -449,10 +457,10 @@ CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_UPDATE_SP (
     P_Producto_proveedor IN VARCHAR2,
     P_Tel_proveedor IN VARCHAR2,
     P_Direccion_proveedor IN VARCHAR2,
-    P_FIDE_PROVEEDORES_V_Id_estado_FK IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_PROVEEDORES_TB
@@ -461,10 +469,10 @@ BEGIN
         V_Producto_proveedor = P_Producto_proveedor,
         V_Tel_proveedor = P_Tel_proveedor,
         V_Direccion_proveedor = P_Direccion_proveedor,
-        FIDE_PROVEEDORES_V_Id_estado_FK = P_FIDE_PROVEEDORES_V_Id_estado_FK,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_PROVEEDORES_V_Id_proveedor_PK = P_FIDE_PROVEEDORES_V_Id_proveedor_PK;
 END;
 /

@@ -1,18 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funciones</title>
-    <script src="jsFunciones.js" defer></script>
+    <title>Interfaz de Funciones</title>
+    <link rel="stylesheet" href="functions.css">
 </head>
 <body>
-    <h1>Funciones</h1>
-    <div>
-        <h2>Obtener Correo de Cliente</h2>
-        <input type="number" id="id_cliente" placeholder="ID Cliente">
-        <button onclick="getClienteEmail()">Obtener Correo</button>
-        <p id="resultado_correo"></p>
+ 
+<div class="container">
+    <div class="header">
+        <h1>Funciones</h1>
     </div>
+   
+    <div class="nav">
+        <img src="https://img.icons8.com/material-outlined/24/000000/home.png" alt="Home" onclick="location.href='dashboard.html'">
+        <span onclick="location.href='/scripts/dashboard.html'">Volver al Menú Principal</span>
+    </div>
+   
+    <div class="form-group">
+        <label for="function-select">Seleccionar Función</label>
+        <select id="function-select" onchange="showInputForm()">
+            <option value="">--Selecciona una función--</option>
+            <option value="precio">Obtener Precio de Producto</option>
+            <option value="correo">Obtener Correo de Cliente</option>
+            <option value="descuento">Calcular Monto de Descuento</option>
+            <option value="disponibilidad">Chequear Disponibilidad de Producto</option>
+            <option value="contacto">Obtener Contacto de Proveedor</option>
+            <option value="porcentaje_descuento">Obtener Porcentaje de Descuento de Cliente</option>
+            <option value="total_ordenes">Obtener Total de Órdenes de Cliente</option>
+            <option value="total_ventas">Obtener Total de Ventas de Producto</option>
+            <option value="inventario">Obtener Inventario de Productos</option>
+            <option value="ordenes_facturacion">Obtener Órdenes de Facturación</option>
+            <option value="proveedores">Obtener Proveedores</option>
+            <option value="descuentos">Obtener Descuentos</option>
+            <option value="tiendas">Obtener Tiendas</option>
+            <option value="productos_catalogo">Obtener Productos del Catálogo</option>
+            <option value="clientes">Obtener Clientes</option>
+            <option value="ordenes_pagos">Obtener Órdenes y Pagos</option>
+            <option value="entregas_proveedores">Obtener Entregas de Proveedores</option>
+        </select>
+    </div>    
+   
+    <div class="form-group" id="input-form">
+        <!-- Aquí se generarán los formularios de entrada -->
+    </div>
+   
+    <div class="result" id="result-display">
+        <div id="resultado_inventario"></div>
+    </div>
+</div>
+ 
+<script src="jsFunciones.js"></script>
+ 
 </body>
 </html>
+ 

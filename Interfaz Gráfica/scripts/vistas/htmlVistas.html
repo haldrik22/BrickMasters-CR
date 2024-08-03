@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vistas</title>
+    <link rel="stylesheet" href="vistas.css">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1>Vistas</h1>
+        </header>
+        <div class="nav">
+            <img src="https://img.icons8.com/material-outlined/24/000000/home.png" alt="Home" onclick="location.href='dashboard.html'">
+            <span onclick="location.href='/scripts/dashboard.html'">Volver al Menú Principal</span>
+        </div>
+        <div class="form-group">
+            <label for="view-select">Seleccionar Vista</label>
+            <select id="view-select" onchange="showInputForm()">
+                <option value="">--Selecciona una vista--</option>
+                <option value="clientes_descuentos_entregas">Clientes, Descuentos y Entregas</option>
+                <option value="productos_proveedores">Productos y Proveedores</option>
+                <option value="locales_productos">Locales y Productos</option>
+                <option value="tipo_descuentos_clientes">Tipo Descuentos y Clientes</option>
+                <option value="entregas_clientes_contacto">Entregas y Clientes Contacto</option>
+            </select>
+        </div>
+        <div class="result" id="result-display">
+            <!-- Aquí se mostrarán los resultados de las vistas -->
+        </div>
+    </div>
+    <script src="jsVistas.js"></script>
+</body>
+</html>

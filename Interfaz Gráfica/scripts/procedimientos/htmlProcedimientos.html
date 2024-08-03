@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Procedimientos</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace CSS -->
+    <script src="jsProcedimientos.js" defer></script> <!-- Enlace JS -->
+</head>
+
+<body>
+    <header>
+        <h1>Gestión de Procedimientos</h1>
+    </header>
+
+    <div class="nav">
+        <img src="https://img.icons8.com/material-outlined/24/000000/home.png" alt="Home" onclick="location.href='dashboard.html'">
+        <span onclick="location.href='/scripts/dashboard.html'">Volver al Menú Principal</span>
+    </div>
+
+    <main>
+        <section>
+            <label for="table-select">Selecciona una tabla:</label>
+            <select id="table-select" onchange="showInputForm()">
+                <option value="">Seleccionar...</option>
+                <option value="catalogo">Catálogo</option>
+                <option value="locales">Locales</option>
+                <option value="clientes">Clientes</option>
+                <option value="productos">Productos</option>
+                <option value="proveedores">Proveedores</option>
+            </select>
+        </section>
+
+        <!-- Sección para mostrar dinámicamente los datos de la tabla -->
+        <section id="catalogo-table"></section>
+        <section id="locales-table"></section>
+        <section id="clientes-table"></section>
+        <section id="productos-table"></section>
+        <section id="proveedores-table"></section>
+
+        <!-- Sección para mostrar dinámicamente los botones de CRUD -->
+        <section id="input-form-container">
+            <div id="catalogo-buttons" class="crud-buttons">
+                <!-- Botones para mostrar formularios específicos -->
+                <button onclick="showForm('createFormCatalogo')">Crear Catálogo</button>
+                <button onclick="showForm('readFormCatalogo')">Leer Catálogo</button>
+                <button onclick="showForm('updateFormCatalogo')">Actualizar Catálogo</button>
+                <button onclick="showForm('deleteFormCatalogo')">Eliminar Catálogo</button>
+            </div>
+
+            <div id="locales-buttons" class="crud-buttons">
+                <!-- Botones para mostrar formularios específicos -->
+                <button onclick="showForm('createFormLocal')">Crear Local</button>
+                <button onclick="showForm('readFormLocal')">Leer Local</button>
+                <button onclick="showForm('updateFormLocal')">Actualizar Local</button>
+                <button onclick="showForm('deleteFormLocal')">Eliminar Local</button>
+            </div>
+
+            <div id="clientes-buttons" class="crud-buttons">
+                <!-- Botones para mostrar formularios específicos -->
+                <button onclick="showForm('createFormCliente')">Crear Cliente</button>
+                <button onclick="showForm('readFormCliente')">Leer Cliente</button>
+                <button onclick="showForm('updateFormCliente')">Actualizar Cliente</button>
+                <button onclick="showForm('deleteFormCliente')">Eliminar Cliente</button>
+            </div>
+
+            <div id="productos-buttons" class="crud-buttons">
+                <!-- Botones para mostrar formularios específicos -->
+                <button onclick="showForm('createFormProducto')">Crear Producto</button>
+                <button onclick="showForm('readFormProducto')">Leer Producto</button>
+                <button onclick="showForm('updateFormProducto')">Actualizar Producto</button>
+                <button onclick="showForm('deleteFormProducto')">Eliminar Producto</button>
+            </div>
+
+            <div id="proveedores-buttons" class="crud-buttons">
+                <button onclick="showForm('createFormProveedor')">Crear Proveedor</button>
+                <button onclick="showForm('readFormProveedor')">Leer Proveedor</button>
+                <button onclick="showForm('updateFormProveedor')">Actualizar Proveedor</button>
+                <button onclick="showForm('deleteFormProveedor')">Eliminar Proveedor</button>
+            </div>
+
+            <!-- Formulario de Creación Catálogo -->
+            <div id="createFormCatalogo" class="form-container">
+                <h2>Crear Catálogo</h2>
+                <form>
+                    <label for="create_id_catalogo_producto">ID Producto:</label>
+                    <input type="number" id="create_id_catalogo_producto"><br>
+
+                    <label for="create_nom_catalogo_producto">Nombre Producto:</label>
+                    <input type="text" id="create_nom_catalogo_producto"><br>
+
+                    <label for="create_precio_catalogo_producto">Precio Producto:</label>
+                    <input type="number" step="0.01" id="create_precio_catalogo_producto"><br>
+
+                    <label for="create_descripcion_catalogo_producto">Descripción Producto:</label>
+                    <input type="text" id="create_descripcion_catalogo_producto"><br>
+
+                    <label for="create_cantidad_catalogo_producto">Cantidad Producto:</label>
+                    <input type="number" id="create_cantidad_catalogo_producto"><br>
+
+                    <label for="create_catalogo_creado_por">Creado Por:</label>
+                    <input type="text" id="create_catalogo_creado_por"><br>
+
+                    <label for="create_catalogo_fecha_creacion">Fecha de Creación (YYYY-MM-DD):</label>
+                    <input type="text" id="create_catalogo_fecha_creacion"><br>
+
+                    <button type="button" onclick="createCatalogo()">Crear</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Lectura Catálogo -->
+            <div id="readFormCatalogo" class="form-container">
+                <h2>Leer Catálogo</h2>
+                <form>
+                    <label for="read_id_catalogo_producto">ID Producto:</label>
+                    <input type="number" id="read_id_catalogo_producto"><br>
+
+                    <button type="button" onclick="readCatalogo()">Leer</button>
+                </form>
+
+                <!-- Tabla para mostrar los resultados de lectura -->
+                <div id="catalogo-read-table"></div>
+            </div>
+
+            <!-- Formulario de Actualización Catálogo -->
+            <div id="updateFormCatalogo" class="form-container">
+                <h2>Actualizar Catálogo</h2>
+                <form>
+                    <label for="update_id_catalogo_producto">ID Producto:</label>
+                    <input type="number" id="update_id_catalogo_producto"><br>
+
+                    <label for="update_nom_catalogo_producto">Nombre Producto:</label>
+                    <input type="text" id="update_nom_catalogo_producto"><br>
+
+                    <label for="update_precio_catalogo_producto">Precio Producto:</label>
+                    <input type="number" step="0.01" id="update_precio_catalogo_producto"><br>
+
+                    <label for="update_descripcion_catalogo_producto">Descripción Producto:</label>
+                    <input type="text" id="update_descripcion_catalogo_producto"><br>
+
+                    <label for="update_cantidad_catalogo_producto">Cantidad Producto:</label>
+                    <input type="number" id="update_cantidad_catalogo_producto"><br>
+
+                    <label for="update_modificado_por_catalogo">Modificado Por:</label>
+                    <input type="text" id="update_modificado_por_catalogo"><br>
+
+                    <label for="update_fecha_modificacion_catalogo">Fecha de Modificación (YYYY-MM-DD):</label>
+                    <input type="text" id="update_fecha_modificacion_catalogo"><br>
+
+                    <button type="button" onclick="updateCatalogo()">Actualizar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Eliminación Catálogo -->
+            <div id="deleteFormCatalogo" class="form-container">
+                <h2>Eliminar Catálogo</h2>
+                <form>
+                    <label for="delete_id_catalogo_producto">ID Producto:</label>
+                    <input type="number" id="delete_id_catalogo_producto"><br>
+
+                    <button type="button" onclick="deleteCatalogo()">Eliminar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Creación Local -->
+            <div id="createFormLocal" class="form-container">
+                <h2>Crear Local</h2>
+                <form>
+                    <label for="create_id_local">ID Local:</label>
+                    <input type="number" id="create_id_local"><br>
+
+                    <label for="create_nom_local">Nombre Local:</label>
+                    <input type="text" id="create_nom_local"><br>
+
+                    <label for="create_tel_local">Teléfono Local:</label>
+                    <input type="text" id="create_tel_local"><br>
+
+                    <label for="create_direccion_local">Dirección Local:</label>
+                    <input type="text" id="create_direccion_local"><br>
+
+                    <label for="create_local_creado_por">Creado Por:</label>
+                    <input type="text" id="create_local_creado_por"><br>
+
+                    <label for="create_local_fecha_creacion">Fecha de Creación (YYYY-MM-DD):</label>
+                    <input type="text" id="create_local_fecha_creacion"><br>
+
+                    <button type="button" onclick="createLocal()">Crear</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Lectura Local -->
+            <div id="readFormLocal" class="form-container">
+                <h2>Leer Local</h2>
+                <form>
+                    <label for="read_id_local">ID Local:</label>
+                    <input type="number" id="read_id_local"><br>
+
+                    <button type="button" onclick="readLocal()">Leer</button>
+                </form>
+
+                <!-- Tabla para mostrar los resultados de lectura -->
+                <div id="local-read-table"></div>
+            </div>
+
+            <!-- Formulario de Actualización Local -->
+            <div id="updateFormLocal" class="form-container">
+                <h2>Actualizar Local</h2>
+                <form>
+                    <label for="update_id_local">ID Local:</label>
+                    <input type="number" id="update_id_local"><br>
+
+                    <label for="update_nom_local">Nombre Local:</label>
+                    <input type="text" id="update_nom_local"><br>
+
+                    <label for="update_tel_local">Teléfono Local:</label>
+                    <input type="text" id="update_tel_local"><br>
+
+                    <label for="update_direccion_local">Dirección Local:</label>
+                    <input type="text" id="update_direccion_local"><br>
+
+                    <label for="update_local_modificado_por">Modificado Por:</label>
+                    <input type="text" id="update_local_modificado_por"><br>
+
+                    <label for="update_local_fecha_modificacion">Fecha de Modificación (YYYY-MM-DD):</label>
+                    <input type="text" id="update_local_fecha_modificacion"><br>
+
+                    <button type="button" onclick="updateLocal()">Actualizar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Eliminación Local -->
+            <div id="deleteFormLocal" class="form-container">
+                <h2>Eliminar Local</h2>
+                <form>
+                    <label for="delete_id_local">ID Local:</label>
+                    <input type="number" id="delete_id_local"><br>
+
+                    <button type="button" onclick="deleteLocal()">Eliminar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Creación Cliente -->
+            <div id="createFormCliente" class="form-container">
+                <h2>Crear Cliente</h2>
+                <form>
+                    <label for="create_id_cliente">ID Cliente:</label>
+                    <input type="number" id="create_id_cliente"><br>
+
+                    <label for="create_nom_cliente">Nombre Cliente:</label>
+                    <input type="text" id="create_nom_cliente"><br>
+
+                    <label for="create_ape_cliente">Apellido Cliente:</label>
+                    <input type="text" id="create_ape_cliente"><br>
+
+                    <label for="create_correo_cliente">Correo Cliente:</label>
+                    <input type="email" id="create_correo_cliente"><br>
+
+                    <label for="create_tel_cliente">Teléfono Cliente:</label>
+                    <input type="text" id="create_tel_cliente"><br>
+
+                    <label for="create_direccion_cliente">Dirección Cliente:</label>
+                    <input type="text" id="create_direccion_cliente"><br>
+
+                    <label for="create_cliente_creado_por">Creado Por:</label>
+                    <input type="text" id="create_cliente_creado_por"><br>
+
+                    <label for="create_cliente_fecha_creacion">Fecha de Creación (YYYY-MM-DD):</label>
+                    <input type="text" id="create_cliente_fecha_creacion"><br>
+
+                    <button type="button" onclick="createCliente()">Crear</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Lectura Cliente -->
+            <div id="readFormCliente" class="form-container">
+                <h2>Leer Cliente</h2>
+                <form>
+                    <label for="read_id_cliente">ID Cliente:</label>
+                    <input type="number" id="read_id_cliente"><br>
+
+                    <button type="button" onclick="readCliente()">Leer</button>
+                </form>
+
+                <!-- Tabla para mostrar los resultados de lectura -->
+                <div id="cliente-read-table"></div>
+            </div>
+
+            <!-- Formulario de Actualización Cliente -->
+            <div id="updateFormCliente" class="form-container">
+                <h2>Actualizar Cliente</h2>
+                <form>
+                    <label for="update_id_cliente">ID Cliente:</label>
+                    <input type="number" id="update_id_cliente"><br>
+
+                    <label for="update_nom_cliente">Nombre Cliente:</label>
+                    <input type="text" id="update_nom_cliente"><br>
+
+                    <label for="update_ape_cliente">Apellido Cliente:</label>
+                    <input type="text" id="update_ape_cliente"><br>
+
+                    <label for="update_correo_cliente">Correo Cliente:</label>
+                    <input type="email" id="update_correo_cliente"><br>
+
+                    <label for="update_tel_cliente">Teléfono Cliente:</label>
+                    <input type="text" id="update_tel_cliente"><br>
+
+                    <label for="update_direccion_cliente">Dirección Cliente:</label>
+                    <input type="text" id="update_direccion_cliente"><br>
+
+                    <label for="update_cliente_modificado_por">Modificado Por:</label>
+                    <input type="text" id="update_cliente_modificado_por"><br>
+
+                    <label for="update_cliente_fecha_modificacion">Fecha de Modificación (YYYY-MM-DD):</label>
+                    <input type="text" id="update_cliente_fecha_modificacion"><br>
+
+                    <button type="button" onclick="updateCliente()">Actualizar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Eliminación Cliente -->
+            <div id="deleteFormCliente" class="form-container">
+                <h2>Eliminar Cliente</h2>
+                <form>
+                    <label for="delete_id_cliente">ID Cliente:</label>
+                    <input type="number" id="delete_id_cliente"><br>
+
+                    <button type="button" onclick="deleteCliente()">Eliminar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Creación Producto -->
+            <div id="createFormProducto" class="form-container">
+                <h2>Crear Producto</h2>
+                <form>
+                    <label for="create_id_producto">ID Producto:</label>
+                    <input type="number" id="create_id_producto_producto"><br>
+
+                    <label for="create_nom_producto">Nombre Producto:</label>
+                    <input type="text" id="create_nom_producto_producto"><br>
+
+                    <label for="create_piezas_producto">Piezas Producto:</label>
+                    <input type="number" id="create_piezas_producto_producto"><br>
+
+                    <label for="create_precio_producto">Precio Producto:</label>
+                    <input type="number" step="0.01" id="create_precio_producto_producto"><br>
+
+                    <label for="create_cantidad_producto">Cantidad Producto:</label>
+                    <input type="number" id="create_cantidad_producto_producto"><br>
+
+                    <label for="create_descripcion_producto">Descripción Producto:</label>
+                    <input type="text" id="create_descripcion_producto_producto"><br>
+
+                    <label for="create_producto_creado_por">Creado Por:</label>
+                    <input type="text" id="create_producto_creado_por"><br>
+
+                    <label for="create_producto_fecha_creacion">Fecha de Creación (YYYY-MM-DD):</label>
+                    <input type="text" id="create_producto_fecha_creacion"><br>
+
+                    <button type="button" onclick="createProducto()">Crear</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Lectura Producto -->
+            <div id="readFormProducto" class="form-container">
+                <h2>Leer Producto</h2>
+                <form>
+                    <label for="read_id_producto_producto">ID Producto:</label>
+                    <input type="number" id="read_id_producto_producto"><br>
+
+                    <button type="button" onclick="readProducto()">Leer</button>
+                </form>
+
+                <!-- Tabla para mostrar los resultados de lectura -->
+                <div id="producto-read-table"></div>
+            </div>
+
+            <!-- Formulario de Actualización Producto -->
+            <div id="updateFormProducto" class="form-container">
+                <h2>Actualizar Producto</h2>
+                <form>
+                    <label for="update_id_producto_producto">ID Producto:</label>
+                    <input type="number" id="update_id_producto_producto"><br>
+
+                    <label for="update_nom_producto_producto">Nombre Producto:</label>
+                    <input type="text" id="update_nom_producto_producto"><br>
+
+                    <label for="update_piezas_producto_producto">Piezas Producto:</label>
+                    <input type="number" id="update_piezas_producto_producto"><br>
+
+                    <label for="update_precio_producto_producto">Precio Producto:</label>
+                    <input type="number" step="0.01" id="update_precio_producto_producto"><br>
+
+                    <label for="update_cantidad_producto_producto">Cantidad Producto:</label>
+                    <input type="number" id="update_cantidad_producto_producto"><br>
+
+                    <label for="update_descripcion_producto_producto">Descripción Producto:</label>
+                    <input type="text" id="update_descripcion_producto_producto"><br>
+
+                    <label for="update_producto_modificado_por">Modificado Por:</label>
+                    <input type="text" id="update_producto_modificado_por"><br>
+
+                    <label for="update_producto_fecha_modificacion">Fecha de Modificación (YYYY-MM-DD):</label>
+                    <input type="text" id="update_producto_fecha_modificacion"><br>
+
+                    <button type="button" onclick="updateProducto()">Actualizar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Eliminación Producto -->
+            <div id="deleteFormProducto" class="form-container">
+                <h2>Eliminar Producto</h2>
+                <form>
+                    <label for="delete_id_producto_producto">ID Producto:</label>
+                    <input type="number" id="delete_id_producto_producto"><br>
+
+                    <button type="button" onclick="deleteProducto()">Eliminar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Creación Proveedores -->
+            <div id="createFormProveedor" class="form-container">
+                <h2>Crear Proveedor</h2>
+                <form>
+                    <label for="create_id_proveedor">ID Proveedor:</label>
+                    <input type="number" id="create_id_proveedor"><br>
+
+                    <label for="create_nom_provedor">Nombre Proveedor:</label>
+                    <input type="text" id="create_nom_provedor"><br>
+
+                    <label for="create_correo_proveedor">Correo Proveedor:</label>
+                    <input type="email" id="create_correo_proveedor"><br>
+
+                    <label for="create_producto_proveedor">Producto Proveedor:</label>
+                    <input type="text" id="create_producto_proveedor"><br>
+
+                    <label for="create_tel_proveedor">Teléfono Proveedor:</label>
+                    <input type="text" id="create_tel_proveedor"><br>
+
+                    <label for="create_direccion_proveedor">Dirección Proveedor:</label>
+                    <input type="text" id="create_direccion_proveedor"><br>
+
+                    <label for="create_creado_por_proveedor">Creado Por:</label>
+                    <input type="text" id="create_creado_por_proveedor"><br>
+
+                    <label for="create_fecha_creacion_proveedor">Fecha de Creación (YYYY-MM-DD):</label>
+                    <input type="text" id="create_fecha_creacion_proveedor"><br>
+
+                    <button type="button" onclick="createProveedor()">Crear</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Lectura Proveedores -->
+            <div id="readFormProveedor" class="form-container">
+                <h2>Leer Proveedor</h2>
+                <form>
+                    <label for="read_id_proveedor">ID Proveedor:</label>
+                    <input type="number" id="read_id_proveedor"><br>
+
+                    <button type="button" onclick="readProveedor()">Leer</button>
+                </form>
+
+                <!-- Tabla para mostrar los resultados de lectura -->
+                <div id="proveedor-read-table"></div>
+            </div>
+
+            <!-- Formulario de Actualización Proveedores -->
+            <div id="updateFormProveedor" class="form-container">
+                <h2>Actualizar Proveedor</h2>
+                <form>
+                    <label for="update_id_proveedor">ID Proveedor:</label>
+                    <input type="number" id="update_id_proveedor"><br>
+
+                    <label for="update_nom_provedor">Nombre Proveedor:</label>
+                    <input type="text" id="update_nom_provedor"><br>
+
+                    <label for="update_correo_proveedor">Correo Proveedor:</label>
+                    <input type="email" id="update_correo_proveedor"><br>
+
+                    <label for="update_producto_proveedor">Producto Proveedor:</label>
+                    <input type="text" id="update_producto_proveedor"><br>
+
+                    <label for="update_tel_proveedor">Teléfono Proveedor:</label>
+                    <input type="text" id="update_tel_proveedor"><br>
+
+                    <label for="update_direccion_proveedor">Dirección Proveedor:</label>
+                    <input type="text" id="update_direccion_proveedor"><br>
+
+                    <label for="update_modificado_por_proveedor">Modificado Por:</label>
+                    <input type="text" id="update_modificado_por_proveedor"><br>
+
+                    <label for="update_fecha_modificacion_proveedor">Fecha de Modificación (YYYY-MM-DD):</label>
+                    <input type="text" id="update_fecha_modificacion_proveedor"><br>
+
+                    <button type="button" onclick="updateProveedor()">Actualizar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Eliminación Proveedores -->
+            <div id="deleteFormProveedor" class="form-container">
+                <h2>Eliminar Proveedor</h2>
+                <form>
+                    <label for="delete_id_proveedor">ID Proveedor:</label>
+                    <input type="number" id="delete_id_proveedor"><br>
+
+                    <button type="button" onclick="deleteProveedor()">Eliminar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
