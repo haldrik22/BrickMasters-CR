@@ -83,7 +83,7 @@ async function fetchClientesDescuentosEntregas() {
         FIDE_ENTREGAS_V_ID_ENTREGA_PK: 'ID Entrega',
         V_DIRECCION_CLIENTE: 'Dirección Cliente'
     };
-    await fetchViewData('/api/vista/clientes_descuentos_entregas', 'result-display', columnAliases);
+    await fetchViewData('http://127.0.0.1:5000/api/vista/clientes_descuentos_entregas', 'result-display', columnAliases);
 }
 
 // Function to fetch and display data for Productos y Proveedores
@@ -96,7 +96,7 @@ async function fetchProductosProveedores() {
         V_NOM_PROVEDOR: 'Nombre Proveedor',
         V_CORREO_PROVEEDOR: 'Correo Proveedor'
     };
-    await fetchViewData('/api/vista/productos_proveedores', 'result-display', columnAliases);
+    await fetchViewData('http://127.0.0.1:5000/api/vista/productos_proveedores', 'result-display', columnAliases);
 }
 
 // Function to fetch and display data for Locales y Productos
@@ -109,7 +109,7 @@ async function fetchLocalesProductos() {
         V_NOM_PRODUCTO: 'Nombre Producto',
         V_CANTIDAD_PRODUCTO: 'Cantidad Producto'
     };
-    await fetchViewData('/api/vista/locales_productos', 'result-display', columnAliases);
+    await fetchViewData('http://127.0.0.1:5000/api/vista/locales_productos', 'result-display', columnAliases);
 }
 
 // Function to fetch and display data for Tipo Descuentos y Clientes
@@ -121,7 +121,7 @@ async function fetchTipoDescuentosClientes() {
         FIDE_DESCUENTOS_V_ID_CLIENTE_FK: 'ID Cliente',
         V_NOM_CLIENTE: 'Nombre Cliente'
     };
-    await fetchViewData('/api/vista/tipo_descuentos_clientes', 'result-display', columnAliases);
+    await fetchViewData('http://127.0.0.1:5000/api/vista/tipo_descuentos_clientes', 'result-display', columnAliases);
 }
 
 // Function to fetch and display data for Entregas y Clientes Contacto
@@ -133,5 +133,5 @@ async function fetchEntregasClientesContacto() {
         V_TEL_CLIENTE: 'Teléfono Cliente',
         V_CORREO_CLIENTE: 'Correo Cliente'
     };
-    await fetchViewData('/api/vista/entregas_clientes_contacto', 'result-display', columnAliases);
+    await fetchViewData('http://127.0.0.1:5000/api/vista/entregas_clientes_contacto', 'result-display', columnAliases);
 }

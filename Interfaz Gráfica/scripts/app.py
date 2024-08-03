@@ -797,6 +797,511 @@ def delete_proveedor(id_proveedor):
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
+# Ruta para obtener todos los registros de FIDE_TIPO_DESCUENTO_TB
+@app.route('/api/tipo_descuento', methods=['GET'])
+def get_tipo_descuento():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM FIDE_TIPO_DESCUENTO_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para crear un nuevo registro en FIDE_TIPO_DESCUENTO_TB
+@app.route('/api/tipo_descuento', methods=['POST'])
+def create_tipo_descuento():
+    try:
+        data = request.json
+        id_tipo_descuento = data['id_tipo_descuento']
+        id_cliente = data['id_cliente']
+        porcentaje_descuento = data['porcentaje_descuento']
+        creado_por = data['creado_por']
+        fecha_creacion = data['fecha_creacion']
+        accion = "CREATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_TIPO_DESCUENTO_CREATE_SP", [
+                id_tipo_descuento, id_cliente, porcentaje_descuento, creado_por, fecha_creacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener un registro de FIDE_TIPO_DESCUENTO_TB por su ID
+@app.route('/api/tipo_descuento/<int:id_tipo_descuento>', methods=['GET'])
+def read_tipo_descuento(id_tipo_descuento):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            result = cursor.var(cx_Oracle.CURSOR)
+            cursor.callproc("FIDE_TIPO_DESCUENTO_READ_SP", [id_tipo_descuento, result])
+            cursor_result = result.getvalue()
+            if cursor_result is None:
+                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
+            rows = cursor_result.fetchall()
+            columns = [col[0] for col in cursor_result.description]
+            rows_dict = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+        return jsonify(rows_dict), 200
+    except cx_Oracle.DatabaseError as e:
+        error, = e.args
+        return jsonify({'status': 'error', 'message': error.message}), 500
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para actualizar un registro de FIDE_TIPO_DESCUENTO_TB por su ID
+@app.route('/api/tipo_descuento/<int:id_tipo_descuento>', methods=['PUT'])
+def update_tipo_descuento(id_tipo_descuento):
+    try:
+        data = request.json
+        id_cliente = data['id_cliente']
+        porcentaje_descuento = data['porcentaje_descuento']
+        modificado_por = data['modificado_por']
+        fecha_modificacion = data['fecha_modificacion']
+        accion = "UPDATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_TIPO_DESCUENTO_UPDATE_SP", [
+                id_tipo_descuento, id_cliente, porcentaje_descuento, modificado_por, fecha_modificacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para eliminar un registro de FIDE_TIPO_DESCUENTO_TB por su ID
+@app.route('/api/tipo_descuento/<int:id_tipo_descuento>', methods=['DELETE'])
+def delete_tipo_descuento(id_tipo_descuento):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_TIPO_DESCUENTO_DELETE_SP", [id_tipo_descuento])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener todos los registros de FIDE_DESCUENTOS_TB
+@app.route('/api/descuentos', methods=['GET'])
+def get_descuentos():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM FIDE_DESCUENTOS_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para crear un nuevo registro en FIDE_DESCUENTOS_TB
+@app.route('/api/descuentos', methods=['POST'])
+def create_descuentos():
+    try:
+        data = request.json
+        id_descuento = data['id_descuento']
+        id_cliente = data['id_cliente']
+        id_tipo_descuento = data['id_tipo_descuento']
+        creado_por = data['creado_por']
+        fecha_creacion = data['fecha_creacion']
+        accion = "CREATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_DESCUENTOS_CREATE_SP", [
+                id_descuento, id_cliente, id_tipo_descuento, creado_por, fecha_creacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener un registro de FIDE_DESCUENTOS_TB por su ID
+@app.route('/api/descuentos/<int:id_descuento>', methods=['GET'])
+def read_descuentos(id_descuento):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            result = cursor.var(cx_Oracle.CURSOR)
+            cursor.callproc("FIDE_DESCUENTOS_READ_SP", [id_descuento, result])
+            cursor_result = result.getvalue()
+            if cursor_result is None:
+                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
+            rows = cursor_result.fetchall()
+            columns = [col[0] for col in cursor_result.description]
+            rows_dict = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+        return jsonify(rows_dict), 200
+    except cx_Oracle.DatabaseError as e:
+        error, = e.args
+        return jsonify({'status': 'error', 'message': error.message}), 500
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para actualizar un registro de FIDE_DESCUENTOS_TB por su ID
+@app.route('/api/descuentos/<int:id_descuento>', methods=['PUT'])
+def update_descuentos(id_descuento):
+    try:
+        data = request.json
+        id_cliente = data['id_cliente']
+        id_tipo_descuento = data['id_tipo_descuento']
+        modificado_por = data['modificado_por']
+        fecha_modificacion = data['fecha_modificacion']
+        accion = "UPDATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_DESCUENTOS_UPDATE_SP", [
+                id_descuento, id_cliente, id_tipo_descuento, modificado_por, fecha_modificacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para eliminar un registro de FIDE_DESCUENTOS_TB por su ID
+@app.route('/api/descuentos/<int:id_descuento>', methods=['DELETE'])
+def delete_descuentos(id_descuento):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_DESCUENTOS_DELETE_SP", [id_descuento])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener todos los registros de FIDE_PROVEEDORES_PRODUCTO_TB
+@app.route('/api/proveedores_producto', methods=['GET'])
+def get_proveedores_producto():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM FIDE_PROVEEDORES_PRODUCTO_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para crear un nuevo registro en FIDE_PROVEEDORES_PRODUCTO_TB
+@app.route('/api/proveedores_producto', methods=['POST'])
+def create_proveedores_producto():
+    try:
+        data = request.json
+        id_proveedor = data['id_proveedor']
+        id_producto = data['id_producto']
+        creado_por = data['creado_por']
+        fecha_creacion = data['fecha_creacion']
+        accion = "CREATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_PROVEEDORES_PRODUCTO_CREATE_SP", [
+                id_proveedor, id_producto, creado_por, fecha_creacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener un registro de FIDE_PROVEEDORES_PRODUCTO_TB por sus IDs
+@app.route('/api/proveedores_producto/<int:id_proveedor>/<int:id_producto>', methods=['GET'])
+def read_proveedores_producto(id_proveedor, id_producto):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            result = cursor.var(cx_Oracle.CURSOR)
+            cursor.callproc("FIDE_PROVEEDORES_PRODUCTO_READ_SP", [id_proveedor, id_producto, result])
+            cursor_result = result.getvalue()
+            if cursor_result is None:
+                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
+            rows = cursor_result.fetchall()
+            columns = [col[0] for col in cursor_result.description]
+            rows_dict = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+        return jsonify(rows_dict), 200
+    except cx_Oracle.DatabaseError as e:
+        error, = e.args
+        return jsonify({'status': 'error', 'message': error.message}), 500
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para actualizar un registro de FIDE_PROVEEDORES_PRODUCTO_TB por sus IDs
+@app.route('/api/proveedores_producto/<int:id_proveedor>/<int:id_producto>', methods=['PUT'])
+def update_proveedores_producto(id_proveedor, id_producto):
+    try:
+        data = request.json
+        modificado_por = data['modificado_por']
+        fecha_modificacion = data['fecha_modificacion']
+        accion = "UPDATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_PROVEEDORES_PRODUCTO_UPDATE_SP", [
+                id_proveedor, id_producto, modificado_por, fecha_modificacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para eliminar un registro de FIDE_PROVEEDORES_PRODUCTO_TB por sus IDs
+@app.route('/api/proveedores_producto/<int:id_proveedor>/<int:id_producto>', methods=['DELETE'])
+def delete_proveedores_producto(id_proveedor, id_producto):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_PROVEEDORES_PRODUCTO_DELETE_SP", [id_proveedor, id_producto])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener todos los registros de FIDE_FACTURACION_TB
+@app.route('/api/facturacion', methods=['GET'])
+def get_facturacion():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM FIDE_FACTURACION_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para crear un nuevo registro en FIDE_FACTURACION_TB
+@app.route('/api/facturacion', methods=['POST'])
+def create_facturacion():
+    try:
+        data = request.json
+        id_factura = data['id_factura']
+        id_producto = data['id_producto']
+        id_descuento = data['id_descuento']
+        id_cliente = data['id_cliente']
+        id_local = data['id_local']
+        cantidad_producto = data['cantidad_producto']
+        precio_subtotal = data['precio_subtotal']
+        precio_total = data['precio_total']
+        fecha_pago = data['fecha_pago']
+        creado_por = data['creado_por']
+        fecha_creacion = data['fecha_creacion']
+        accion = "CREATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_FACTURACION_CREATE_SP", [
+                id_factura, id_producto, id_descuento, id_cliente, id_local, cantidad_producto, precio_subtotal, precio_total,
+                fecha_pago, creado_por, fecha_creacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener un registro de FIDE_FACTURACION_TB por su ID
+@app.route('/api/facturacion/<int:id_factura>', methods=['GET'])
+def read_facturacion(id_factura):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            result = cursor.var(cx_Oracle.CURSOR)
+            cursor.callproc("FIDE_FACTURACION_READ_SP", [id_factura, result])
+            cursor_result = result.getvalue()
+            if cursor_result is None:
+                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
+            rows = cursor_result.fetchall()
+            columns = [col[0] for col in cursor_result.description]
+            rows_dict = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+        return jsonify(rows_dict), 200
+    except cx_Oracle.DatabaseError as e:
+        error, = e.args
+        return jsonify({'status': 'error', 'message': error.message}), 500
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para actualizar un registro de FIDE_FACTURACION_TB por su ID
+@app.route('/api/facturacion/<int:id_factura>', methods=['PUT'])
+def update_facturacion(id_factura):
+    try:
+        data = request.json
+        id_producto = data['id_producto']
+        id_descuento = data['id_descuento']
+        id_cliente = data['id_cliente']
+        id_local = data['id_local']
+        cantidad_producto = data['cantidad_producto']
+        precio_subtotal = data['precio_subtotal']
+        precio_total = data['precio_total']
+        fecha_pago = data['fecha_pago']
+        modificado_por = data['modificado_por']
+        fecha_modificacion = data['fecha_modificacion']
+        accion = "UPDATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_FACTURACION_UPDATE_SP", [
+                id_factura, id_producto, id_descuento, id_cliente, id_local, cantidad_producto, precio_subtotal, precio_total,
+                fecha_pago, modificado_por, fecha_modificacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para eliminar un registro de FIDE_FACTURACION_TB por su ID
+@app.route('/api/facturacion/<int:id_factura>', methods=['DELETE'])
+def delete_facturacion(id_factura):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_FACTURACION_DELETE_SP", [id_factura])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener todos los registros de FIDE_VENTAS_TB
+@app.route('/api/ventas', methods=['GET'])
+def get_ventas():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM FIDE_VENTAS_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para crear un nuevo registro en FIDE_VENTAS_TB
+@app.route('/api/ventas', methods=['POST'])
+def create_ventas():
+    try:
+        data = request.json
+        id_venta = data['id_venta']
+        id_factura = data['id_factura']
+        id_producto = data['id_producto']
+        id_local = data['id_local']
+        id_entrega = data['id_entrega']
+        creado_por = data['creado_por']
+        fecha_creacion = data['fecha_creacion']
+        accion = "CREATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_VENTAS_CREATE_SP", [
+                id_venta, id_factura, id_producto, id_local, id_entrega, creado_por, fecha_creacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para obtener un registro de FIDE_VENTAS_TB por su ID
+@app.route('/api/ventas/<int:id_venta>', methods=['GET'])
+def read_ventas(id_venta):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            result = cursor.var(cx_Oracle.CURSOR)
+            cursor.callproc("FIDE_VENTAS_READ_SP", [id_venta, result])
+            cursor_result = result.getvalue()
+            if cursor_result is None:
+                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
+            rows = cursor_result.fetchall()
+            columns = [col[0] for col in cursor_result.description]
+            rows_dict = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+        return jsonify(rows_dict), 200
+    except cx_Oracle.DatabaseError as e:
+        error, = e.args
+        return jsonify({'status': 'error', 'message': error.message}), 500
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para actualizar un registro de FIDE_VENTAS_TB por su ID
+@app.route('/api/ventas/<int:id_venta>', methods=['PUT'])
+def update_ventas(id_venta):
+    try:
+        data = request.json
+        id_factura = data['id_factura']
+        id_producto = data['id_producto']
+        id_local = data['id_local']
+        id_entrega = data['id_entrega']
+        modificado_por = data['modificado_por']
+        fecha_modificacion = data['fecha_modificacion']
+        accion = "UPDATE"
+        estado = "Activo"
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_VENTAS_UPDATE_SP", [
+                id_venta, id_factura, id_producto, id_local, id_entrega, modificado_por, fecha_modificacion, accion, estado
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Ruta para eliminar un registro de FIDE_VENTAS_TB por su ID
+@app.route('/api/ventas/<int:id_venta>', methods=['DELETE'])
+def delete_ventas(id_venta):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_VENTAS_DELETE_SP", [id_venta])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 #--------------------------------------------FUNCIONES--------------------------------------------
 @app.route('/')
 def index():
@@ -1110,9 +1615,7 @@ def get_clientes_descuentos_entregas():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("""
-                SELECT * FROM FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V
-            """)
+            cursor.execute("SELECT * FROM FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V")
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             cursor.close()
@@ -1126,9 +1629,7 @@ def get_productos_proveedores():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("""
-                SELECT * FROM FIDE_PRODUCTOS_PROVEEDORES_V
-            """)
+            cursor.execute("SELECT * FROM FIDE_PRODUCTOS_PROVEEDORES_V")
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             cursor.close()
@@ -1142,9 +1643,7 @@ def get_locales_productos():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("""
-                SELECT * FROM FIDE_LOCALES_PRODUCTOS_V
-            """)
+            cursor.execute("SELECT * FROM FIDE_LOCALES_PRODUCTOS_V")
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             cursor.close()
@@ -1158,9 +1657,7 @@ def get_tipo_descuentos_clientes():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("""
-                SELECT * FROM FIDE_TIPO_DESCUENTOS_CLIENTES_V
-            """)
+            cursor.execute("SELECT * FROM FIDE_TIPO_DESCUENTOS_CLIENTES_V")
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             cursor.close()
@@ -1174,16 +1671,13 @@ def get_entregas_clientes_contacto():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("""
-                SELECT * FROM FIDE_ENTREGAS_CLIENTES_CONTACTO_V
-            """)
+            cursor.execute("SELECT * FROM FIDE_ENTREGAS_CLIENTES_CONTACTO_V")
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             cursor.close()
         return jsonify([dict(zip(columns, row)) for row in rows])
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)

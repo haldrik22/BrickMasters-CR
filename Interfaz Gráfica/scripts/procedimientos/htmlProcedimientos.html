@@ -20,24 +20,34 @@
     </div>
 
     <main>
-        <section>
-            <label for="table-select">Selecciona una tabla:</label>
+        <div>
+            <label for="table-select">Seleccionar tabla:</label>
             <select id="table-select" onchange="showInputForm()">
-                <option value="">Seleccionar...</option>
+                <option value="">Seleccione una tabla</option>
                 <option value="catalogo">Catálogo</option>
                 <option value="locales">Locales</option>
                 <option value="clientes">Clientes</option>
                 <option value="productos">Productos</option>
                 <option value="proveedores">Proveedores</option>
+                <option value="tipo_descuento">Tipo Descuento</option>
+                <option value="descuentos">Descuentos</option>
+                <option value="proveedores_producto">Proveedores Producto</option>
+                <option value="facturacion">Facturación</option>
+                <option value="ventas">Ventas</option>
             </select>
-        </section>
+        </div>
 
         <!-- Sección para mostrar dinámicamente los datos de la tabla -->
-        <section id="catalogo-table"></section>
-        <section id="locales-table"></section>
-        <section id="clientes-table"></section>
-        <section id="productos-table"></section>
-        <section id="proveedores-table"></section>
+        <div id="catalogo-table"></div>
+        <div id="locales-table"></div>
+        <div id="clientes-table"></div>
+        <div id="productos-table"></div>
+        <div id="proveedores-table"></div>
+        <div id="tipo_descuento-table"></div>
+        <div id="descuentos-table"></div>
+        <div id="proveedores_producto-table"></div>
+        <div id="facturacion-table"></div>
+        <div id="ventas-table"></div>
 
         <!-- Sección para mostrar dinámicamente los botones de CRUD -->
         <section id="input-form-container">
@@ -78,6 +88,37 @@
                 <button onclick="showForm('readFormProveedor')">Leer Proveedor</button>
                 <button onclick="showForm('updateFormProveedor')">Actualizar Proveedor</button>
                 <button onclick="showForm('deleteFormProveedor')">Eliminar Proveedor</button>
+            </div>
+
+            <div id="tipo_descuento-buttons" class="button-container">
+                <button onclick="showForm('create-tipo_descuento-form')">Crear</button>
+                <button onclick="showForm('read-tipo_descuento-form')">Leer</button>
+                <button onclick="showForm('update-tipo_descuento-form')">Actualizar</button>
+                <button onclick="showForm('delete-tipo_descuento-form')">Borrar</button>
+            </div>
+            <div id="descuentos-buttons" class="button-container">
+                <button onclick="showForm('create-descuentos-form')">Crear</button>
+                <button onclick="showForm('read-descuentos-form')">Leer</button>
+                <button onclick="showForm('update-descuentos-form')">Actualizar</button>
+                <button onclick="showForm('delete-descuentos-form')">Borrar</button>
+            </div>
+            <div id="proveedores_producto-buttons" class="button-container">
+                <button onclick="showForm('create-proveedores_producto-form')">Crear</button>
+                <button onclick="showForm('read-proveedores_producto-form')">Leer</button>
+                <button onclick="showForm('update-proveedores_producto-form')">Actualizar</button>
+                <button onclick="showForm('delete-proveedores_producto-form')">Borrar</button>
+            </div>
+            <div id="facturacion-buttons" class="button-container">
+                <button onclick="showForm('create-facturacion-form')">Crear</button>
+                <button onclick="showForm('read-facturacion-form')">Leer</button>
+                <button onclick="showForm('update-facturacion-form')">Actualizar</button>
+                <button onclick="showForm('delete-facturacion-form')">Borrar</button>
+            </div>
+            <div id="ventas-buttons" class="button-container">
+                <button onclick="showForm('create-ventas-form')">Crear</button>
+                <button onclick="showForm('read-ventas-form')">Leer</button>
+                <button onclick="showForm('update-ventas-form')">Actualizar</button>
+                <button onclick="showForm('delete-ventas-form')">Borrar</button>
             </div>
 
             <!-- Formulario de Creación Catálogo -->
@@ -505,6 +546,247 @@
 
                     <button type="button" onclick="deleteProveedor()">Eliminar</button>
                 </form>
+            </div>
+            <div id="create-tipo_descuento-form" class="form-container" style="display: none;">
+                <h2>Crear Tipo Descuento</h2>
+                <label for="create_id_tipo_descuento">ID Tipo Descuento:</label>
+                <input type="text" id="create_id_tipo_descuento" name="create_id_tipo_descuento"><br>
+                <label for="create_id_cliente_tipo_descuento">ID Cliente:</label>
+                <input type="text" id="create_id_cliente_tipo_descuento" name="create_id_cliente_tipo_descuento"><br>
+                <label for="create_porcentaje_descuento">Porcentaje Descuento:</label>
+                <input type="text" id="create_porcentaje_descuento" name="create_porcentaje_descuento"><br>
+                <label for="create_tipo_descuento_creado_por">Creado Por:</label>
+                <input type="text" id="create_tipo_descuento_creado_por" name="create_tipo_descuento_creado_por"><br>
+                <label for="create_tipo_descuento_fecha_creacion">Fecha de Creación:</label>
+                <input type="text" id="create_tipo_descuento_fecha_creacion" name="create_tipo_descuento_fecha_creacion"><br>
+                <button onclick="createTipoDescuento()">Crear</button>
+            </div>
+            <div id="read-tipo_descuento-form" class="form-container" style="display: none;">
+                <h2>Leer Tipo Descuento</h2>
+                <label for="read_id_tipo_descuento">ID Tipo Descuento:</label>
+                <input type="text" id="read_id_tipo_descuento" name="read_id_tipo_descuento"><br>
+                <button onclick="readTipoDescuento()">Leer</button>
+            </div>
+            <div id="update-tipo_descuento-form" class="form-container" style="display: none;">
+                <h2>Actualizar Tipo Descuento</h2>
+                <label for="update_id_tipo_descuento">ID Tipo Descuento:</label>
+                <input type="text" id="update_id_tipo_descuento" name="update_id_tipo_descuento"><br>
+                <label for="update_id_cliente_tipo_descuento">ID Cliente:</label>
+                <input type="text" id="update_id_cliente_tipo_descuento" name="update_id_cliente_tipo_descuento"><br>
+                <label for="update_porcentaje_descuento">Porcentaje Descuento:</label>
+                <input type="text" id="update_porcentaje_descuento" name="update_porcentaje_descuento"><br>
+                <label for="update_modificado_por_tipo_descuento">Modificado Por:</label>
+                <input type="text" id="update_modificado_por_tipo_descuento" name="update_modificado_por_tipo_descuento"><br>
+                <label for="update_fecha_modificacion_tipo_descuento">Fecha de Modificación:</label>
+                <input type="text" id="update_fecha_modificacion_tipo_descuento" name="update_fecha_modificacion_tipo_descuento"><br>
+                <button onclick="updateTipoDescuento()">Actualizar</button>
+            </div>
+            <div id="delete-tipo_descuento-form" class="form-container" style="display: none;">
+                <h2>Borrar Tipo Descuento</h2>
+                <label for="delete_id_tipo_descuento">ID Tipo Descuento:</label>
+                <input type="text" id="delete_id_tipo_descuento" name="delete_id_tipo_descuento"><br>
+                <button onclick="deleteTipoDescuento()">Borrar</button>
+            </div>
+    
+            <!-- Descuentos Forms -->
+            <div id="create-descuentos-form" class="form-container" style="display: none;">
+                <h2>Crear Descuentos</h2>
+                <label for="create_id_descuento">ID Descuento:</label>
+                <input type="text" id="create_id_descuento" name="create_id_descuento"><br>
+                <label for="create_id_cliente_descuentos">ID Cliente:</label>
+                <input type="text" id="create_id_cliente_descuentos" name="create_id_cliente_descuentos"><br>
+                <label for="create_id_tipo_descuento_descuentos">ID Tipo Descuento:</label>
+                <input type="text" id="create_id_tipo_descuento_descuentos" name="create_id_tipo_descuento_descuentos"><br>
+                <label for="create_descuentos_creado_por">Creado Por:</label>
+                <input type="text" id="create_descuentos_creado_por" name="create_descuentos_creado_por"><br>
+                <label for="create_descuentos_fecha_creacion">Fecha de Creación:</label>
+                <input type="text" id="create_descuentos_fecha_creacion" name="create_descuentos_fecha_creacion"><br>
+                <button onclick="createDescuentos()">Crear</button>
+            </div>
+            <div id="read-descuentos-form" class="form-container" style="display: none;">
+                <h2>Leer Descuentos</h2>
+                <label for="read_id_descuento">ID Descuento:</label>
+                <input type="text" id="read_id_descuento" name="read_id_descuento"><br>
+                <button onclick="readDescuentos()">Leer</button>
+            </div>
+            <div id="update-descuentos-form" class="form-container" style="display: none;">
+                <h2>Actualizar Descuentos</h2>
+                <label for="update_id_descuento">ID Descuento:</label>
+                <input type="text" id="update_id_descuento" name="update_id_descuento"><br>
+                <label for="update_id_cliente_descuentos">ID Cliente:</label>
+                <input type="text" id="update_id_cliente_descuentos" name="update_id_cliente_descuentos"><br>
+                <label for="update_id_tipo_descuento_descuentos">ID Tipo Descuento:</label>
+                <input type="text" id="update_id_tipo_descuento_descuentos" name="update_id_tipo_descuento_descuentos"><br>
+                <label for="update_modificado_por_descuentos">Modificado Por:</label>
+                <input type="text" id="update_modificado_por_descuentos" name="update_modificado_por_descuentos"><br>
+                <label for="update_fecha_modificacion_descuentos">Fecha de Modificación:</label>
+                <input type="text" id="update_fecha_modificacion_descuentos" name="update_fecha_modificacion_descuentos"><br>
+                <button onclick="updateDescuentos()">Actualizar</button>
+            </div>
+            <div id="delete-descuentos-form" class="form-container" style="display: none;">
+                <h2>Borrar Descuentos</h2>
+                <label for="delete_id_descuento">ID Descuento:</label>
+                <input type="text" id="delete_id_descuento" name="delete_id_descuento"><br>
+                <button onclick="deleteDescuentos()">Borrar</button>
+            </div>
+    
+            <!-- Proveedores Producto Forms -->
+            <div id="create-proveedores_producto-form" class="form-container" style="display: none;">
+                <h2>Crear Proveedores Producto</h2>
+                <label for="create_id_proveedor">ID Proveedor:</label>
+                <input type="text" id="create_id_proveedor" name="create_id_proveedor"><br>
+                <label for="create_id_producto">ID Producto:</label>
+                <input type="text" id="create_id_producto" name="create_id_producto"><br>
+                <label for="create_proveedores_producto_creado_por">Creado Por:</label>
+                <input type="text" id="create_proveedores_producto_creado_por" name="create_proveedores_producto_creado_por"><br>
+                <label for="create_proveedores_producto_fecha_creacion">Fecha de Creación:</label>
+                <input type="text" id="create_proveedores_producto_fecha_creacion" name="create_proveedores_producto_fecha_creacion"><br>
+                <button onclick="createProveedoresProducto()">Crear</button>
+            </div>
+            <div id="read-proveedores_producto-form" class="form-container" style="display: none;">
+                <h2>Leer Proveedores Producto</h2>
+                <label for="read_id_proveedor">ID Proveedor:</label>
+                <input type="text" id="read_id_proveedor" name="read_id_proveedor"><br>
+                <label for="read_id_producto">ID Producto:</label>
+                <input type="text" id="read_id_producto" name="read_id_producto"><br>
+                <button onclick="readProveedoresProducto()">Leer</button>
+            </div>
+            <div id="update-proveedores_producto-form" class="form-container" style="display: none;">
+                <h2>Actualizar Proveedores Producto</h2>
+                <label for="update_id_proveedor">ID Proveedor:</label>
+                <input type="text" id="update_id_proveedor" name="update_id_proveedor"><br>
+                <label for="update_id_producto">ID Producto:</label>
+                <input type="text" id="update_id_producto" name="update_id_producto"><br>
+                <label for="update_modificado_por_proveedores_producto">Modificado Por:</label>
+                <input type="text" id="update_modificado_por_proveedores_producto" name="update_modificado_por_proveedores_producto"><br>
+                <label for="update_fecha_modificacion_proveedores_producto">Fecha de Modificación:</label>
+                <input type="text" id="update_fecha_modificacion_proveedores_producto" name="update_fecha_modificacion_proveedores_producto"><br>
+                <button onclick="updateProveedoresProducto()">Actualizar</button>
+            </div>
+            <div id="delete-proveedores_producto-form" class="form-container" style="display: none;">
+                <h2>Borrar Proveedores Producto</h2>
+                <label for="delete_id_proveedor">ID Proveedor:</label>
+                <input type="text" id="delete_id_proveedor" name="delete_id_proveedor"><br>
+                <label for="delete_id_producto">ID Producto:</label>
+                <input type="text" id="delete_id_producto" name="delete_id_producto"><br>
+                <button onclick="deleteProveedoresProducto()">Borrar</button>
+            </div>
+    
+            <!-- Facturación Forms -->
+            <div id="create-facturacion-form" class="form-container" style="display: none;">
+                <h2>Crear Facturación</h2>
+                <label for="create_id_factura">ID Factura:</label>
+                <input type="text" id="create_id_factura" name="create_id_factura"><br>
+                <label for="create_id_producto_facturacion">ID Producto:</label>
+                <input type="text" id="create_id_producto_facturacion" name="create_id_producto_facturacion"><br>
+                <label for="create_id_descuento_facturacion">ID Descuento:</label>
+                <input type="text" id="create_id_descuento_facturacion" name="create_id_descuento_facturacion"><br>
+                <label for="create_id_cliente_facturacion">ID Cliente:</label>
+                <input type="text" id="create_id_cliente_facturacion" name="create_id_cliente_facturacion"><br>
+                <label for="create_id_local_facturacion">ID Local:</label>
+                <input type="text" id="create_id_local_facturacion" name="create_id_local_facturacion"><br>
+                <label for="create_cantidad_producto">Cantidad Producto:</label>
+                <input type="text" id="create_cantidad_producto" name="create_cantidad_producto"><br>
+                <label for="create_precio_subtotal">Precio Subtotal:</label>
+                <input type="text" id="create_precio_subtotal" name="create_precio_subtotal"><br>
+                <label for="create_precio_total">Precio Total:</label>
+                <input type="text" id="create_precio_total" name="create_precio_total"><br>
+                <label for="create_facturacion_fecha_pago">Fecha de Pago:</label>
+                <input type="text" id="create_facturacion_fecha_pago" name="create_facturacion_fecha_pago"><br>
+                <label for="create_facturacion_creado_por">Creado Por:</label>
+                <input type="text" id="create_facturacion_creado_por" name="create_facturacion_creado_por"><br>
+                <label for="create_facturacion_fecha_creacion">Fecha de Creación:</label>
+                <input type="text" id="create_facturacion_fecha_creacion" name="create_facturacion_fecha_creacion"><br>
+                <button onclick="createFacturacion()">Crear</button>
+            </div>
+            <div id="read-facturacion-form" class="form-container" style="display: none;">
+                <h2>Leer Facturación</h2>
+                <label for="read_id_factura">ID Factura:</label>
+                <input type="text" id="read_id_factura" name="read_id_factura"><br>
+                <button onclick="readFacturacion()">Leer</button>
+            </div>
+            <div id="update-facturacion-form" class="form-container" style="display: none;">
+                <h2>Actualizar Facturación</h2>
+                <label for="update_id_factura">ID Factura:</label>
+                <input type="text" id="update_id_factura" name="update_id_factura"><br>
+                <label for="update_id_producto_facturacion">ID Producto:</label>
+                <input type="text" id="update_id_producto_facturacion" name="update_id_producto_facturacion"><br>
+                <label for="update_id_descuento_facturacion">ID Descuento:</label>
+                <input type="text" id="update_id_descuento_facturacion" name="update_id_descuento_facturacion"><br>
+                <label for="update_id_cliente_facturacion">ID Cliente:</label>
+                <input type="text" id="update_id_cliente_facturacion" name="update_id_cliente_facturacion"><br>
+                <label for="update_id_local_facturacion">ID Local:</label>
+                <input type="text" id="update_id_local_facturacion" name="update_id_local_facturacion"><br>
+                <label for="update_cantidad_producto">Cantidad Producto:</label>
+                <input type="text" id="update_cantidad_producto" name="update_cantidad_producto"><br>
+                <label for="update_precio_subtotal">Precio Subtotal:</label>
+                <input type="text" id="update_precio_subtotal" name="update_precio_subtotal"><br>
+                <label for="update_precio_total">Precio Total:</label>
+                <input type="text" id="update_precio_total" name="update_precio_total"><br>
+                <label for="update_facturacion_fecha_pago">Fecha de Pago:</label>
+                <input type="text" id="update_facturacion_fecha_pago" name="update_facturacion_fecha_pago"><br>
+                <label for="update_facturacion_modificado_por">Modificado Por:</label>
+                <input type="text" id="update_facturacion_modificado_por" name="update_facturacion_modificado_por"><br>
+                <label for="update_facturacion_fecha_modificacion">Fecha de Modificación:</label>
+                <input type="text" id="update_facturacion_fecha_modificacion" name="update_facturacion_fecha_modificacion"><br>
+                <button onclick="updateFacturacion()">Actualizar</button>
+            </div>
+            <div id="delete-facturacion-form" class="form-container" style="display: none;">
+                <h2>Borrar Facturación</h2>
+                <label for="delete_id_factura">ID Factura:</label>
+                <input type="text" id="delete_id_factura" name="delete_id_factura"><br>
+                <button onclick="deleteFacturacion()">Borrar</button>
+            </div>
+    
+            <!-- Ventas Forms -->
+            <div id="create-ventas-form" class="form-container" style="display: none;">
+                <h2>Crear Ventas</h2>
+                <label for="create_id_venta">ID Venta:</label>
+                <input type="text" id="create_id_venta" name="create_id_venta"><br>
+                <label for="create_id_factura_ventas">ID Factura:</label>
+                <input type="text" id="create_id_factura_ventas" name="create_id_factura_ventas"><br>
+                <label for="create_id_producto_ventas">ID Producto:</label>
+                <input type="text" id="create_id_producto_ventas" name="create_id_producto_ventas"><br>
+                <label for="create_id_local_ventas">ID Local:</label>
+                <input type="text" id="create_id_local_ventas" name="create_id_local_ventas"><br>
+                <label for="create_id_entrega_ventas">ID Entrega:</label>
+                <input type="text" id="create_id_entrega_ventas" name="create_id_entrega_ventas"><br>
+                <label for="create_ventas_creado_por">Creado Por:</label>
+                <input type="text" id="create_ventas_creado_por" name="create_ventas_creado_por"><br>
+                <label for="create_ventas_fecha_creacion">Fecha de Creación:</label>
+                <input type="text" id="create_ventas_fecha_creacion" name="create_ventas_fecha_creacion"><br>
+                <button onclick="createVentas()">Crear</button>
+            </div>
+            <div id="read-ventas-form" class="form-container" style="display: none;">
+                <h2>Leer Ventas</h2>
+                <label for="read_id_venta">ID Venta:</label>
+                <input type="text" id="read_id_venta" name="read_id_venta"><br>
+                <button onclick="readVentas()">Leer</button>
+                <div id="ventas-read-table"></div>
+            </div>
+            <div id="update-ventas-form" class="form-container" style="display: none;">
+                <h2>Actualizar Ventas</h2>
+                <label for="update_id_venta">ID Venta:</label>
+                <input type="text" id="update_id_venta" name="update_id_venta"><br>
+                <label for="update_id_factura_ventas">ID Factura:</label>
+                <input type="text" id="update_id_factura_ventas" name="update_id_factura_ventas"><br>
+                <label for="update_id_producto_ventas">ID Producto:</label>
+                <input type="text" id="update_id_producto_ventas" name="update_id_producto_ventas"><br>
+                <label for="update_id_local_ventas">ID Local:</label>
+                <input type="text" id="update_id_local_ventas" name="update_id_local_ventas"><br>
+                <label for="update_id_entrega_ventas">ID Entrega:</label>
+                <input type="text" id="update_id_entrega_ventas" name="update_id_entrega_ventas"><br>
+                <label for="update_modificado_por_ventas">Modificado Por:</label>
+                <input type="text" id="update_modificado_por_ventas" name="update_modificado_por_ventas"><br>
+                <label for="update_fecha_modificacion_ventas">Fecha de Modificación:</label>
+                <input type="text" id="update_fecha_modificacion_ventas" name="update_fecha_modificacion_ventas"><br>
+                <button onclick="updateVentas()">Actualizar</button>
+            </div>
+            <div id="delete-ventas-form" class="form-container" style="display: none;">
+                <h2>Borrar Ventas</h2>
+                <label for="delete_id_venta">ID Venta:</label>
+                <input type="text" id="delete_id_venta" name="delete_id_venta"><br>
+                <button onclick="deleteVentas()">Borrar</button>
             </div>
         </section>
     </main>
