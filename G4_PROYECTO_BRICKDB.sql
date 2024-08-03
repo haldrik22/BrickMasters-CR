@@ -81,16 +81,14 @@ CREATE TABLE FIDE_PROVEEDORES_TB (
 CREATE TABLE FIDE_TIPO_DESCUENTO_TB (
     FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK NUMBER PRIMARY KEY,
     FIDE_TIPO_DESCUENTO_V_Id_cliente_FK NUMBER,
-    FIDE_TIPO_DESCUENTO_V_Id_estado_FK NUMBER,
     V_Porcentaje_descuento NUMBER(5,2), -- Ajustado para porcentajes hasta 100%
     FOREIGN KEY (FIDE_TIPO_DESCUENTO_V_Id_cliente_FK) REFERENCES FIDE_CLIENTES_TB(FIDE_CLIENTES_V_Id_cliente_PK),
-    FOREIGN KEY (FIDE_TIPO_DESCUENTO_V_Id_estado_FK) REFERENCES FIDE_ESTADO_TB(FIDE_ESTADO_V_Id_estado_PK),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_DESCUENTOS_TB
@@ -105,7 +103,7 @@ CREATE TABLE FIDE_DESCUENTOS_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_CATALOGO_TB
@@ -136,7 +134,7 @@ CREATE TABLE FIDE_PROVEEDORES_PRODUCTO_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_ENTREGAS_TB
@@ -174,7 +172,7 @@ CREATE TABLE FIDE_FACTURACION_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
 );
 
 -- Tabla FIDE_VENTAS_TB
@@ -193,7 +191,7 @@ CREATE TABLE FIDE_VENTAS_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20)
+    V_Estado VARCHAR2(50)
 );
 
 -- Comentario ejemplo
@@ -554,17 +552,17 @@ END;
 CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_CREATE_SP (
     P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER,
     P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK IN NUMBER,
-    P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK IN NUMBER,
     P_Porcentaje_descuento IN NUMBER,
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_TIPO_DESCUENTO_TB (
-        FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, FIDE_TIPO_DESCUENTO_V_Id_estado_FK, V_Porcentaje_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion
+        FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, V_Porcentaje_descuento, V_Creado_por, V_Fecha_de_creacion, V_Accion, V_Estado
     ) VALUES (
-        P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK, P_Porcentaje_descuento, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion
+        P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK, P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK, P_Porcentaje_descuento, P_Creado_por, TO_DATE(P_Fecha_de_creacion, 'YYYY-MM-DD'), P_Accion, P_Estado
     );
 END;
 /
@@ -585,20 +583,20 @@ END;
 CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_UPDATE_SP (
     P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER,
     P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK IN NUMBER,
-    P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK IN NUMBER,
     P_Porcentaje_descuento IN NUMBER,
     P_Modificado_por IN VARCHAR2,
     P_Fecha_de_modificacion IN VARCHAR2,
-    P_Accion IN VARCHAR2
+    P_Accion IN VARCHAR2,
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_TIPO_DESCUENTO_TB
     SET FIDE_TIPO_DESCUENTO_V_Id_cliente_FK = P_FIDE_TIPO_DESCUENTO_V_Id_cliente_FK,
-        FIDE_TIPO_DESCUENTO_V_Id_estado_FK = P_FIDE_TIPO_DESCUENTO_V_Id_estado_FK,
         V_Porcentaje_descuento = P_Porcentaje_descuento,
         V_Modificado_por = P_Modificado_por,
         V_Fecha_de_modificacion = TO_DATE(P_Fecha_de_modificacion, 'YYYY-MM-DD'),
-        V_Accion = P_Accion
+        V_Accion = P_Accion,
+        V_Estado = P_Estado
     WHERE FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK = P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
 END;
 /
@@ -746,7 +744,7 @@ CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_CREATE_SP (
     P_Creado_por IN VARCHAR2,
     P_Fecha_de_creacion IN VARCHAR2,
     P_Accion IN VARCHAR2,
-    V_Estado IN VARCHAR2
+    P_Estado IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_PROVEEDORES_PRODUCTO_TB (
