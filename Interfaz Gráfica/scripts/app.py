@@ -1532,7 +1532,7 @@ def obtener_descuentos():
     except cx_Oracle.DatabaseError as e:
         return jsonify({'error': str(e)}), 500
 
-# Ruta para obtener las tiendas
+# Ruta para obtener las tiendas.
 @app.route('/obtener_tiendas', methods=['GET'])
 def obtener_tiendas():
     try:
