@@ -14,7 +14,7 @@ CREATE TABLE FIDE_ESTADO_TB (
     V_Accion VARCHAR2(20),
     V_Estado VARCHAR2(20) -- Campo de estado de la tabla
 );
-
+--Cam
 -- Tabla FIDE_LOCALES_TB
 CREATE TABLE FIDE_LOCALES_TB (
     FIDE_LOCALES_V_Id_local_PK NUMBER PRIMARY KEY,
