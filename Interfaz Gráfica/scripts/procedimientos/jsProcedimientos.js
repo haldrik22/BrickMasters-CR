@@ -678,77 +678,17 @@ async function deleteLocal() {
 }
 
 // TABLA CLIENTES
-// ---------------------------------------
-// Función: Obtener Datos de la Tabla Clientes
-// ---------------------------------------
-async function fetchClientes() {
-    try {
-        const response = await fetch('http://localhost:5000/api/clientes');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        const table = document.getElementById('clientes-table');
-        if (table) {
-            table.innerHTML = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Cliente</th>
-                            <th>Nombre Cliente</th>
-                            <th>Apellido Cliente</th>
-                            <th>Correo Cliente</th>
-                            <th>Teléfono Cliente</th>
-                            <th>Dirección Cliente</th>
-                            <th>Creado Por</th>
-                            <th>Modificado Por</th>
-                            <th>Fecha de Creación</th>
-                            <th>Fecha de Modificación</th>
-                            <th>Acción</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            `;
-            const tbody = table.querySelector('tbody');
-            data.forEach(row => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${row.FIDE_CLIENTES_V_Id_cliente_PK}</td>
-                        <td>${row.V_Nom_cliente}</td>
-                        <td>${row.V_Ape_cliente}</td>
-                        <td>${row.V_Correo_cliente}</td>
-                        <td>${row.V_Tel_cliente}</td>
-                        <td>${row.V_Direccion_cliente}</td>
-                        <td>${row.V_Creado_por}</td>
-                        <td>${row.V_Modificado_por}</td>
-                        <td>${row.V_Fecha_de_creacion}</td>
-                        <td>${row.V_Fecha_de_modificacion}</td>
-                        <td>${row.V_Accion}</td>
-                        <td>${row.V_Estado}</td>
-                    </tr>
-                `;
-            });
-        }
-    } catch (error) {
-        console.error('Error fetching clientes:', error);
-    }
-}
 
 // ---------------------------------------
 // Función: Crear una Nueva Entrada en Clientes
 // ---------------------------------------
 async function createCliente() {
-    const id_cliente = document.getElementById('create_id_cliente')?.value;
     const nom_cliente = document.getElementById('create_nom_cliente')?.value;
     const ape_cliente = document.getElementById('create_ape_cliente')?.value;
     const correo_cliente = document.getElementById('create_correo_cliente')?.value;
     const tel_cliente = document.getElementById('create_tel_cliente')?.value;
     const direccion_cliente = document.getElementById('create_direccion_cliente')?.value;
-    const creado_por = document.getElementById('create_cliente_creado_por')?.value;
-    const fecha_creacion = document.getElementById('create_cliente_fecha_creacion')?.value;
+    const password = document.getElementById('create_password_cliente')?.value;
 
     try {
         const response = await fetch('http://127.0.0.1:5000/api/clientes', {
@@ -757,20 +697,19 @@ async function createCliente() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id_cliente,
                 nom_cliente,
                 ape_cliente,
                 correo_cliente,
                 tel_cliente,
                 direccion_cliente,
-                creado_por,
-                fecha_creacion
+                password
             })
         });
 
         if (response.ok) {
             alert('Cliente creado exitosamente');
             fetchClientes();
+            $('#createModal').modal('hide');  // Cierra el modal de crear cliente
         } else {
             const errorData = await response.json();
             alert(`Error creating cliente: ${errorData.message}`);
@@ -782,120 +721,96 @@ async function createCliente() {
 }
 
 // ---------------------------------------
-// Función: Leer una Entrada de Cliente
+// Función: Obtener Datos de la Tabla Clientes
+// Descripción: Trae la tabla completa de la base de datos y la muestra en una tabla con botones para editar y eliminar.
 // ---------------------------------------
-async function readCliente() {
-    const idCliente = document.getElementById('read_id_cliente').value;
-
+async function fetchClientes() {
     try {
-        const response = await fetch(`http://127.0.0.1:5000/api/clientes/${idCliente}`);
+        const response = await fetch('http://127.0.0.1:5000/api/clientes');
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('API response:', data);
-
-        const clienteTableContainer = document.getElementById('cliente-read-table');
-        if (data.length > 0) {
-            clienteTableContainer.innerHTML = '';
-
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            const tbody = document.createElement('tbody');
-
-            const columns = [
-                'ID Cliente',
-                'Nombre Cliente',
-                'Apellido Cliente',
-                'Correo Cliente',
-                'Teléfono Cliente',
-                'Dirección Cliente',
-                'Creado Por',
-                'Modificado Por',
-                'Fecha de Creación',
-                'Fecha de Modificación',
-                'Acción',
-                'Estado'
-            ];
-
-            const headers = columns.map(column => {
-                const th = document.createElement('th');
-                th.textContent = column;
-                return th;
+        const table = document.getElementById('clientes-table');
+        if (table) {
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>ID Cliente</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            `;
+            const tbody = table.querySelector('tbody');
+            data.sort((a, b) => a.FIDE_CLIENTES_V_Id_cliente_PK - b.FIDE_CLIENTES_V_Id_cliente_PK); // Ordenar por ID ascendente
+            data.forEach(row => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${row.FIDE_CLIENTES_V_Id_cliente_PK}</td>
+                        <td>${row.V_Nom_cliente}</td>
+                        <td>${row.V_Ape_cliente}</td>
+                        <td>${row.V_Correo_cliente}</td>
+                        <td>${row.V_Tel_cliente}</td>
+                        <td>${row.V_Direccion_cliente}</td>
+                        <td>
+                            <button class="btn btn-primary edit-btn" data-client-id="${row.FIDE_CLIENTES_V_Id_cliente_PK}">Editar</button>
+                            <button class="btn btn-danger" onclick="deleteCliente(${row.FIDE_CLIENTES_V_Id_cliente_PK})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
             });
-
-            const headerRow = document.createElement('tr');
-            headers.forEach(th => headerRow.appendChild(th));
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            data.forEach(item => {
-                const row = document.createElement('tr');
-
-                const idCell = document.createElement('td');
-                idCell.textContent = item.FIDE_CLIENTES_V_ID_CLIENTE_PK || '';
-                row.appendChild(idCell);
-
-                const nameCell = document.createElement('td');
-                nameCell.textContent = item.V_NOM_CLIENTE || '';
-                row.appendChild(nameCell);
-
-                const surnameCell = document.createElement('td');
-                surnameCell.textContent = item.V_APE_CLIENTE || '';
-                row.appendChild(surnameCell);
-
-                const emailCell = document.createElement('td');
-                emailCell.textContent = item.V_CORREO_CLIENTE || '';
-                row.appendChild(emailCell);
-
-                const phoneCell = document.createElement('td');
-                phoneCell.textContent = item.V_TEL_CLIENTE || '';
-                row.appendChild(phoneCell);
-
-                const addressCell = document.createElement('td');
-                addressCell.textContent = item.V_DIRECCION_CLIENTE || '';
-                row.appendChild(addressCell);
-
-                const createdByCell = document.createElement('td');
-                createdByCell.textContent = item.V_CREADO_POR || '';
-                row.appendChild(createdByCell);
-
-                const modifiedByCell = document.createElement('td');
-                modifiedByCell.textContent = item.V_MODIFICADO_POR || '';
-                row.appendChild(modifiedByCell);
-
-                const creationDateCell = document.createElement('td');
-                creationDateCell.textContent = item.V_FECHA_DE_CREACION || '';
-                row.appendChild(creationDateCell);
-
-                const modificationDateCell = document.createElement('td');
-                modificationDateCell.textContent = item.V_FECHA_DE_MODIFICACION || '';
-                row.appendChild(modificationDateCell);
-
-                const actionCell = document.createElement('td');
-                actionCell.textContent = item.V_ACCION || '';
-                row.appendChild(actionCell);
-
-                const statusCell = document.createElement('td');
-                statusCell.textContent = item.V_ESTADO || '';
-                row.appendChild(statusCell);
-
-                tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-            clienteTableContainer.appendChild(table);
-        } else {
-            clienteTableContainer.innerHTML = '<p>No se encontraron datos.</p>';
+            setupEditButtons();
         }
     } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('cliente-read-table').innerHTML = `<p>Ocurrió un error al leer el cliente: ${error.message}</p>`;
+        console.error('Error fetching clientes:', error);
     }
 }
 
 // ---------------------------------------
+// Función: Configurar Botones de Edición
+// Descripción: Añade eventos a los botones de editar para mostrar el formulario de edición con los datos del cliente seleccionado.
+// ---------------------------------------
+function setupEditButtons() {
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const clientId = this.dataset.clientId;
+            fetch(`http://127.0.0.1:5000/api/clientes/${clientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    showEditForm(data);
+                    $('#editModal').modal('show');  // Muestra el modal de edición
+                })
+                .catch(error => {
+                    console.error('Error fetching client data:', error);
+                });
+        });
+    });
+}
+
+// ---------------------------------------
+// Función: Mostrar Formulario de Edición
+// Descripción: Muestra el formulario de edición con los datos del cliente seleccionado.
+// ---------------------------------------
+function showEditForm(clientData) {
+    document.getElementById('update_id_cliente').value = clientData.FIDE_CLIENTES_V_Id_cliente_PK;
+    document.getElementById('update_nom_cliente').value = clientData.V_Nom_cliente;
+    document.getElementById('update_ape_cliente').value = clientData.V_Ape_cliente;
+    document.getElementById('update_correo_cliente').value = clientData.V_Correo_cliente;
+    document.getElementById('update_tel_cliente').value = clientData.V_Tel_cliente;
+    document.getElementById('update_direccion_cliente').value = clientData.V_Direccion_cliente;
+    document.getElementById('update_password_cliente').value = '';
+}
+
+// ---------------------------------------
 // Función: Actualizar una Entrada de Clientes
+// Descripción: Envía los datos actualizados del cliente al backend para modificar la base de datos.
 // ---------------------------------------
 async function updateCliente() {
     const id_cliente = document.getElementById('update_id_cliente')?.value;
@@ -904,8 +819,7 @@ async function updateCliente() {
     const correo_cliente = document.getElementById('update_correo_cliente')?.value;
     const tel_cliente = document.getElementById('update_tel_cliente')?.value;
     const direccion_cliente = document.getElementById('update_direccion_cliente')?.value;
-    const modificado_por = document.getElementById('update_cliente_modificado_por')?.value;
-    const fecha_modificacion = document.getElementById('update_cliente_fecha_modificacion')?.value;
+    const password = document.getElementById('update_password_cliente')?.value || null;
 
     try {
         const response = await fetch(`http://127.0.0.1:5000/api/clientes/${id_cliente}`, {
@@ -919,14 +833,14 @@ async function updateCliente() {
                 correo_cliente,
                 tel_cliente,
                 direccion_cliente,
-                modificado_por,
-                fecha_modificacion
+                password
             })
         });
 
         if (response.ok) {
             alert('Cliente actualizado exitosamente');
             fetchClientes();
+            $('#editModal').modal('hide');  // Cierra el modal de edición
         } else {
             const errorData = await response.json();
             alert(`Error updating cliente: ${errorData.message}`);
@@ -939,10 +853,9 @@ async function updateCliente() {
 
 // ---------------------------------------
 // Función: Borrar una Entrada de Clientes
+// Descripción: Cambia el estado del cliente a "INACTIVO" en la base de datos y oculta la entrada en la tabla.
 // ---------------------------------------
-async function deleteCliente() {
-    const id_cliente = document.getElementById('delete_id_cliente')?.value;
-
+async function deleteCliente(id_cliente) {
     if (!id_cliente) {
         alert('Por favor, ingresa el ID del cliente a eliminar.');
         return;
@@ -965,6 +878,48 @@ async function deleteCliente() {
         alert('Error deleting cliente.');
     }
 }
+
+// ---------------------------------------
+// Función: Abrir Modal de Crear Cliente
+// ---------------------------------------
+function openCreateModal() {
+    $('#createModal').modal('show');
+}
+
+// ---------------------------------------
+// Función: Filtrar Clientes
+// Descripción: Filtra las entradas de la tabla clientes basado en la categoría seleccionada y la entrada del campo de búsqueda.
+// ---------------------------------------
+function filterClientes() {
+    const searchCategory = document.getElementById('search-category').value.toLowerCase();
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const table = document.getElementById('clientes-table');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        // Check the appropriate cell based on search category
+        if (searchCategory === 'id' && cells[0].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'nombre' && cells[1].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'correo' && cells[3].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'teléfono' && cells[4].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
+}
+
+// ---------------------------------------
+// Ejecuta la función para cargar la tabla de clientes al cargar la página
+// ---------------------------------------
+window.onload = fetchClientes;
+
 
 // TABLA PRODUCTOS
 // ---------------------------------------

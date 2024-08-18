@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, send_from_directory
 import cx_Oracle
 from flask_cors import CORS
 from contextlib import contextmanager
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Inicialización de la aplicación Flask
 app = Flask(__name__, static_folder='Interfaz Gráfica/scripts')
@@ -39,6 +40,64 @@ def get_db_connection():
     finally:
         if conn:
             conn.close()
+
+#Hash Password
+def hash_password(password):
+    return generate_password_hash(password)
+
+def check_password(hashed_password, password):
+    return check_password_hash(hashed_password, password)
+
+#---------------------------------------REGISTRO & LOGIN----------------------------------------
+#Ruta de Registro
+@app.route('/api/clientes/register', methods=['POST'])
+def register_client():
+    try:
+        data = request.json
+        nom_cliente = data['nom_cliente']
+        ape_cliente = data['ape_cliente']
+        correo_cliente = data['correo_cliente']
+        tel_cliente = data['tel_cliente']
+        direccion_cliente = data['direccion_cliente']
+        password = hash_password(data['password'])  # Hash the password
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.callproc("FIDE_CLIENTES_CREATE_SP", [
+                nom_cliente, ape_cliente, correo_cliente, tel_cliente, direccion_cliente, password
+            ])
+            conn.commit()
+            cursor.close()
+        return jsonify({'status': 'success'}), 201
+    except Exception as e:
+        print(f"Error registering client: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+#Ruta de Login
+@app.route('/api/clientes/login', methods=['POST'])
+def login_client():
+    try:
+        data = request.json
+        correo_cliente = data['correo_cliente']
+        password = data['password']
+
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT V_PASSWORD FROM FIDE_CLIENTES_TB 
+                WHERE V_CORREO_CLIENTE = :correo_cliente AND V_ESTADO = 'Activo'
+            """, [correo_cliente])
+            row = cursor.fetchone()
+            cursor.close()
+
+        if row and check_password(row[0], password):
+            return jsonify({'status': 'success', 'message': 'Login successful'}), 200
+        else:
+            return jsonify({'status': 'error', 'message': 'Invalid credentials'}), 401
+    except Exception as e:
+        print(f"Error logging in client: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 
 #--------------------------------------------TABLAS---------------------------------------------
 # TABLA CATÁLOGO
@@ -349,13 +408,15 @@ def fetch_clientes():
                     V_Correo_cliente,
                     V_Tel_cliente,
                     V_Direccion_cliente,
-                    V_Creado_por,
-                    V_Modificado_por,
-                    V_Fecha_de_creacion,
-                    V_Fecha_de_modificacion,
-                    V_Accion,
-                    V_Estado
+                    V_CREADO_POR
+                    V_MODIFICADO_POR,
+                    V_FECHA_DE_CREACION,
+                    V_FECHA_DE_MODIFICACION,
+                    V_ACCION,
+                    V_ESTADO,
+                    V_PASSWORD
                 FROM FIDE_CLIENTES_TB
+                WHERE V_Estado != 'INACTIVO'
             """)
             rows = cur.fetchall()
             cur.close()
@@ -371,43 +432,73 @@ def get_clientes():
     data = fetch_clientes()
     result = []
     for row in data:
-        result.append({
-            'FIDE_CLIENTES_V_Id_cliente_PK': row[0],
-            'V_Nom_cliente': row[1],
-            'V_Ape_cliente': row[2],
-            'V_Correo_cliente': row[3],
-            'V_Tel_cliente': row[4],
-            'V_Direccion_cliente': row[5],
-            'V_Creado_por': row[6],
-            'V_Modificado_por': row[7],
-            'V_Fecha_de_creacion': row[8],
-            'V_Fecha_de_modificacion': row[9],
-            'V_Accion': row[10],
-            'V_Estado': row[11]
-        })
+        if row[11] != 'INACTIVO':  # Skip inactive clients
+            result.append({
+                'FIDE_CLIENTES_V_Id_cliente_PK': row[0],
+                'V_Nom_cliente': row[1],
+                'V_Ape_cliente': row[2],
+                'V_Correo_cliente': row[3],
+                'V_Tel_cliente': row[4],
+                'V_Direccion_cliente': row[5],
+                'V_Estado':  row[11]
+            })
     return jsonify(result)
+
+# Ruta para obtener un cliente por su ID
+@app.route('/api/clientes/<int:id_cliente>', methods=['GET'])
+def get_cliente(id_cliente):
+    try:
+        with get_db_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT
+                    FIDE_CLIENTES_V_Id_cliente_PK,
+                    V_Nom_cliente,
+                    V_Ape_cliente,
+                    V_Correo_cliente,
+                    V_Tel_cliente,
+                    V_Direccion_cliente
+                FROM FIDE_CLIENTES_TB
+                WHERE FIDE_CLIENTES_V_Id_cliente_PK = :1
+            """, [id_cliente])
+            row = cur.fetchone()
+            cur.close()
+        
+        if row:
+            result = {
+                'FIDE_CLIENTES_V_Id_cliente_PK': row[0],
+                'V_Nom_cliente': row[1],
+                'V_Ape_cliente': row[2],
+                'V_Correo_cliente': row[3],
+                'V_Tel_cliente': row[4],
+                'V_Direccion_cliente': row[5]
+            }
+            return jsonify(result), 200
+        else:
+            return jsonify({'status': 'error', 'message': 'Cliente no encontrado'}), 404
+
+    except Exception as e:
+        print(f"Error fetching cliente: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 # Ruta para crear un nuevo cliente
 @app.route('/api/clientes', methods=['POST'])
 def create_cliente():
     try:
         data = request.json
-        id_cliente = data['id_cliente']
         nom_cliente = data['nom_cliente']
         ape_cliente = data['ape_cliente']
         correo_cliente = data['correo_cliente']
         tel_cliente = data['tel_cliente']
         direccion_cliente = data['direccion_cliente']
-        creado_por = data['creado_por']
-        fecha_creacion = data['fecha_creacion'] 
-        accion = "CREATE"
-        estado = "Activo"
+        password = data['password']  
+
+        hashed_password = hash_password(password) 
 
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.callproc("FIDE_CLIENTES_CREATE_SP", [
-                id_cliente, nom_cliente, ape_cliente, correo_cliente, tel_cliente, direccion_cliente, 
-                creado_por, fecha_creacion, accion, estado
+                nom_cliente, ape_cliente, correo_cliente, tel_cliente, direccion_cliente, hashed_password
             ])
             conn.commit()
             cursor.close()
@@ -416,58 +507,36 @@ def create_cliente():
         print(f"Error creating cliente: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-# Ruta para obtener un cliente por su ID
-@app.route('/api/clientes/<int:id_cliente>', methods=['GET'])
-def read_cliente(id_cliente):
-    try:
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            
-            result = cursor.var(cx_Oracle.CURSOR)
-            cursor.callproc("FIDE_CLIENTES_READ_SP", [id_cliente, result])
-            
-            cursor_result = result.getvalue()
-            
-            if cursor_result is None:
-                return jsonify({'status': 'error', 'message': 'No data returned from stored procedure.'}), 404
-            
-            rows = cursor_result.fetchall()
-            columns = [col[0] for col in cursor_result.description]
-
-            rows_dict = [dict(zip(columns, row)) for row in rows]
-
-            cursor.close()
-        
-        return jsonify(rows_dict), 200
-
-    except cx_Oracle.DatabaseError as e:
-        error, = e.args
-        print(f"Database error: {error.message}")
-        return jsonify({'status': 'error', 'message': 'Database error occurred.'}), 500
-    except Exception as e:
-        print(f"Error in read_cliente: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 500
-
 # Ruta para actualizar un cliente por su ID
 @app.route('/api/clientes/<int:id_cliente>', methods=['PUT'])
 def update_cliente(id_cliente):
     try:
         data = request.json
+        print("Received data:", data)
         nom_cliente = data['nom_cliente']
         ape_cliente = data['ape_cliente']
         correo_cliente = data['correo_cliente']
         tel_cliente = data['tel_cliente']
         direccion_cliente = data['direccion_cliente']
-        modificado_por = data['modificado_por']
-        fecha_modificacion = data['fecha_modificacion'] 
-        accion = "UPDATE"
-        estado = "Activo"
+        password = data.get('password', None) 
+
+        # If no new password is provided, retain the existing one
+        if not password:
+            with get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT V_Password FROM FIDE_CLIENTES_TB
+                    WHERE FIDE_CLIENTES_V_Id_cliente_PK = :1
+                """, [id_cliente])
+                password = cursor.fetchone()[0]  # Get the existing password
+                cursor.close()
+
+        hashed_password = hash_password(password) if password else None
 
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.callproc("FIDE_CLIENTES_UPDATE_SP", [
-                id_cliente, nom_cliente, ape_cliente, correo_cliente, tel_cliente, direccion_cliente,
-                modificado_por, fecha_modificacion, accion, estado
+                id_cliente, nom_cliente, ape_cliente, correo_cliente, tel_cliente, direccion_cliente, hashed_password
             ])
             conn.commit()
             cursor.close()
@@ -475,6 +544,7 @@ def update_cliente(id_cliente):
     except Exception as e:
         print(f"Error updating cliente: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
 
 # Ruta para eliminar un cliente por su ID
 @app.route('/api/clientes/<int:id_cliente>', methods=['DELETE'])

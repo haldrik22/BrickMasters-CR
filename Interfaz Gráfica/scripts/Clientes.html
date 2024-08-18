@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BrickMasters CR - Admin Clientes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Fuentes web de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Hoja de estilos de fuentes de iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de bibliotecas -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Hoja de estilo Bootstrap personalizada -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de plantilla -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Inicio de la barra de navegación -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary">BrickMasters CR</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="index.html" class="nav-item nav-link">Inicio</a>
+                <a href="Inventario.html" class="nav-item nav-link">Inventario</a>
+                <a href="Clientes.html" class="nav-item nav-link active">Clientes</a>
+                <a href="Pagos.html" class="nav-item nav-link">Pagos</a>
+                <a href="contact.html" class="nav-item nav-link">Contacto</a>
+            </div>
+            <a href="listaPrecios.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Catalogo disponible<i class="fa fa-arrow-right ms-3"></i></a>
+        </div>
+    </nav>
+    <!-- Fin de la barra de navegación -->
+
+    <!-- Inicio de encabezado de página -->
+    <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
+        <div class="container-fluid page-header-inner py-5">
+            <div class="container text-center">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Clientes - Admin</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de encabezado de página -->
+
+    <!-- Botones de Crear y Buscar Cliente -->
+    <div class="container-xxl py-3 text-center">
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary mx-2" onclick="openCreateModal()">Agregar Cliente</button>
+            <label for="search-category" class="form-label fw-bold mx-2 mb-0">Realizar búsqueda por:</label>
+            <select id="search-category" class="form-select d-inline-block w-auto mx-2">
+                <option value="ID">ID</option>
+                <option value="Nombre">Nombre</option>
+                <option value="Correo">Correo</option>
+                <option value="Teléfono">Teléfono</option>
+            </select>
+            <input type="text" id="search-bar" class="form-control d-inline-block w-50 mx-2" placeholder="Ingrese valor para buscar">
+            <button class="btn btn-secondary mx-2" onclick="filterClientes()">Buscar</button>
+        </div>
+    </div>       
+
+    <!-- Inicio de la sección de tabla -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-5">Tabla de Clientes</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-10">
+                    <table id="clientes-table" class="table table-bordered table-hover"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la sección de tabla -->
+
+    <!-- Modal para Crear Cliente -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Agregar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addClientForm" onsubmit="createCliente(); return false;">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="create_nom_cliente" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_nom_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_ape_cliente" class="form-label">Apellido</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_ape_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_correo_cliente" class="form-label">Correo</label>
+                                <input type="email" class="form-control border-0 bg-light" id="create_correo_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_tel_cliente" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_tel_cliente" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="create_direccion_cliente" class="form-label">Dirección</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_direccion_cliente" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="create_password_cliente" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control border-0 bg-light" id="create_password_cliente" required>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Agregar cliente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Cliente -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editClientForm" onsubmit="updateCliente(); return false;">
+                        <input type="hidden" id="update_id_cliente"> <!-- Hidden field to store the client ID -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="update_nom_cliente" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_nom_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_ape_cliente" class="form-label">Apellido</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_ape_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_correo_cliente" class="form-label">Correo</label>
+                                <input type="email" class="form-control border-0 bg-light" id="update_correo_cliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_tel_cliente" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_tel_cliente" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="update_direccion_cliente" class="form-label">Dirección</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_direccion_cliente" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="update_password_cliente" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control border-0 bg-light" id="update_password_cliente">
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Actualizar cliente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Librerias -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Plantilla Javascript -->
+    <script src="procedimientos/jsProcedimientos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
