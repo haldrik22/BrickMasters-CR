@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BrickMasters CR - Admin Clientes</title>
+    <title>BrickMasters CR - Admin Proveedores</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -76,25 +76,25 @@
     <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Clientes</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Proveedores</h1>
             </div>
         </div>
     </div>
     <!-- Fin de encabezado de página -->
 
-    <!-- Botones de Crear y Buscar Cliente -->
+    <!-- Botones de Crear y Buscar Proveedor -->
     <div class="container-xxl py-3 text-center">
         <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-primary mx-2" onclick="openCreateModal()">Agregar Cliente</button>
+            <button class="btn btn-primary mx-2" onclick="openCreateModalProveedor()">Agregar Proveedor</button>
             <label for="search-category" class="form-label fw-bold mx-2 mb-0">Realizar búsqueda por:</label>
             <select id="search-category" class="form-select d-inline-block w-auto mx-2">
                 <option value="ID">ID</option>
                 <option value="Nombre">Nombre</option>
                 <option value="Correo">Correo</option>
-                <option value="Teléfono">Teléfono</option>
+                <option value="Producto">Producto</option>
             </select>
             <input type="text" id="search-bar" class="form-control d-inline-block w-50 mx-2" placeholder="Ingrese valor para buscar">
-            <button class="btn btn-secondary mx-2" onclick="filterClientes()">Buscar</button>
+            <button class="btn btn-secondary mx-2" onclick="filterProveedores()">Buscar</button>
         </div>
     </div>       
 
@@ -102,55 +102,51 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h1 class="mb-5">Tabla de Clientes</h1>
+                <h1 class="mb-5">Tabla de Proveedores</h1>
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-10">
-                    <table id="clientes-table" class="table table-bordered table-hover"></table>
+                    <table id="proveedores-table" class="table table-bordered table-hover"></table>
                 </div>
             </div>
         </div>
     </div>
     <!-- Fin de la sección de tabla -->
 
-    <!-- Modal para Crear Cliente -->
+    <!-- Modal para Crear Proveedor -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Agregar Cliente</h5>
+                    <h5 class="modal-title" id="createModalLabel">Agregar Proveedor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addClientForm" onsubmit="createCliente(); return false;">
+                    <form id="addProviderForm" onsubmit="createProveedor(); return false;">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="create_nom_cliente" class="form-label">Nombre</label>
-                                <input type="text" class="form-control border-0 bg-light" id="create_nom_cliente" required>
+                                <label for="create_nom_provedor" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_nom_provedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="create_ape_cliente" class="form-label">Apellido</label>
-                                <input type="text" class="form-control border-0 bg-light" id="create_ape_cliente" required>
+                                <label for="create_correo_proveedor" class="form-label">Correo</label>
+                                <input type="email" class="form-control border-0 bg-light" id="create_correo_proveedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="create_correo_cliente" class="form-label">Correo</label>
-                                <input type="email" class="form-control border-0 bg-light" id="create_correo_cliente" required>
+                                <label for="create_producto_proveedor" class="form-label">Producto</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_producto_proveedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="create_tel_cliente" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control border-0 bg-light" id="create_tel_cliente" required>
+                                <label for="create_tel_proveedor" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_tel_proveedor" required>
                             </div>
                             <div class="col-md-12">
-                                <label for="create_direccion_cliente" class="form-label">Dirección</label>
-                                <input type="text" class="form-control border-0 bg-light" id="create_direccion_cliente" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="create_password_cliente" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control border-0 bg-light" id="create_password_cliente" required>
+                                <label for="create_direccion_proveedor" class="form-label">Dirección</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_direccion_proveedor" required>
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Agregar cliente</button>
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Agregar proveedor</button>
                         </div>
                     </form>
                 </div>
@@ -158,45 +154,41 @@
         </div>
     </div>
 
-    <!-- Modal para Editar Cliente -->
+    <!-- Modal para Editar Proveedor -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editar Cliente</h5>
+                    <h5 class="modal-title" id="editModalLabel">Editar Proveedor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editClientForm" onsubmit="updateCliente(); return false;">
-                        <input type="hidden" id="update_id_cliente"> <!-- Hidden field to store the client ID -->
+                    <form id="editProviderForm" onsubmit="updateProveedor(); return false;">
+                        <input type="hidden" id="update_id_proveedor"> <!-- Hidden field to store the provider ID -->
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="update_nom_cliente" class="form-label">Nombre</label>
-                                <input type="text" class="form-control border-0 bg-light" id="update_nom_cliente" required>
+                                <label for="update_nom_provedor" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_nom_provedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="update_ape_cliente" class="form-label">Apellido</label>
-                                <input type="text" class="form-control border-0 bg-light" id="update_ape_cliente" required>
+                                <label for="update_correo_proveedor" class="form-label">Correo</label>
+                                <input type="email" class="form-control border-0 bg-light" id="update_correo_proveedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="update_correo_cliente" class="form-label">Correo</label>
-                                <input type="email" class="form-control border-0 bg-light" id="update_correo_cliente" required>
+                                <label for="update_producto_proveedor" class="form-label">Producto</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_producto_proveedor" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="update_tel_cliente" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control border-0 bg-light" id="update_tel_cliente" required>
+                                <label for="update_tel_proveedor" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_tel_proveedor" required>
                             </div>
                             <div class="col-md-12">
-                                <label for="update_direccion_cliente" class="form-label">Dirección</label>
-                                <input type="text" class="form-control border-0 bg-light" id="update_direccion_cliente" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="update_password_cliente" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control border-0 bg-light" id="update_password_cliente">
+                                <label for="update_direccion_proveedor" class="form-label">Dirección</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_direccion_proveedor" required>
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Actualizar cliente</button>
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Actualizar proveedor</button>
                         </div>
                     </form>
                 </div>
@@ -204,7 +196,7 @@
         </div>
     </div>
 
-     <!-- Modal for Viewing and Updating Admin Account Info -->
+    <!-- Modal for Viewing and Updating Admin Account Info -->
 <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -258,7 +250,7 @@
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Plantilla Javascript -->
-    <script src="procedimientos/jsProcedimientos.js"></script>
+    <script src="procedimientos/jsProveedoresAdmin.js"></script>
     <script src="js/main.js"></script>
     <script src="jsRegistro.js"></script>
 </body>

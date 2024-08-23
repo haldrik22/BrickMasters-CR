@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BrickMasters CR - Admin Productos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Fuentes web de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Hoja de estilos de fuentes de iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de bibliotecas -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Hoja de estilo Bootstrap personalizada -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de plantilla -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="indexadmin.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary">BrickMasters CR</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="indexadmin.html" class="nav-item nav-link">Inicio</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Empresa</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="Administradores.html" class="dropdown-item">Administradores</a>
+                        <a href="Clientes.html" class="dropdown-item">Clientes</a>
+                        <a href="LocalesAdmin.html" class="dropdown-item">Locales</a>
+                        <a href="ProductosAdmin.html" class="dropdown-item">Productos</a>
+                        <a href="ProveedoresAdmin.html" class="dropdown-item">Proveedores</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Negocio</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="descuentos.html" class="dropdown-item">Descuentos</a>
+                        <a href="tipodescuentos.html" class="dropdown-item">Tipo de Descuentos</a>
+                        <a href="entregas.html" class="dropdown-item">Entregas</a>
+                        <a href="facturas.html" class="dropdown-item">Facturas</a>
+                        <a href="ventas.html" class="dropdown-item">Ventas</a>
+                    </div>
+                </div>
+                <a href="herramientas.html" class="nav-item nav-link">Herramientas</a>
+                <a href="#" class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#accountModal">Mi
+                    Cuenta</a>
+                <a href="#" class="nav-item nav-link text-danger" onclick="logoutAdmin()" style="color: #D81324;">Cerrar
+                    Sesión</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigation Bar End -->
+
+    <!-- Inicio de encabezado de página -->
+    <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
+        <div class="container-fluid page-header-inner py-5">
+            <div class="container text-center">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Productos</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de encabezado de página -->
+
+    <!-- Botones de Crear y Buscar Producto -->
+    <div class="container-xxl py-3 text-center">
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary mx-2" onclick="openCreateModalProducto()">Agregar Producto</button>
+            <label for="search-category" class="form-label fw-bold mx-2 mb-0">Realizar búsqueda por:</label>
+            <select id="search-category" class="form-select d-inline-block w-auto mx-2">
+                <option value="ID">ID</option>
+                <option value="Nombre">Nombre</option>
+                <option value="Piezas">Piezas</option>
+                <option value="Precio">Precio</option>
+            </select>
+            <input type="text" id="search-bar" class="form-control d-inline-block w-50 mx-2"
+                placeholder="Ingrese valor para buscar">
+            <button class="btn btn-secondary mx-2" onclick="filterProductos()">Buscar</button>
+            <button class="btn btn-outline-info mx-5" onclick="openCatalogoAdminView()">Ver Catálogo</button>
+        </div>
+    </div>
+    
+    <!-- Catálogo Admin Modal -->
+    <div class="modal fade" id="catalogoAdminModal" tabindex="-1" aria-labelledby="catalogoAdminModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="catalogoAdminModalLabel">Administrar Catálogo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table id="catalogo-admin-table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID Producto</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filled dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inicio de la sección de tabla -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-5">Tabla de Productos</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-10">
+                    <table id="productos-table" class="table table-bordered table-hover"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la sección de tabla -->
+
+    <!-- Modal para Crear Producto -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Agregar Nuevo Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm" onsubmit="createProducto(); return false;">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="create_nom_producto" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="create_nom_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_piezas_producto" class="form-label">Piezas</label>
+                                <input type="number" class="form-control border-0 bg-light" id="create_piezas_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_precio_producto" class="form-label">Precio</label>
+                                <input type="number" class="form-control border-0 bg-light" id="create_precio_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="create_cantidad_producto" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control border-0 bg-light"
+                                    id="create_cantidad_producto" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="create_descripcion_producto" class="form-label">Descripción</label>
+                                <input type="text" class="form-control border-0 bg-light"
+                                    id="create_descripcion_producto" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="create_id_proveedor" class="form-label">Proveedor (Opcional)</label>
+                                <select id="create_id_proveedor" class="form-select border-0 bg-light">
+                                    <!-- Proveedores options will be loaded here -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Agregar
+                                producto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Producto -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm" onsubmit="updateProducto(); return false;">
+                        <input type="hidden" id="update_id_producto"> <!-- Hidden field to store the product ID -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="update_nom_producto" class="form-label">Nombre</label>
+                                <input type="text" class="form-control border-0 bg-light" id="update_nom_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_piezas_producto" class="form-label">Piezas</label>
+                                <input type="number" class="form-control border-0 bg-light" id="update_piezas_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_precio_producto" class="form-label">Precio</label>
+                                <input type="number" class="form-control border-0 bg-light" id="update_precio_producto"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="update_cantidad_producto" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control border-0 bg-light"
+                                    id="update_cantidad_producto" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="update_descripcion_producto" class="form-label">Descripción</label>
+                                <input type="text" class="form-control border-0 bg-light"
+                                    id="update_descripcion_producto" required>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Actualizar
+                                producto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Agregar a Catálogo -->
+    <div class="modal fade" id="agregarCatalogoModal" tabindex="-1" aria-labelledby="agregarCatalogoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarCatalogoModalLabel">Agregar Producto a Catálogo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="agregarCatalogoForm" onsubmit="agregarProductoACatalogo(); return false;">
+                        <input type="hidden" id="catalogoProductoId">
+                        <div class="mb-3">
+                            <label for="catalogoImageUpload" class="form-label">Subir Imagen</label>
+                            <input type="file" class="form-control" id="catalogoImageUpload" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agregar a Catálogo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing and Updating Admin Account Info -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Mi Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="accountForm" onsubmit="updateAdminAccount(); return false;">
+                        <div class="mb-3">
+                            <label for="accNomAdmin" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="accNomAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accApeAdmin" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="accApeAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accCorreoAdmin" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="accCorreoAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accTelAdmin" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="accTelAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accDireccionAdmin" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="accDireccionAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accPasswordAdmin" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="accPasswordAdmin">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Image in Catalogo -->
+    <div class="modal fade" id="editarImagenModal" tabindex="-1" aria-labelledby="editarImagenModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarImagenModalLabel">Editar Imagen del Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarImagenForm" onsubmit="editarImagenCatalogo(); return false;">
+                        <input type="hidden" id="editarCatalogoProductoId">
+                        <div class="mb-3">
+                            <label for="editarImagenUpload" class="form-label">Subir Nueva Imagen</label>
+                            <input type="file" class="form-control" id="editarImagenUpload" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Imagen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Librerias -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Plantilla Javascript -->
+    <script src="procedimientos/jsProductos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="jsRegistro.js"></script>
+    <script src="procedimientos/jsCatalogoAdmin.js"></script>
+</body>
+
+</html>

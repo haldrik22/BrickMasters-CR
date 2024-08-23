@@ -1,20 +1,36 @@
-function showInputForm() {
-    const viewSelect = document.getElementById('view-select');
-    const resultDisplay = document.getElementById('result-display');
-    resultDisplay.innerHTML = '';
+function openModal(viewName) {
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalFooter = document.getElementById('modalFooter');
 
-    if (viewSelect.value === 'clientes_descuentos_entregas') {
+    modalFooter.innerHTML = ''; // Clear the footer content
+
+    if (viewName === 'fetchClientesDescuentosEntregas') {
+        modalTitle.innerText = 'Clientes, Descuentos y Entregas';
+        modalBody.innerHTML = `<div id="result-display"></div>`;
         fetchClientesDescuentosEntregas();
-    } else if (viewSelect.value === 'productos_proveedores') {
+    } else if (viewName === 'fetchProductosProveedores') {
+        modalTitle.innerText = 'Productos y Proveedores';
+        modalBody.innerHTML = `<div id="result-display"></div>`;
         fetchProductosProveedores();
-    } else if (viewSelect.value === 'locales_productos') {
+    } else if (viewName === 'fetchLocalesProductos') {
+        modalTitle.innerText = 'Locales y Productos';
+        modalBody.innerHTML = `<div id="result-display"></div>`;
         fetchLocalesProductos();
-    } else if (viewSelect.value === 'tipo_descuentos_clientes') {
+    } else if (viewName === 'fetchTipoDescuentosClientes') {
+        modalTitle.innerText = 'Tipo Descuentos y Clientes';
+        modalBody.innerHTML = `<div id="result-display"></div>`;
         fetchTipoDescuentosClientes();
-    } else if (viewSelect.value === 'entregas_clientes_contacto') {
+    } else if (viewName === 'fetchEntregasClientesContacto') {
+        modalTitle.innerText = 'Entregas y Clientes Contacto';
+        modalBody.innerHTML = `<div id="result-display"></div>`;
         fetchEntregasClientesContacto();
     }
+
+    const modal = new bootstrap.Modal(document.getElementById('functionModal'));
+    modal.show();
 }
+
 
 // Function to fetch and display data for a specific view
 async function fetchViewData(apiEndpoint, resultElementId, columnAliases) {

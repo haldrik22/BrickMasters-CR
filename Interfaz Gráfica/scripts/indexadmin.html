@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BrickMasters CR</title>
+    <title>BrickMasters CR - Admin</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -11,34 +11,34 @@
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Hoja de estilos de fuentes de iconos -->
+    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Hoja de estilo de bibliotecas -->
+    <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Hoja de estilo Bootstrap personalizada -->
+    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Hoja de estilo de plantilla -->
+    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Inicio giratorio -->
+    <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- Fin giratorio -->
+    <!-- Spinner End -->
 
-    <!-- Inicio de la barra de navegación --> 
+    <!-- Navigation Bar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="indexadmin.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h2 class="m-0 text-primary">BrickMasters CR</h2>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -46,20 +46,36 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Inicio</a>
-                <a href="distribuidores.html" class="nav-item nav-link">Proveedores</a>
-                <a href="locales.html" class="nav-item nav-link">Locales</a>
-                <a href="contact.html" class="nav-item nav-link">Contacto</a>
-                <a href="cart.html" class="nav-item nav-link">Carrito</a>
+                <a href="indexadmin.html" class="nav-item nav-link">Inicio</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Empresa</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="Administradores.html" class="dropdown-item">Administradores</a>
+                        <a href="Clientes.html" class="dropdown-item">Clientes</a>
+                        <a href="LocalesAdmin.html" class="dropdown-item">Locales</a>
+                        <a href="productos.html" class="dropdown-item">Productos</a>
+                        <a href="ProveedoresAdmin.html" class="dropdown-item">Proveedores</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Negocio</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="descuentos.html" class="dropdown-item">Descuentos</a>
+                        <a href="tipodescuentos.html" class="dropdown-item">Tipo de Descuentos</a>
+                        <a href="entregas.html" class="dropdown-item">Entregas</a>
+                        <a href="facturas.html" class="dropdown-item">Facturas</a>
+                        <a href="ventas.html" class="dropdown-item">Ventas</a>
+                    </div>
+                </div>
+                <a href="herramientas.html" class="nav-item nav-link">Herramientas</a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#accountModal">Mi Cuenta</a>
-                <a href="#" class="nav-item nav-link text-danger" onclick="logoutClient()"style="color: #D81324;">Cerrar Sesión</a>
+                <a href="#" class="nav-item nav-link text-danger" onclick="logoutAdmin()" style="color: #D81324;">Cerrar Sesión</a>
             </div>
-            <a href="listaPrecios.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Catálogo disponible<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
-    <!-- Fin de la barra de navegación -->
+    <!-- Navigation Bar End -->
 
-    <!-- Sobre nosotros inicio -->
+    <!-- About Section Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
@@ -72,10 +88,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6">
                     <h6 class="text-primary text-uppercase">// Sobre nosotros //</h6>
-                    <h1 class="mb-4"><span class="text-primary">BrickMasters CR</span> La mejor tienda de confianza donde encontraras legos, juegos de mesa y mas.</h1>
+                    <h1 class="mb-4"><span class="text-primary">BrickMasters CR</span> - Plataforma de administración</h1>
                     <div class="row g-4 mb-3 pb-3">
                         <div class="col-12 wow fadeIn" data-wow-delay="0.1s">
                             <div class="d-flex">
@@ -83,8 +98,8 @@
                                     <span class="fw-bold text-secondary">01</span>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>Profesional y experto</h6>
-                                    <span> Presencia de personas que tienen conocimientos, habilidades y experiencia significativa en Legos y juegos de mesa </span>
+                                    <h6>Gestión de Compañía</h6>
+                                    <span>Administre toda la información relacionada con la compañía, incluyendo locales, productos, proveedores y más.</span>
                                 </div>
                             </div>
                         </div>
@@ -94,8 +109,8 @@
                                     <span class="fw-bold text-secondary">02</span>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>Centro de servicio de calidad</h6>
-                                    <span>Brindamos servicios a los clientes con altos estándares de excelencia y satisfacción,proporcionando una experiencia positiva atendiendo de manera eficiente sus necesidades y ofreciendo soluciones efectivas a sus requerimientos.</span>
+                                    <h6>Gestión de Negocio</h6>
+                                    <span>Controle todos los aspectos de negocio, desde ventas y facturas hasta descuentos y entregas.</span>
                                 </div>
                             </div>
                         </div>
@@ -105,8 +120,8 @@
                                     <span class="fw-bold text-secondary">03</span>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>Productos impecables</h6>
-                                    <span>En BrickMasters CR encontraras sets de lego, juegos de mesa y nuevos y sellados. </span>
+                                    <h6>Herramientas Administrativas</h6>
+                                    <span>Acceda a herramientas especializadas para optimizar la administración y la eficiencia.</span>
                                 </div>
                             </div>
                         </div>
@@ -116,83 +131,51 @@
             </div>
         </div>
     </div>
-    <!-- Sobre nosotros inicio -->
+    <!-- About Section End -->
 
-    <!-- Inicio de la sección de locales -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="text-primary text-uppercase">// Locales //</h6>
-                <h1 class="mb-5">Nuestras Ubicaciones</h1>
+    <!-- Modal for Viewing and Updating Admin Account Info -->
+<div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accountModalLabel">Mi Cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="row g-4">
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-map-marker-alt text-primary mb-4"></i>
-                            <h5 class="mb-3">Locales</h5>
-                            <p>Visita nuestras tiendas físicas en diferentes ubicaciones para una experiencia completa.</p>
-                            <a class="btn btn-primary" href="locales.html">Ver Locales</a>
-                        </div>
+            <div class="modal-body">
+                <form id="accountForm" onsubmit="updateAdminAccount(); return false;">
+                    <div class="mb-3">
+                        <label for="accNomAdmin" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="accNomAdmin" required>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-truck text-primary mb-4"></i>
-                            <h5 class="mb-3">Distribuidores</h5>
-                            <p>Encuentra nuestros distribuidores autorizados en diferentes regiones.</p>
-                            <a class="btn btn-primary" href="distribuidores.html">Ver Distribuidores</a>
-                        </div>
+                    <div class="mb-3">
+                        <label for="accApeAdmin" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="accApeAdmin" required>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="accCorreoAdmin" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="accCorreoAdmin" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accTelAdmin" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="accTelAdmin" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accDireccionAdmin" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="accDireccionAdmin" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accPasswordAdmin" class="form-label">Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="accPasswordAdmin">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Fin de la sección de locales -->
+</div>
 
-    <!-- Modal for Viewing and Updating Account Info -->
-    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="accountModalLabel">Mi Cuenta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="accountForm" onsubmit="updateClientAccount(); return false;">
-                        <div class="mb-3">
-                            <label for="accNomCliente" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="accNomCliente" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="accApeCliente" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="accApeCliente" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="accCorreoCliente" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="accCorreoCliente" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="accTelCliente" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="accTelCliente" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="accDireccionCliente" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="accDireccionCliente" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="accPasswordCliente" class="form-label">Nueva Contraseña</label>
-                            <input type="password" class="form-control" id="accPasswordCliente">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Actualizar Información</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Inicio de pie de página -->
+    <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
@@ -217,14 +200,13 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Servicios</h4>
+                    <a class="btn btn-link" href="administradores.html">Administradores</a>
+                    <a class="btn btn-link" href="clientes.html">Clientes</a>
                     <a class="btn btn-link" href="productos.html">Productos</a>
-                    <a class="btn btn-link" href="distribuidores.html">Distribuidores</a>
-                    <a class="btn btn-link" href="locales.html">Locales</a>
-                    <a class="btn btn-link" href="catalogos.html">Catálogos</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Boletín informativo</h4>
-                    <p>Si desea ser contactado por un asesor, dejanos tu correo electrónico</p>
+                    <p>Si desea ser contactado por un asesor, déjenos su correo electrónico.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Tu correo electrónico">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">Enviar</button>
@@ -242,12 +224,12 @@
             </div>
         </div>
     </div>
-    <!-- Fin de pie de página -->
+    <!-- Footer End -->
 
-    <!-- Volver arriba -->
+    <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-    <!-- JavaScript Librerías -->
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
@@ -259,9 +241,9 @@
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Plantilla JavaScript -->
+    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script src="jsRegistro.js"></script> <!-- JavaScript for handling client account -->
+    <script src="jsRegistro.js"></script>
 
 </body>
 </html>

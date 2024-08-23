@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BrickMasters CR - Admin Tipo Descuentos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Fuentes web de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Hoja de estilos de fuentes de iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de bibliotecas -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Hoja de estilo Bootstrap personalizada -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Hoja de estilo de plantilla -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="indexadmin.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary">BrickMasters CR</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="indexadmin.html" class="nav-item nav-link">Inicio</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Empresa</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="Administradores.html" class="dropdown-item">Administradores</a>
+                        <a href="Clientes.html" class="dropdown-item">Clientes</a>
+                        <a href="LocalesAdmin.html" class="dropdown-item">Locales</a>
+                        <a href="ProductosAdmin.html" class="dropdown-item">Productos</a>
+                        <a href="ProveedoresAdmin.html" class="dropdown-item">Proveedores</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Negocio</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="descuentos.html" class="dropdown-item">Descuentos</a>
+                        <a href="tipodescuentos.html" class="dropdown-item">Tipo de Descuentos</a>
+                        <a href="entregas.html" class="dropdown-item">Entregas</a>
+                        <a href="facturas.html" class="dropdown-item">Facturas</a>
+                        <a href="ventas.html" class="dropdown-item">Ventas</a>
+                    </div>
+                </div>
+                <a href="herramientas.html" class="nav-item nav-link">Herramientas</a>
+                <a href="#" class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#accountModal">Mi
+                    Cuenta</a>
+                <a href="#" class="nav-item nav-link text-danger" onclick="logoutAdmin()" style="color: #D81324;">Cerrar
+                    Sesión</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigation Bar End -->
+
+    <!-- Inicio de encabezado de página -->
+    <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
+        <div class="container-fluid page-header-inner py-5">
+            <div class="container text-center">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Tipo de Descuentos</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de encabezado de página -->
+
+    <!-- Botones de Crear y Buscar Tipo Descuento -->
+    <div class="container-xxl py-3 text-center">
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary mx-2" onclick="openCreateModalTipoDescuento()">Agregar Tipo de Descuento</button>
+            <label for="search-category" class="form-label fw-bold mx-2 mb-0">Realizar búsqueda por:</label>
+            <select id="search-category" class="form-select d-inline-block w-auto mx-2">
+                <option value="ID">ID</option>
+                <option value="ID Cliente">ID Cliente</option>
+                <option value="Porcentaje Descuento">Porcentaje Descuento</option>
+            </select>
+            <input type="text" id="search-bar" class="form-control d-inline-block w-50 mx-2"
+                placeholder="Ingrese valor para buscar">
+            <button class="btn btn-secondary mx-2" onclick="filterTipoDescuentos()">Buscar</button>
+        </div>
+    </div>
+    
+    <!-- Inicio de la sección de tabla -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-5">Tabla de Tipo Descuentos</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-10">
+                    <table id="tipo-descuentos-table" class="table table-bordered table-hover"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la sección de tabla -->
+
+    <!-- Modal para Crear o Editar Tipo Descuento -->
+    <div class="modal fade" id="createEditTipoDescuentoModal" tabindex="-1" aria-labelledby="createEditTipoDescuentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEditTipoDescuentoModalLabel">Agregar/Editar Tipo de Descuento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="tipo_descuento_form" onsubmit="submitTipoDescuentoForm(); return false;">
+                        <input type="hidden" id="update_tipo_descuento_id"> <!-- Hidden field to store the Tipo Descuento ID -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tipo_descuento_cliente_fk" class="form-label">Cliente</label>
+                                <select id="tipo_descuento_cliente_fk" class="form-select border-0 bg-light" required>
+                                    <option value="">Seleccione un Cliente</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tipo_descuento_porcentaje" class="form-label">Porcentaje Descuento</label>
+                                <input type="number" class="form-control border-0 bg-light" id="tipo_descuento_porcentaje" required>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing and Updating Admin Account Info -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Mi Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="accountForm" onsubmit="updateAdminAccount(); return false;">
+                        <div class="mb-3">
+                            <label for="accNomAdmin" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="accNomAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accApeAdmin" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="accApeAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accCorreoAdmin" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="accCorreoAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accTelAdmin" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="accTelAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accDireccionAdmin" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="accDireccionAdmin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accPasswordAdmin" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="accPasswordAdmin">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Librerias -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Custom Javascript -->
+    <script src="procedimientos/jsTipoDescuento.js"></script>
+    <script src="js/main.js"></script>
+    <script src="jsRegistro.js"></script>
+</body>
+
+</html>

@@ -1,97 +1,66 @@
-function showInputForm() {
-    const functionSelect = document.getElementById('function-select');
-    const inputForm = document.getElementById('input-form');
-    const resultDisplay = document.getElementById('result-display');
-    inputForm.innerHTML = '';
-    resultDisplay.innerHTML = '';
+function openModal(functionName) {
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalFooter = document.getElementById('modalFooter');
 
-    if (functionSelect.value === 'correo') {
-        inputForm.innerHTML = `
+    modalFooter.innerHTML = ''; // Clear the footer content
+
+    if (functionName === 'getClienteEmail') {
+        modalTitle.innerText = 'Obtener Correo de Cliente';
+        modalBody.innerHTML = `
             <label for="id_cliente">ID del Cliente</label>
-            <input type="number" id="id_cliente" placeholder="Ingresa el ID del cliente">
-            <button onclick="getClienteEmail()">Obtener Correo</button>
+            <input type="number" id="id_cliente" placeholder="Ingresa el ID del cliente" class="form-control mb-3">
             <div id="resultado_correo"></div>
         `;
-    } else if (functionSelect.value === 'precio') {
-        inputForm.innerHTML = `
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="getClienteEmail()">Obtener Correo</button>`;
+    } else if (functionName === 'getProductoPrecio') {
+        modalTitle.innerText = 'Obtener Precio de Producto';
+        modalBody.innerHTML = `
             <label for="id_producto">ID del Producto</label>
-            <input type="number" id="id_producto" placeholder="Ingresa el ID del producto">
-            <button onclick="getProductoPrecio()">Obtener Precio</button>
+            <input type="number" id="id_producto" placeholder="Ingresa el ID del producto" class="form-control mb-3">
             <div id="resultado_precio"></div>
         `;
-    } else if (functionSelect.value === 'descuento') {
-        inputForm.innerHTML = `
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="getProductoPrecio()">Obtener Precio</button>`;
+    } else if (functionName === 'calcularMontoDescuento') {
+        modalTitle.innerText = 'Calcular Monto de Descuento';
+        modalBody.innerHTML = `
             <label for="id_descuento">ID del Descuento</label>
-            <input type="number" id="id_descuento" placeholder="Ingresa el ID del descuento">
+            <input type="number" id="id_descuento" placeholder="Ingresa el ID del descuento" class="form-control mb-3">
             <label for="subtotal">Subtotal</label>
-            <input type="number" step="0.01" id="subtotal" placeholder="Ingresa el subtotal">
-            <button onclick="calcularMontoDescuento()">Calcular Descuento</button>
+            <input type="number" step="0.01" id="subtotal" placeholder="Ingresa el subtotal" class="form-control mb-3">
             <div id="resultado_descuento"></div>
         `;
-    } else if (functionSelect.value === 'disponibilidad') {
-        inputForm.innerHTML = `
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="calcularMontoDescuento()">Calcular Descuento</button>`;
+    } else if (functionName === 'verificarDisponibilidadProducto') {
+        modalTitle.innerText = 'Verificar Disponibilidad de Producto';
+        modalBody.innerHTML = `
             <label for="id_producto">ID del Producto</label>
-            <input type="number" id="id_producto" placeholder="Ingresa el ID del producto">
-            <button onclick="verificarDisponibilidadProducto()">Verificar Disponibilidad</button>
+            <input type="number" id="id_producto" placeholder="Ingresa el ID del producto" class="form-control mb-3">
             <div id="resultado_disponibilidad"></div>
         `;
-    } else if (functionSelect.value === 'contacto') {
-        inputForm.innerHTML = `
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="verificarDisponibilidadProducto()">Verificar Disponibilidad</button>`;
+    } else if (functionName === 'obtenerContactoProveedor') {
+        modalTitle.innerText = 'Obtener Contacto de Proveedor';
+        modalBody.innerHTML = `
             <label for="id_proveedor">ID del Proveedor</label>
-            <input type="number" id="id_proveedor" placeholder="Ingresa el ID del proveedor">
-            <button onclick="obtenerContactoProveedor()">Obtener Contacto</button>
+            <input type="number" id="id_proveedor" placeholder="Ingresa el ID del proveedor" class="form-control mb-3">
             <div id="resultado_contacto"></div>
         `;
-    } else if (functionSelect.value === 'porcentaje_descuento') {
-        inputForm.innerHTML = `
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="obtenerContactoProveedor()">Obtener Contacto</button>`;
+    } else if (functionName === 'obtenerPorcentajeDescuento') {
+        modalTitle.innerText = 'Obtener Porcentaje de Descuento';
+        modalBody.innerHTML = `
             <label for="id_cliente">ID del Cliente</label>
-            <input type="number" id="id_cliente" placeholder="Ingresa el ID del cliente">
-            <button onclick="obtenerPorcentajeDescuento()">Obtener Porcentaje de Descuento</button>
+            <input type="number" id="id_cliente" placeholder="Ingresa el ID del cliente" class="form-control mb-3">
             <div id="resultado_porcentaje_descuento"></div>
         `;
-    } else if (functionSelect.value === 'total_ordenes') {
-        inputForm.innerHTML = `
-            <label for="id_cliente">ID del Cliente</label>
-            <input type="number" id="id_cliente" placeholder="Ingresa el ID del cliente">
-            <button onclick="obtenerTotalOrdenesCliente()">Obtener Total de Órdenes</button>
-            <div id="resultado_total_ordenes"></div>
-        `;
-    } else if (functionSelect.value === 'total_ventas') {
-        inputForm.innerHTML = `
-            <label for="id_producto">ID del Producto</label>
-            <input type="number" id="id_producto" placeholder="Ingresa el ID del producto">
-            <button onclick="obtenerTotalVentasProducto()">Obtener Total de Ventas</button>
-            <div id="resultado_total_ventas"></div>
-        `;
-    } else if (functionSelect.value === 'inventario') {
-        resultDisplay.innerHTML = '<div id="resultado_inventario"></div>';
-        obtenerInventarioProductos();
-    } else if (functionSelect.value === 'ordenes_facturacion') {
-        resultDisplay.innerHTML = '<div id="resultado_ordenes_facturacion"></div>';
-        obtenerOrdenesFacturacion();
-    } else if (functionSelect.value === 'proveedores') {
-        resultDisplay.innerHTML = '<div id="resultado_proveedores"></div>';
-        obtenerProveedores();
-    } else if (functionSelect.value === 'descuentos') {
-        resultDisplay.innerHTML = '<div id="resultado_descuentos"></div>';
-        obtenerDescuentos();
-    } else if (functionSelect.value === 'tiendas') {
-        resultDisplay.innerHTML = '<div id="resultado_tiendas"></div>';
-        obtenerTiendas();
-    } else if (functionSelect.value === 'productos_catalogo') {
-        resultDisplay.innerHTML = '<div id="resultado_productos_catalogo"></div>';
-        obtenerProductosCatalogo();
-    } else if (functionSelect.value === 'clientes') {
-        resultDisplay.innerHTML = '<div id="resultado_clientes"></div>';
-        obtenerClientes();
-    } else if (functionSelect.value === 'ordenes_pagos') {
-        resultDisplay.innerHTML = '<div id="resultado_ordenes_pagos"></div>';
-        obtenerOrdenesPagos();
-    } else if (functionSelect.value === 'entregas_proveedores') {
-        resultDisplay.innerHTML = '<div id="resultado_entregas_proveedores"></div>';
-        obtenerEntregasProveedores();
+        modalFooter.innerHTML = `<button class="btn btn-primary" onclick="obtenerPorcentajeDescuento()">Obtener Porcentaje de Descuento</button>`;
     }
+    
+    const modal = new bootstrap.Modal(document.getElementById('functionModal'));
+    modal.show();
 }
+
 
  // Función correo
  async function getClienteEmail() {

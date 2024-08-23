@@ -11,109 +11,118 @@
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-
-
-    <!-- Hoja de estilos de fuentes de iconos -->
+    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Hoja de estilo de bibliotecas -->
+    <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Hoja de estilo Bootstrap personalizada -->
+    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Hoja de estilo de plantilla -->
+    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Inicio giratorio -->
+    <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- Fin giratorio -->
+    <!-- Spinner End -->
 
-
-   
-
-
-    <!-- Inicio de la barra de navegación --> 
+    <!-- Navigation Bar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"></i>BrickMasters CR</h2>
+            <h2 class="m-0 text-primary">BrickMasters CR</h2>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <!--************************************************************************************-->
-                <a href="index.html" class="nav-item nav-link active">Inicio</a>
-                <a href="Inventario.html" class="nav-item nav-link">Inventario</a>
-                <a href="Clientes.html" class="nav-item nav-link">Clientes</a>
-                <a href="Pagos.html" class="nav-item nav-link">Pagos</a>
-             
-                <div class="nav-item dropdown">
-                    <div class="dropdown-menu fade-up m-0">
-                    </div>
-                </div>
+                <a href="index.html" class="nav-item nav-link">Inicio</a>
+                <a href="distribuidores.html" class="nav-item nav-link">Proveedores</a>
+                <a href="locales.html" class="nav-item nav-link">Locales</a>
                 <a href="contact.html" class="nav-item nav-link">Contacto</a>
+                <a href="cart.html" class="nav-item nav-link">Carrito</a>
+                <a href="#" class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#accountModal">Mi Cuenta</a>
+                <a href="#" class="nav-item nav-link text-danger" onclick="logoutClient()">Cerrar Sesión</a>
             </div>
-            <a href="listaPrecios.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Catalogo disponible<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="listaPrecios.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Catálogo disponible<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
-    </nav>  
-    <!-- Fin de la barra de navegación -->
+    </nav>
+    <!-- Navigation Bar End -->
+
+    <!-- Locales Section Start -->
+<div class="container-xxl py-5 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="text-primary text-uppercase">// Locales //</h6>
+            <h1 class="mb-5">Nuestras Ubicaciones</h1>
+        </div>
+        <div id="locales-container" class="row g-4 justify-content-center">
+            <!-- Locales information will be loaded here by JavaScript -->
+        </div>
+    </div>
+</div>
+<!-- Locales Section End -->
 
 
-     <!-- Inicio de la sección de locales -->
-     <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="text-primary text-uppercase">// Locales //</h6>
-                <h1 class="mb-5">Nuestras Ubicaciones</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-map-marker-alt text-primary mb-4"></i>
-                            <h5 class="mb-3">Zapote</h5>
-                            <p>Zapote, diagonal 34, continuo a shoppers</p>
-                            <p>Teléfono: 1234-5678</p>
-                            <p>Horario: Lunes a Sabado, 9am - 6pm</p>
-                        </div>
-                    </div>
+    <!-- Modal for Viewing and Updating Account Info -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Mi Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <!-- Agrega más columnas para más locales -->
+                <div class="modal-body">
+                    <form id="accountForm" onsubmit="updateClientAccount(); return false;">
+                        <div class="mb-3">
+                            <label for="accNomCliente" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="accNomCliente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accApeCliente" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="accApeCliente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accCorreoCliente" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="accCorreoCliente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accTelCliente" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="accTelCliente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accDireccionCliente" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="accDireccionCliente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accPasswordCliente" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="accPasswordCliente">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Fin de la sección de locales -->
 
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Inicio de pie de página -->
+    <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Direccion</h4>
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Zapote</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>22-45-67-89</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>9876-5432</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>brickmasterscr@gmail.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
@@ -132,7 +141,7 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Servicios</h4>
                     <a class="btn btn-link" href="Inventario.html">Inventario</a>
-                    <a class="btn btn-link" href="Clientes.html">clientes</a>
+                    <a class="btn btn-link" href="Clientes.html">Clientes</a>
                     <a class="btn btn-link" href="Pagos.html">Pagos</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -151,20 +160,16 @@
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                         &copy; <a class="border-bottom" href="#">BrickMasters CR</a>, Todos los derechos reservados.
                     </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Fin de pie de página-->
+    <!-- Footer End -->
 
-
-    <!-- Volver arriba -->
+    <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-
-    <!-- JavaScript Librerias -->
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
@@ -176,8 +181,10 @@
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Plantilla Javascript -->
+    <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="procedimientos/jsLocales.js"></script>
+    <script src="jsRegistro.js"></script> <!-- Link to the new jsLocales.js file -->
 </body>
 
 </html>
