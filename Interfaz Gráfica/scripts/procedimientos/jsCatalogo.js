@@ -77,7 +77,6 @@ async function showProductDetails(productId) {
                     </div>`;
             }
 
-            // Trigger modal display
             const modal = new bootstrap.Modal(document.getElementById('product-modal'));
             modal.show();
         } else {
@@ -101,24 +100,22 @@ function addToCart(productId) {
             console.log("Fetched product data:", product);
             if (product && product.length > 0) {
                 let item = product[0];
-                console.log("Product details being processed:", item); // Assuming that the first element is the correct product
+                console.log("Product details being processed:", item); 
                 let cartItem = cartItems.find(item => item.id === productId);
 
                 if (cartItem) {
-                    // Increase quantity if item already exists in the cart
                     cartItem.quantity += 1;
                 } else {
-                    // Add new item to the cart with the correct properties
                     cartItem = {
                         id: item.FIDE_CATALOGO_V_ID_PRODUCTO_PK,
-                        name: item.V_NOM_PRODUCTO,  // Correctly set name
-                        price: item.V_PRECIO_PRODUCTO,  // Correctly set price
+                        name: item.V_NOM_PRODUCTO,  
+                        price: item.V_PRECIO_PRODUCTO,  
                         quantity: 1
                     };
                     cartItems.push(cartItem);
                 }
 
-                console.log('Item being added to cart:', cartItem); // Debugging line
+                console.log('Item being added to cart:', cartItem); 
 
                 localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
@@ -133,5 +130,5 @@ function addToCart(productId) {
         });
 }
 
-// Call the fetchCatalogo function when the page is loaded
+// Llamar el fetchCatalogo function cuando carga página
 window.onload = fetchCatalogo;

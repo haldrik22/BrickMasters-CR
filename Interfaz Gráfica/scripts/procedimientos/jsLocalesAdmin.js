@@ -182,6 +182,34 @@ async function deleteLocal(id_local) {
 }
 
 // ---------------------------------------
+// Función: Filtrar Locales
+// Descripción: Filtra las entradas de la tabla locales basado en la categoría seleccionada y la entrada del campo de búsqueda.
+// ---------------------------------------
+function filterLocales() {
+    const searchCategory = document.getElementById('search-category').value.toLowerCase();
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const table = document.getElementById('locales-table');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) { 
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        if (searchCategory === 'id' && cells[0].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'nombre' && cells[1].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'teléfono' && cells[2].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        } else if (searchCategory === 'dirección' && cells[3].innerText.toLowerCase().includes(searchTerm)) {
+            match = true;
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
+}
+
+// ---------------------------------------
 // Función: Abrir Modal de Crear Local
 // ---------------------------------------
 function openCreateModalLocales() {

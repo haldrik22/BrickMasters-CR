@@ -44,7 +44,7 @@ async function fetchTipoDescuentos() {
 // Function to populate client dropdown
 async function populateClientDropdown() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/clientes'); // Adjust the URL to match your actual endpoint
+        const response = await fetch('http://127.0.0.1:5000/api/clientes'); 
         const clients = await response.json();
         const dropdown = document.getElementById('tipo_descuento_cliente_fk');
         dropdown.innerHTML = '<option value="">Seleccione un Cliente</option>';
@@ -95,7 +95,6 @@ async function submitTipoDescuentoForm() {
 
 // Function to edit a Tipo Descuento
 function editTipoDescuento(id) {
-    // Fetch the tipo descuento data by ID and populate the form
     fetch(`http://127.0.0.1:5000/api/tipo_descuento/${id}`)
         .then(response => response.json())
         .then(data => {

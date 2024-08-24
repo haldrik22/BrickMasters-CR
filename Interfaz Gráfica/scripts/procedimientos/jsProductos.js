@@ -23,7 +23,7 @@ async function createProducto() {
                 precio_producto,
                 cantidad_producto,
                 descripcion_producto,
-                id_proveedor // Include this only if a provider is selected
+                id_proveedor 
             })
         });
 
@@ -73,7 +73,7 @@ async function fetchProductos() {
             const tbody = table.querySelector('tbody');
             for (const producto of productos) {
                 const { isInCatalog, isInactive } = await checkProductInCatalogo(producto.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK);
-
+                productos.sort((a, b) => a.FIDE_PRODUCTOS_V_Id_producto_PK - b.FIDE_PRODUCTOS_V_Id_producto_PK);
                 const rowHtml = `
                     <tr>
                         <td>${producto.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK}</td>
@@ -167,7 +167,7 @@ async function updateProducto() {
         if (response.ok) {
             alert('Producto actualizado exitosamente');
             fetchProductos();
-            $('#editModal').modal('hide');  // Cierra el modal de edición
+            $('#editModal').modal('hide');  
         } else {
             const errorData = await response.json();
             alert(`Error updating producto: ${errorData.message}`);
@@ -197,7 +197,6 @@ async function deleteProducto(id_producto) {
             alert('Producto eliminado exitosamente');
             fetchProductos();
 
-            // Deactivate the corresponding catalog entry
             await fetch(`http://127.0.0.1:5000/api/catalogo/${id_producto}`, {
                 method: 'DELETE'
             });
@@ -229,11 +228,10 @@ function filterProductos() {
     const table = document.getElementById('productos-table');
     const rows = table.getElementsByTagName('tr');
 
-    for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+    for (let i = 1; i < rows.length; i++) { 
         const cells = rows[i].getElementsByTagName('td');
         let match = false;
 
-        // Check the appropriate cell based on search category
         if (searchCategory === 'id' && cells[0].innerText.toLowerCase().includes(searchTerm)) {
             match = true;
         } else if (searchCategory === 'nombre' && cells[1].innerText.toLowerCase().includes(searchTerm)) {
@@ -259,7 +257,7 @@ async function loadProveedoresDropdown() {
         }
         const proveedores = await response.json();
         const dropdown = document.getElementById('create_id_proveedor');
-        dropdown.innerHTML = '<option value="">-- Seleccione un Proveedor --</option>'; // Default option
+        dropdown.innerHTML = '<option value="">-- Seleccione un Proveedor --</option>'; 
         proveedores.forEach(proveedor => {
             const option = document.createElement('option');
             option.value = proveedor.FIDE_PROVEEDORES_V_Id_proveedor_PK;
@@ -277,7 +275,7 @@ document.getElementById('createModal').addEventListener('show.bs.modal', loadPro
 // 'Agregar a Catálogo' modal
 function openAgregarCatalogoModal(productId) {
     document.getElementById('catalogoProductoId').value = productId;
-    document.getElementById('catalogoImageUpload').value = ''; // Clear any previous uploads
+    document.getElementById('catalogoImageUpload').value = ''; 
     $('#agregarCatalogoModal').modal('show');
 }
 
@@ -293,7 +291,6 @@ async function agregarProductoACatalogo() {
 
     let finalImagePath = '';
 
-    // Image upload logic
     const formData = new FormData();
     formData.append('image', imageUpload);
 
@@ -308,7 +305,7 @@ async function agregarProductoACatalogo() {
         }
 
         const uploadData = await uploadResponse.json();
-        finalImagePath = uploadData.imagePath; // Use the relative path returned by the backend
+        finalImagePath = uploadData.imagePath;
     } catch (error) {
         console.error('Error uploading image:', error);
         alert('Error uploading image.');
@@ -340,25 +337,6 @@ async function agregarProductoACatalogo() {
     }
 }    
 
-async function reactivateCatalogoProduct(productId) {
-    try {
-        const response = await fetch(`http://127.0.0.1:5000/api/catalogo/reactivate/${productId}`, {
-            method: 'PUT',
-        });
-
-        if (response.ok) {
-            alert('Producto reactivado exitosamente');
-            fetchProductos();
-        } else {
-            const errorData = await response.json();
-            alert(`Error reactivating producto: ${errorData.message}`);
-        }
-    } catch (error) {
-        console.error('Error reactivating producto:', error);
-        alert('Error reactivating producto.');
-    }
-}
-
 function updateAgregarCatalogoButton(productId, isInCatalog, isInactive) {
     const button = document.querySelector(`button[data-producto-id="${productId}"].catalogo-btn`);
     const btnGroup = button.parentElement;
@@ -367,15 +345,6 @@ function updateAgregarCatalogoButton(productId, isInCatalog, isInactive) {
         button.innerText = 'Producto Desactivado';
         button.classList.add('btn-warning');
         button.disabled = true;
-
-        const reactivateButton = document.createElement('button');
-        reactivateButton.innerText = 'Reactivar';
-        reactivateButton.classList.add('btn', 'btn-success');
-        reactivateButton.onclick = function () {
-            reactivateCatalogoProduct(productId);
-        };
-
-        btnGroup.appendChild(reactivateButton);
     } else if (isInCatalog) {
         button.innerText = 'Producto Agregado';
         button.classList.add('btn-secondary');

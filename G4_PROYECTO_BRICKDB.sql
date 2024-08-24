@@ -3,18 +3,6 @@
 
 --Probando conexión GIT con Oracle SQL Developer
 
--- Tabla FIDE_ESTADO_TB
-CREATE TABLE FIDE_ESTADO_TB (
-    FIDE_ESTADO_V_Id_estado_PK NUMBER PRIMARY KEY,
-    V_Tipo VARCHAR2(20) NOT NULL,
-    V_Creado_por VARCHAR2(20),
-    V_Modificado_por VARCHAR2(20),
-    V_Fecha_de_creacion DATE,
-    V_Fecha_de_modificacion DATE,
-    V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
-);
---Cam
 -- Tabla FIDE_LOCALES_TB
 CREATE TABLE FIDE_LOCALES_TB (
     FIDE_LOCALES_V_Id_local_PK NUMBER PRIMARY KEY,
@@ -28,24 +16,24 @@ CREATE TABLE FIDE_LOCALES_TB (
     V_Accion VARCHAR2(20),
     V_Estado VARCHAR2(50) 
 );
---Stwart
+
 -- Tabla FIDE_CLIENTES_TB
 CREATE TABLE FIDE_CLIENTES_TB (
     FIDE_CLIENTES_V_Id_cliente_PK NUMBER PRIMARY KEY,
     V_Nom_cliente VARCHAR2(25),
     V_Ape_cliente VARCHAR2(30),
     V_Correo_cliente VARCHAR2(50),
-    V_Tel_cliente VARCHAR2(15), -- Cambiado a VARCHAR2 para formatos de teléfono
+    V_Tel_cliente VARCHAR2(15),
     V_Direccion_cliente VARCHAR2(200),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50)
 );
 
--- Tabla FIDE_ADMINSTRADORES_TB
+-- Tabla FIDE_ADMINISTRADORES_TB
 CREATE TABLE FIDE_ADMINISTRADORES_TB (
     FIDE_ADMINISTRADORES_V_Id_administradores_PK NUMBER PRIMARY KEY,
     V_Nom_administradores VARCHAR2(25),
@@ -75,7 +63,7 @@ CREATE TABLE FIDE_PRODUCTOS_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(20)
 );
 
 -- Tabla FIDE_PROVEEDORES_TB
@@ -84,7 +72,7 @@ CREATE TABLE FIDE_PROVEEDORES_TB (
     V_Nom_provedor VARCHAR2(50),
     V_Correo_proveedor VARCHAR2(50),
     V_Producto_proveedor VARCHAR2(30),
-    V_Tel_proveedor VARCHAR2(15), -- Cambiado a VARCHAR2 para formatos de teléfono
+    V_Tel_proveedor VARCHAR2(15), 
     V_Direccion_proveedor VARCHAR2(200),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
@@ -98,14 +86,14 @@ CREATE TABLE FIDE_PROVEEDORES_TB (
 CREATE TABLE FIDE_TIPO_DESCUENTO_TB (
     FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK NUMBER PRIMARY KEY,
     FIDE_TIPO_DESCUENTO_V_Id_cliente_FK NUMBER,
-    V_Porcentaje_descuento NUMBER(5,2), -- Ajustado para porcentajes hasta 100%
+    V_Porcentaje_descuento NUMBER(5,2),
     FOREIGN KEY (FIDE_TIPO_DESCUENTO_V_Id_cliente_FK) REFERENCES FIDE_CLIENTES_TB(FIDE_CLIENTES_V_Id_cliente_PK),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) 
 );
 
 -- Tabla FIDE_DESCUENTOS_TB
@@ -120,7 +108,7 @@ CREATE TABLE FIDE_DESCUENTOS_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50) 
 );
 
 -- Tabla FIDE_CATALOGO_TB
@@ -136,7 +124,8 @@ CREATE TABLE FIDE_CATALOGO_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(20),
+    V_Image_Path VARCHAR2(255)
 );
 
 -- Tabla FIDE_PROVEEDORES_PRODUCTO_TB
@@ -151,7 +140,7 @@ CREATE TABLE FIDE_PROVEEDORES_PRODUCTO_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50)
 );
 
 -- Tabla FIDE_ENTREGAS_TB
@@ -159,14 +148,14 @@ CREATE TABLE FIDE_ENTREGAS_TB (
     FIDE_ENTREGAS_V_Id_entrega_PK NUMBER PRIMARY KEY,
     FIDE_ENTREGAS_V_Id_cliente_FK NUMBER,
     V_Direccion_cliente VARCHAR2(200),
-    V_Tel_cliente VARCHAR2(15), -- Cambiado a VARCHAR2 para formatos de teléfono
+    V_Tel_cliente VARCHAR2(15), 
     FOREIGN KEY (FIDE_ENTREGAS_V_Id_cliente_FK) REFERENCES FIDE_CLIENTES_TB(FIDE_CLIENTES_V_Id_cliente_PK),
     V_Creado_por VARCHAR2(20),
     V_Modificado_por VARCHAR2(20),
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(20) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(20)
 );
 
 -- Tabla FIDE_FACTURACION_TB
@@ -189,7 +178,7 @@ CREATE TABLE FIDE_FACTURACION_TB (
     V_Fecha_de_creacion DATE,
     V_Fecha_de_modificacion DATE,
     V_Accion VARCHAR2(20),
-    V_Estado VARCHAR2(50) -- Campo de estado de la tabla
+    V_Estado VARCHAR2(50)
 );
 
 -- Tabla FIDE_VENTAS_TB
@@ -326,11 +315,12 @@ END;
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un local específico de la tabla FIDE_LOCALES_TB.
-CREATE OR REPLACE PROCEDURE FIDE_LOCALES_DELETE_SP (
+create or replace PROCEDURE FIDE_LOCALES_DELETE_SP (
     P_FIDE_LOCALES_V_Id_local_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_LOCALES_TB
+    UPDATE FIDE_LOCALES_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_LOCALES_V_Id_local_PK = P_FIDE_LOCALES_V_Id_local_PK;
 END;
 /
@@ -338,12 +328,13 @@ END;
 --Procedimientos CRUD para FIDE_CLIENTES_TB
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo cliente en la tabla FIDE_CLIENTES_TB.
-CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_CREATE_SP (
+create or replace PROCEDURE FIDE_CLIENTES_CREATE_SP (
     P_Nom_cliente IN VARCHAR2,
     P_Ape_cliente IN VARCHAR2,
     P_Correo_cliente IN VARCHAR2,
     P_Tel_cliente IN VARCHAR2,
-    P_Direccion_cliente IN VARCHAR2
+    P_Direccion_cliente IN VARCHAR2,
+    P_Password IN VARCHAR2
 ) AS
 BEGIN
     INSERT INTO FIDE_CLIENTES_TB (
@@ -351,16 +342,17 @@ BEGIN
         V_Ape_cliente, 
         V_Correo_cliente, 
         V_Tel_cliente, 
-        V_Direccion_cliente
+        V_Direccion_cliente,
+        V_Password
     ) VALUES (
         P_Nom_cliente, 
         P_Ape_cliente, 
         P_Correo_cliente, 
         P_Tel_cliente, 
-        P_Direccion_cliente
+        P_Direccion_cliente,
+        P_Password
     );
 END;
-
 /
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un cliente específico en la tabla FIDE_CLIENTES_TB.
 CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_READ_SP (
@@ -374,13 +366,14 @@ BEGIN
 END;
 /
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un cliente existente en la tabla FIDE_CLIENTES_TB.
-CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_UPDATE_SP (
+create or replace PROCEDURE FIDE_CLIENTES_UPDATE_SP (
     P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER,
     P_Nom_cliente IN VARCHAR2,
     P_Ape_cliente IN VARCHAR2,
     P_Correo_cliente IN VARCHAR2,
     P_Tel_cliente IN VARCHAR2,
-    P_Direccion_cliente IN VARCHAR2
+    P_Direccion_cliente IN VARCHAR2,
+    P_Password IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CLIENTES_TB
@@ -388,17 +381,18 @@ BEGIN
         V_Ape_cliente = P_Ape_cliente,
         V_Correo_cliente = P_Correo_cliente,
         V_Tel_cliente = P_Tel_cliente,
-        V_Direccion_cliente = P_Direccion_cliente
+        V_Direccion_cliente = P_Direccion_cliente,
+        V_Password = P_Password
     WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
-
 /
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un cliente específico de la tabla FIDE_CLIENTES_TB.
-CREATE OR REPLACE PROCEDURE FIDE_CLIENTES_DELETE_SP (
+create or replace PROCEDURE FIDE_CLIENTES_DELETE_SP (
     P_FIDE_CLIENTES_V_Id_cliente_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_CLIENTES_TB
+    UPDATE FIDE_CLIENTES_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_CLIENTES_V_Id_cliente_PK = P_FIDE_CLIENTES_V_Id_cliente_PK;
 END;
 /
@@ -453,12 +447,17 @@ BEGIN
 END;
 /
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un producto específico de la tabla FIDE_PRODUCTOS_TB.
-CREATE OR REPLACE PROCEDURE FIDE_PRODUCTOS_DELETE_SP (
-    P_FIDE_PRODUCTOS_V_Id_producto_PK IN NUMBER
+create or replace PROCEDURE FIDE_PRODUCTOS_DELETE_SP (
+    P_Id_producto IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_PRODUCTOS_TB
-    WHERE FIDE_PRODUCTOS_V_Id_producto_PK = P_FIDE_PRODUCTOS_V_Id_producto_PK;
+    UPDATE FIDE_PRODUCTOS_TB
+    SET V_ESTADO = 'INACTIVO'
+    WHERE FIDE_PRODUCTOS_V_ID_PRODUCTO_PK = P_Id_producto;
+
+    UPDATE FIDE_CATALOGO_TB
+    SET V_ESTADO = 'INACTIVO'
+    WHERE FIDE_CATALOGO_V_Id_producto_PK = P_Id_producto;
 END;
 /
 
@@ -555,30 +554,33 @@ END;
 /
 
 -- DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un catálogo existente en la tabla FIDE_CATALOGO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_UPDATE_SP (
+create or replace PROCEDURE FIDE_CATALOGO_UPDATE_SP (
     P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER,
     P_Nom_producto IN VARCHAR2,
     P_Precio_producto IN NUMBER,
     P_Descripcion_producto IN VARCHAR2,
-    P_Cantidad_producto IN NUMBER
+    P_Cantidad_producto IN NUMBER,
+    P_Image_path IN VARCHAR2
 ) AS
 BEGIN
     UPDATE FIDE_CATALOGO_TB
     SET V_Nom_producto = P_Nom_producto,
         V_Precio_producto = P_Precio_producto,
         V_Descripcion_producto = P_Descripcion_producto,
-        V_Cantidad_producto = P_Cantidad_producto
+        V_Cantidad_producto = P_Cantidad_producto,
+        v_image_path = P_Image_path
     WHERE FIDE_CATALOGO_V_Id_producto_PK = P_FIDE_CATALOGO_V_Id_producto_PK;
 END;
 
 /
 
 -- DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un catálogo específico de la tabla FIDE_CATALOGO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_CATALOGO_DELETE_SP (
+create or replace PROCEDURE FIDE_CATALOGO_DELETE_SP (
     P_FIDE_CATALOGO_V_Id_producto_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_CATALOGO_TB
+    UPDATE FIDE_CATALOGO_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_CATALOGO_V_Id_producto_PK = P_FIDE_CATALOGO_V_Id_producto_PK;
 END;
 /
@@ -625,62 +627,15 @@ BEGIN
 END;
 /
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un tipo de descuento específico de la tabla FIDE_TIPO_DESCUENTO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_TIPO_DESCUENTO_DELETE_SP (
+create or replace PROCEDURE FIDE_TIPO_DESCUENTO_DELETE_SP (
     P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_TIPO_DESCUENTO_TB
+    UPDATE FIDE_TIPO_DESCUENTO_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK = P_FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
 END;
 /
-
--- Procedimientos CRUD para FIDE_ESTADO_TB
-
--- DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo estado en la tabla FIDE_ESTADO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_ESTADO_CREATE_SP (
-    P_Tipo IN VARCHAR2
-) AS
-BEGIN
-    INSERT INTO FIDE_ESTADO_TB (
-        V_Tipo
-    ) VALUES (
-        P_Tipo
-    );
-END;
-/
--- DESCRIPCIÓN: El siguiente procedimiento se encarga de consultar un estado específico en la tabla FIDE_ESTADO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_ESTADO_READ_SP (
-    P_FIDE_ESTADO_V_Id_estado_PK IN NUMBER,
-    P_result OUT SYS_REFCURSOR
-) AS
-BEGIN
-    OPEN P_result FOR
-    SELECT * FROM FIDE_ESTADO_TB
-    WHERE FIDE_ESTADO_V_Id_estado_PK = P_FIDE_ESTADO_V_Id_estado_PK;
-END;
-/
-
--- DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar un estado existente en la tabla FIDE_ESTADO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_ESTADO_UPDATE_SP (
-    P_FIDE_ESTADO_V_Id_estado_PK IN NUMBER,
-    P_Tipo IN VARCHAR2
-) AS
-BEGIN
-    UPDATE FIDE_ESTADO_TB
-    SET V_Tipo = P_Tipo
-    WHERE FIDE_ESTADO_V_Id_estado_PK = P_FIDE_ESTADO_V_Id_estado_PK;
-END;
-/
--- DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un estado específico de la tabla FIDE_ESTADO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_ESTADO_DELETE_SP (
-    P_FIDE_ESTADO_V_Id_estado_PK IN NUMBER
-) AS
-BEGIN
-    DELETE FROM FIDE_ESTADO_TB
-    WHERE FIDE_ESTADO_V_Id_estado_PK = P_FIDE_ESTADO_V_Id_estado_PK;
-END;
-/
-
 --Procedimientos CRUD para FIDE_DESCUENTOS_TB
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de insertar un nuevo descuento en la tabla FIDE_DESCUENTOS_TB.
@@ -782,12 +737,13 @@ END;
 /
 
 --DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar un registro de proveedor-producto específico de la tabla FIDE_PROVEEDORES_PRODUCTO_TB.
-CREATE OR REPLACE PROCEDURE FIDE_PROVEEDORES_PRODUCTO_DELETE_SP (
+create or replace PROCEDURE FIDE_PROVEEDORES_PRODUCTO_DELETE_SP (
     P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK IN NUMBER,
     P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_PROVEEDORES_PRODUCTO_TB
+    UPDATE FIDE_PROVEEDORES_PRODUCTO_TB
+    SET V_ESTADO = 'INACTIVO'
     WHERE FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_proveedor_FK
       AND FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK = P_FIDE_PROVEEDORES_PRODUCTO_V_Id_producto_FK;
 END;
@@ -825,7 +781,7 @@ END;
 /
 
 -- DESCRIPCIÓN: El siguiente procedimiento se encarga de actualizar una factura existente en la tabla FIDE_FACTURACION_TB.
-CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_UPDATE_SP (
+create or replace PROCEDURE FIDE_FACTURACION_UPDATE_SP (
     P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER,
     P_FIDE_FACTURACION_V_Id_producto_FK IN NUMBER,
     P_FIDE_FACTURACION_V_Id_descuento_FK IN NUMBER,
@@ -851,11 +807,12 @@ END;
 /
 
 -- DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar una factura específica de la tabla FIDE_FACTURACION_TB.
-CREATE OR REPLACE PROCEDURE FIDE_FACTURACION_DELETE_SP (
+create or replace PROCEDURE FIDE_FACTURACION_DELETE_SP (
     P_FIDE_FACTURACION_V_Id_factura_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_FACTURACION_TB
+    UPDATE FIDE_FACTURACION_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_FACTURACION_V_Id_factura_PK = P_FIDE_FACTURACION_V_Id_factura_PK;
 END;
 /
@@ -909,11 +866,12 @@ END;
 /
 
 -- DESCRIPCIÓN: El siguiente procedimiento se encarga de eliminar una venta específica de la tabla FIDE_VENTAS_TB.
-CREATE OR REPLACE PROCEDURE FIDE_VENTAS_DELETE_SP (
+create or replace PROCEDURE FIDE_VENTAS_DELETE_SP (
     P_FIDE_VENTAS_V_Id_venta_PK IN NUMBER
 ) AS
 BEGIN
-    DELETE FROM FIDE_VENTAS_TB
+    UPDATE FIDE_VENTAS_TB
+    SET V_Estado = 'INACTIVO'
     WHERE FIDE_VENTAS_V_Id_venta_PK = P_FIDE_VENTAS_V_Id_venta_PK;
 END;
 /
@@ -936,6 +894,31 @@ BEGIN
 END;
 --Procedimiento de almacenado para metrica de update de la tabla FIDE_ENTREGAS_TB
 CREATE OR REPLACE PROCEDURE FIDE_ENTREGAS_UPDATE_SP (
+    P_FIDE_ENTREGAS_V_Id_entrega_PK IN NUMBER,
+    P_FIDE_ENTREGAS_V_Id_cliente_FK IN NUMBER,
+    P_V_Direccion_cliente IN VARCHAR2,
+    P_V_Tel_cliente IN VARCHAR2
+) AS
+BEGIN
+    UPDATE FIDE_ENTREGAS_TB
+    SET FIDE_ENTREGAS_V_Id_cliente_FK = P_FIDE_ENTREGAS_V_Id_cliente_FK,
+        V_Direccion_cliente = P_V_Direccion_cliente,
+        V_Tel_cliente = P_V_Tel_cliente
+    WHERE FIDE_ENTREGAS_V_Id_entrega_PK = P_FIDE_ENTREGAS_V_Id_entrega_PK;
+END;
+--Procedimiento almacenado leer Entrega
+create or replace PROCEDURE FIDE_ENTREGAS_READ_SP (
+    P_FIDE_ENTREGAS_V_Id_entrega_PK IN NUMBER,
+    P_result OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN P_result FOR
+    SELECT * FROM FIDE_ENTREGAS_TB
+    WHERE FIDE_ENTREGAS_V_Id_entrega_PK = P_FIDE_ENTREGAS_V_Id_entrega_PK;
+END;
+/
+--Procedimiento almacenado actualizar entrega
+create or replace PROCEDURE FIDE_ENTREGAS_UPDATE_SP (
     P_FIDE_ENTREGAS_V_Id_entrega_PK IN NUMBER,
     P_FIDE_ENTREGAS_V_Id_cliente_FK IN NUMBER,
     P_V_Direccion_cliente IN VARCHAR2,
@@ -1351,7 +1334,7 @@ END;
 
 -----------------------------------------------VISTAS-----------------------------------------------
 -- Vista que muestra la información de los clientes junto con sus descuentos y entregas
-CREATE OR REPLACE  VIEW FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V AS
+CREATE OR REPLACE VIEW FIDE_CLIENTES_DESCUENTOS_ENTREGAS_V AS
 SELECT 
     c.FIDE_CLIENTES_V_ID_CLIENTE_PK,
     c.V_NOM_CLIENTE,
@@ -1366,24 +1349,27 @@ FROM
 LEFT JOIN 
     FIDE_DESCUENTOS_TB d ON c.FIDE_CLIENTES_V_ID_CLIENTE_PK = d.FIDE_DESCUENTOS_V_ID_CLIENTE_FK
 LEFT JOIN 
-    FIDE_ENTREGAS_TB e ON c.FIDE_CLIENTES_V_ID_CLIENTE_PK = e.FIDE_ENTREGAS_V_ID_CLIENTE_FK;
+    FIDE_ENTREGAS_TB e ON c.FIDE_CLIENTES_V_ID_CLIENTE_PK = e.FIDE_ENTREGAS_V_ID_CLIENTE_FK
+ORDER BY 
+    c.V_NOM_CLIENTE, c.V_APE_CLIENTE;
 /
 -- Vista que muestra la información de los productos junto con sus proveedores
--- **POR HACER: Se debe corregir el nombre de la columna V_NOM_PROVEDOR a V_NOM_PROVEEDOR en la tabla FIDE_PROVEEDORES_TB!**
 CREATE OR REPLACE VIEW FIDE_PRODUCTOS_PROVEEDORES_V AS 
 SELECT 
     p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK,
     p.V_NOM_PRODUCTO,
     p.V_PRECIO_PRODUCTO,
     pr.FIDE_PROVEEDORES_V_ID_PROVEEDOR_PK,
-    pr.V_NOM_PROVEDOR,
+    pr.V_NOM_PROVEDOR, 
     pr.V_CORREO_PROVEEDOR
 FROM 
     FIDE_PRODUCTOS_TB p
-LEFT JOIN 
+INNER JOIN 
     FIDE_PROVEEDORES_PRODUCTO_TB pp ON p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK = pp.FIDE_PROVEEDORES_PRODUCTO_V_ID_PRODUCTO_FK
-LEFT JOIN 
-    FIDE_PROVEEDORES_TB pr ON pp.FIDE_PROVEEDORES_PRODUCTO_V_ID_PROVEEDOR_FK = pr.FIDE_PROVEEDORES_V_ID_PROVEEDOR_PK;
+INNER JOIN 
+    FIDE_PROVEEDORES_TB pr ON pp.FIDE_PROVEEDORES_PRODUCTO_V_ID_PROVEEDOR_FK = pr.FIDE_PROVEEDORES_V_ID_PROVEEDOR_PK
+ORDER BY 
+    p.V_NOM_PRODUCTO, pr.V_NOM_PROVEDOR;
 /
 -- Vista que muestra la información de los locales junto con los productos disponibles en ellos
 CREATE OR REPLACE VIEW FIDE_LOCALES_PRODUCTOS_V AS
@@ -1397,7 +1383,9 @@ SELECT
 FROM 
     FIDE_LOCALES_TB l
 LEFT JOIN 
-    FIDE_PRODUCTOS_TB p ON l.FIDE_LOCALES_V_ID_LOCAL_PK = p.FIDE_PRODUCTOS_V_ID_ESTADO_FK;
+    FIDE_PRODUCTOS_TB p ON l.FIDE_LOCALES_V_ID_LOCAL_PK = p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK
+ORDER BY 
+    l.V_NOM_LOCAL, p.V_NOM_PRODUCTO;
 /
 -- Vista que muestra los tipos de descuentos junto con los clientes que los tienen
 CREATE OR REPLACE VIEW FIDE_TIPO_DESCUENTOS_CLIENTES_V AS
@@ -1412,21 +1400,115 @@ FROM
 LEFT JOIN 
     FIDE_DESCUENTOS_TB d ON td.FIDE_TIPO_DESCUENTO_V_ID_TIPO_DESCUENTO_PK = d.FIDE_DESCUENTOS_V_ID_TIPO_DESCUENTO_FK
 LEFT JOIN 
-    FIDE_CLIENTES_TB c ON d.FIDE_DESCUENTOS_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+    FIDE_CLIENTES_TB c ON d.FIDE_DESCUENTOS_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK
+ORDER BY 
+    td.V_PORCENTAJE_DESCUENTO DESC, c.V_NOM_CLIENTE;
 /
 -- Vista que muestra la información de las entregas junto con los clientes y su información de contacto
 CREATE OR REPLACE VIEW FIDE_ENTREGAS_CLIENTES_CONTACTO_V AS
 SELECT 
     e.FIDE_ENTREGAS_V_ID_ENTREGA_PK,
     c.V_NOM_CLIENTE,
+    c.V_APE_CLIENTE,
     e.V_DIRECCION_CLIENTE,
     e.V_TEL_CLIENTE,
     c.V_CORREO_CLIENTE
 FROM 
     FIDE_ENTREGAS_TB e
 LEFT JOIN 
-    FIDE_CLIENTES_TB c ON e.FIDE_ENTREGAS_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+    FIDE_CLIENTES_TB c ON e.FIDE_ENTREGAS_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK
+ORDER BY 
+    c.V_NOM_CLIENTE, c.V_APE_CLIENTE;
 /
+-- Esta vista proporciona información detallada sobre las ventas, incluido el producto, el cliente, el local y los detalles de entrega.
+CREATE OR REPLACE VIEW FIDE_VENTAS_DETALLES_V AS
+SELECT 
+    v.FIDE_VENTAS_V_ID_VENTA_PK,
+    p.V_NOM_PRODUCTO,
+    p.V_PRECIO_PRODUCTO,
+    c.V_NOM_CLIENTE,
+    c.V_APE_CLIENTE,
+    c.V_CORREO_CLIENTE,
+    l.V_NOM_LOCAL,
+    e.V_DIRECCION_CLIENTE,
+    v.V_FECHA_DE_CREACION,
+    v.V_ESTADO
+FROM 
+    FIDE_VENTAS_TB v
+LEFT JOIN 
+    FIDE_FACTURACION_TB f ON v.FIDE_VENTAS_V_ID_FACTURA_FK = f.FIDE_FACTURACION_V_ID_FACTURA_PK
+LEFT JOIN 
+    FIDE_PRODUCTOS_TB p ON v.FIDE_VENTAS_V_ID_PRODUCTO_FK = p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK
+LEFT JOIN 
+    FIDE_CLIENTES_TB c ON f.FIDE_FACTURACION_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK
+LEFT JOIN 
+    FIDE_LOCALES_TB l ON v.FIDE_VENTAS_V_ID_LOCAL_FK = l.FIDE_LOCALES_V_ID_LOCAL_PK
+LEFT JOIN 
+    FIDE_ENTREGAS_TB e ON v.FIDE_VENTAS_V_ID_ENTREGA_FK = e.FIDE_ENTREGAS_V_ID_ENTREGA_PK;
+/
+-- Esta vista muestra los niveles de existencias de los productos en las distintas ubicaciones.
+CREATE OR REPLACE VIEW FIDE_STOCK_PRODUCTOS_V AS
+SELECT 
+    p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK,
+    p.V_NOM_PRODUCTO,
+    p.V_CANTIDAD_PRODUCTO,
+    l.V_NOM_LOCAL,
+    l.V_DIRECCION_LOCAL
+FROM 
+    FIDE_PRODUCTOS_TB p
+LEFT JOIN 
+    FIDE_LOCALES_TB l ON l.FIDE_LOCALES_V_ID_LOCAL_PK = p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK
+WHERE 
+    p.V_CANTIDAD_PRODUCTO > 0;
+/
+--Esta vista ofrece un resumen de los pedidos realizados por los clientes, incluidos los detalles del producto y el precio total.
+CREATE OR REPLACE VIEW FIDE_ORDENES_CLIENTES_V AS
+SELECT 
+    f.FIDE_FACTURACION_V_ID_FACTURA_PK,
+    c.V_NOM_CLIENTE,
+    p.V_NOM_PRODUCTO,
+    f.V_CANTIDAD_PRODUCTO,
+    f.V_PRECIO_TOTAL,
+    f.V_FECHA_PAGO
+FROM 
+    FIDE_FACTURACION_TB f
+LEFT JOIN 
+    FIDE_CLIENTES_TB c ON f.FIDE_FACTURACION_V_ID_CLIENTE_FK = c.FIDE_CLIENTES_V_ID_CLIENTE_PK
+LEFT JOIN 
+    FIDE_PRODUCTOS_TB p ON f.FIDE_FACTURACION_V_ID_PRODUCTO_FK = p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+/
+--Esta vista ofrece una visión completa de la relación entre proveedores y productos, mostrando qué proveedor suministra qué productos.
+CREATE OR REPLACE VIEW FIDE_PROVEEDORES_RELACIONES_V AS
+SELECT 
+    pr.FIDE_PROVEEDORES_V_ID_PROVEEDOR_PK,
+    pr.V_NOM_PROVEDOR,
+    p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK,
+    p.V_NOM_PRODUCTO,
+    p.V_PRECIO_PRODUCTO
+FROM 
+    FIDE_PROVEEDORES_TB pr
+LEFT JOIN 
+    FIDE_PROVEEDORES_PRODUCTO_TB pp ON pr.FIDE_PROVEEDORES_V_ID_PROVEEDOR_PK = pp.FIDE_PROVEEDORES_PRODUCTO_V_ID_PROVEEDOR_FK
+LEFT JOIN 
+    FIDE_PRODUCTOS_TB p ON pp.FIDE_PROVEEDORES_PRODUCTO_V_ID_PRODUCTO_FK = p.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+/
+--Esta vista muestra el rendimiento de las ventas en diferentes ubicaciones, mostrando las ventas totales por ubicación.
+CREATE OR REPLACE VIEW FIDE_VENTAS_LOCALES_V AS
+SELECT 
+    l.FIDE_LOCALES_V_ID_LOCAL_PK,
+    l.V_NOM_LOCAL,
+    SUM(f.V_PRECIO_TOTAL) AS V_TOTAL_VENTAS,
+    COUNT(v.FIDE_VENTAS_V_ID_VENTA_PK) AS V_CANTIDAD_VENTAS
+FROM 
+    FIDE_VENTAS_TB v
+LEFT JOIN 
+    FIDE_FACTURACION_TB f ON v.FIDE_VENTAS_V_ID_FACTURA_FK = f.FIDE_FACTURACION_V_ID_FACTURA_PK
+LEFT JOIN 
+    FIDE_LOCALES_TB l ON v.FIDE_VENTAS_V_ID_LOCAL_FK = l.FIDE_LOCALES_V_ID_LOCAL_PK
+GROUP BY 
+    l.FIDE_LOCALES_V_ID_LOCAL_PK, l.V_NOM_LOCAL;
+/
+
 --------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------SEQUENCIAS--------------------------------------------------------------
 --Sequencias para los ID automaticos para todas las tablas, se activaran por medio de TRIGGERS
@@ -1440,17 +1522,6 @@ BEFORE INSERT ON FIDE_ADMINISTRADORES_TB
 FOR EACH ROW
 BEGIN
     :NEW.FIDE_ADMINISTRADORES_V_Id_administradores_PK:=FIDE_ADMINISTRADORES_ID_SEQ.NEXTVAL;
-END;
---ESTADOS
-CREATE SEQUENCE FIDE_ESTADO_ID_SEQ
-START WITH 1
-INCREMENT BY 1;
---TRIGGER DE ACTIVACION ESTADO
-CREATE OR REPLACE TRIGGER FIDE_ESTADO_TB_GENERAR_ID_TRG
-BEFORE INSERT ON FIDE_ESTADO_TB 
-FOR EACH ROW
-BEGIN
-    :NEW.FIDE_ESTADO_V_Id_estado_PK := FIDE_ESTADO_ID_SEQ.NEXTVAL;
 END;
 /
 --LOCALES
@@ -1525,18 +1596,6 @@ BEGIN
     :NEW.FIDE_DESCUENTOS_V_Id_descuento_PK := FIDE_DESCUENTOS_ID_SEQ.NEXTVAL;
 END;
 /
---CATALOGO
-CREATE SEQUENCE FIDE_CATALOGO_ID_SEQ
-START WITH 1
-INCREMENT BY 1;
---TRIGGER DE ACTIVACION DE CATALOGO
-CREATE OR REPLACE TRIGGER FIDE_CATALOGO_TB_GENERAR_ID_TRG
-BEFORE INSERT ON FIDE_CATALOGO_TB 
-FOR EACH ROW
-BEGIN
-    :NEW.FIDE_CATALOGO_V_Id_producto_PK := FIDE_CATALOGO_ID_SEQ.NEXTVAL;
-END;
-/
 --ENTREGAS
 CREATE SEQUENCE FIDE_ENTREGAS_ID_SEQ
 START WITH 1
@@ -1595,23 +1654,6 @@ BEGIN
     END IF;
 END;
 /
---TABLA ESTADO
-CREATE OR REPLACE TRIGGER FIDE_ESTADO_TB_INSERT_TRG
-BEFORE INSERT ON FIDE_ESTADO_TB
-FOR EACH ROW
-BEGIN
-    :NEW.V_Accion := 'INSERT';
-    :NEW.V_Estado := 'Activo';
-END;
-/
-CREATE OR REPLACE TRIGGER FIDE_ESTADO_TB_UPDATE_TRG
-BEFORE UPDATE ON FIDE_ESTADO_TB
-FOR EACH ROW
-BEGIN
-    :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;  -- Mantener el estado anterior si no se actualiza
-END;
-/
 --TABLA LOCALES
 CREATE OR REPLACE TRIGGER FIDE_LOCALES_TB_INSERT_TRG
 BEFORE INSERT ON FIDE_LOCALES_TB
@@ -1621,12 +1663,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_LOCALES_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_LOCALES_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_LOCALES_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA CLIENTES
@@ -1658,12 +1703,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_PRODUCTOS_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_PRODUCTOS_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_PRODUCTOS_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA PROVEEDORES
@@ -1675,12 +1723,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_PROVEEDORES_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_PROVEEDORES_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_PROVEEDORES_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA TIPO DE DESCUENTO
@@ -1692,12 +1743,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_TIPO_DESCUENTO_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_TIPO_DESCUENTO_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_TIPO_DESCUENTO_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA DESCUENTO
@@ -1709,12 +1763,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_DESCUENTOS_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_DESCUENTOS_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_DESCUENTOS_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA CATALOGO
@@ -1726,12 +1783,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_CATALOGO_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_CATALOGO_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_CATALOGO_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA PROVEEDORES_PRODUCTO
@@ -1743,12 +1803,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_PROVEEDORES_PRODUCTO_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_PROVEEDORES_PRODUCTO_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_PROVEEDORES_PRODUCTO_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA ENTREGAS
@@ -1760,12 +1823,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_ENTREGAS_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_ENTREGAS_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_ENTREGAS_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA FACTURACION
@@ -1777,12 +1843,15 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_FACTURACION_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_FACTURACION_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_FACTURACION_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 --TABLA VENTAS
@@ -1794,17 +1863,20 @@ BEGIN
     :NEW.V_Estado := 'Activo';
 END;
 /
-CREATE OR REPLACE TRIGGER FIDE_VENTAS_TB_UPDATE_TRG
+create or replace TRIGGER FIDE_VENTAS_TB_UPDATE_TRG
 BEFORE UPDATE ON FIDE_VENTAS_TB
 FOR EACH ROW
 BEGIN
     :NEW.V_Accion := 'UPDATE';
-    :NEW.V_Estado := :OLD.V_Estado;
+
+    IF :NEW.V_Estado IS NULL THEN
+        :NEW.V_Estado := :OLD.V_Estado;
+    END IF;
 END;
 /
 -----------------------------------------------------------------------------------------------------
 --TRIGGER PARA LAS COLUMNAS AUDITORIAS DE TODAS LAS TABLAS
---ADMINSITRADORES
+--ADMINISITRADORES
 CREATE OR REPLACE TRIGGER FIDE_ADMINISTRADORES_TB_INSERT_AUD_TRG
 BEFORE INSERT ON FIDE_ADMINISTRADORES_TB
 FOR EACH ROW
@@ -2023,5 +2095,164 @@ FOR EACH ROW
 BEGIN
     :NEW.V_Modificado_por := USER;
     :NEW.V_Fecha_de_modificacion := SYSDATE;
+END;
+/
+--------------------TRIGGERS ESPECIALES DE MANTENIMIENTO CONSTRAINTS Y DATOS RELACIONADOS
+create or replace TRIGGER FIDE_CLIENTES_TB_UPDATE_DESC_TIPO_DESC_TRG
+AFTER UPDATE ON FIDE_CLIENTES_TB
+FOR EACH ROW
+BEGIN
+    UPDATE FIDE_DESCUENTOS_TB
+    SET FIDE_DESCUENTOS_V_ID_CLIENTE_FK = :NEW.FIDE_CLIENTES_V_ID_CLIENTE_PK
+    WHERE FIDE_DESCUENTOS_V_ID_CLIENTE_FK = :OLD.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+
+    UPDATE FIDE_TIPO_DESCUENTO_TB
+    SET FIDE_TIPO_DESCUENTO_V_ID_CLIENTE_FK = :NEW.FIDE_CLIENTES_V_ID_CLIENTE_PK
+    WHERE FIDE_TIPO_DESCUENTO_V_ID_CLIENTE_FK = :OLD.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+END;
+/
+create or replace TRIGGER FIDE_CLIENTES_TB_UPDATE_FACTURA_ENTREGA_TRG
+AFTER UPDATE ON FIDE_CLIENTES_TB
+FOR EACH ROW
+BEGIN
+    UPDATE FIDE_FACTURACION_TB
+    SET FIDE_FACTURACION_V_ID_CLIENTE_FK = :NEW.FIDE_CLIENTES_V_ID_CLIENTE_PK
+    WHERE FIDE_FACTURACION_V_ID_CLIENTE_FK = :OLD.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+
+    UPDATE FIDE_ENTREGAS_TB
+    SET FIDE_ENTREGAS_V_ID_CLIENTE_FK = :NEW.FIDE_CLIENTES_V_ID_CLIENTE_PK
+    WHERE FIDE_ENTREGAS_V_ID_CLIENTE_FK = :OLD.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+
+    UPDATE FIDE_VENTAS_TB
+    SET FIDE_VENTAS_V_ID_FACTURA_FK = :NEW.FIDE_CLIENTES_V_ID_CLIENTE_PK
+    WHERE FIDE_VENTAS_V_ID_FACTURA_FK = :OLD.FIDE_CLIENTES_V_ID_CLIENTE_PK;
+END;
+/
+create or replace TRIGGER FIDE_FACTURACION_TB_INSERT_ENTREGA_VENTA_TRG
+AFTER INSERT ON FIDE_FACTURACION_TB
+FOR EACH ROW
+DECLARE
+    v_entrega_id NUMBER;
+    v_direccion_cliente VARCHAR2(200);
+    v_tel_cliente VARCHAR2(20);
+BEGIN
+    SELECT V_DIRECCION_CLIENTE, V_TEL_CLIENTE
+    INTO v_direccion_cliente, v_tel_cliente
+    FROM FIDE_CLIENTES_TB
+    WHERE FIDE_CLIENTES_V_Id_cliente_PK = :NEW.FIDE_FACTURACION_V_Id_cliente_FK;
+
+    FIDE_ENTREGAS_CREATE_SP(
+        P_FIDE_ENTREGAS_V_Id_cliente_FK => :NEW.FIDE_FACTURACION_V_Id_cliente_FK,
+        P_V_Direccion_cliente => v_direccion_cliente,
+        P_V_Tel_cliente => v_tel_cliente
+    );
+
+    SELECT FIDE_ENTREGAS_ID_SEQ.CURRVAL INTO v_entrega_id FROM DUAL;
+
+    FIDE_VENTAS_CREATE_SP(
+        P_FIDE_VENTAS_V_Id_factura_FK => :NEW.FIDE_FACTURACION_V_Id_factura_PK,
+        P_FIDE_VENTAS_V_Id_producto_FK => :NEW.FIDE_FACTURACION_V_Id_producto_FK,
+        P_FIDE_VENTAS_V_Id_local_FK => :NEW.FIDE_FACTURACION_V_Id_local_FK,
+        P_FIDE_VENTAS_V_Id_entrega_FK => v_entrega_id
+    );
+END;
+/
+create or replace TRIGGER FIDE_LOCALES_TB_UPDATE_FACTURA_VENTA_TRG
+AFTER UPDATE ON FIDE_LOCALES_TB
+FOR EACH ROW
+BEGIN
+    UPDATE FIDE_FACTURACION_TB
+    SET FIDE_FACTURACION_V_ID_LOCAL_FK = :NEW.FIDE_LOCALES_V_ID_LOCAL_PK
+    WHERE FIDE_FACTURACION_V_ID_LOCAL_FK = :OLD.FIDE_LOCALES_V_ID_LOCAL_PK;
+
+    UPDATE FIDE_VENTAS_TB
+    SET FIDE_VENTAS_V_ID_LOCAL_FK = :NEW.FIDE_LOCALES_V_ID_LOCAL_PK
+    WHERE FIDE_VENTAS_V_ID_LOCAL_FK = :OLD.FIDE_LOCALES_V_ID_LOCAL_PK;
+END;
+/
+create or replace TRIGGER FIDE_PRODUCTOS_SYNC_STATUS_CATALOGO_TRG
+AFTER UPDATE OF V_ESTADO ON FIDE_PRODUCTOS_TB
+FOR EACH ROW
+WHEN (NEW.V_ESTADO = 'INACTIVO')
+BEGIN
+  UPDATE FIDE_CATALOGO_TB
+  SET V_ESTADO = 'INACTIVO',
+      V_Modificado_por = :NEW.V_MODIFICADO_POR,
+      V_Fecha_de_modificacion = SYSDATE,
+      V_Accion = 'UPDATE'
+  WHERE FIDE_CATALOGO_V_Id_producto_PK = :NEW.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+END;
+/
+create or replace TRIGGER FIDE_PRODUCTOS_TB_UPDATE_FACTURA_VENTA_TRG
+AFTER UPDATE ON FIDE_PRODUCTOS_TB
+FOR EACH ROW
+BEGIN
+    UPDATE FIDE_FACTURACION_TB
+    SET FIDE_FACTURACION_V_ID_PRODUCTO_FK = :NEW.FIDE_PRODUCTOS_V_Id_producto_PK
+    WHERE FIDE_FACTURACION_V_ID_PRODUCTO_FK = :OLD.FIDE_PRODUCTOS_V_Id_producto_PK;
+
+    UPDATE FIDE_VENTAS_TB
+    SET FIDE_VENTAS_V_ID_PRODUCTO_FK = :NEW.FIDE_PRODUCTOS_V_Id_producto_PK
+    WHERE FIDE_VENTAS_V_ID_PRODUCTO_FK = :OLD.FIDE_PRODUCTOS_V_Id_producto_PK;
+END;
+/
+create or replace TRIGGER FIDE_PRODUCTOS_TB_UPDATE_PROVEEDORES_PRODUCTO_TRG
+AFTER UPDATE ON FIDE_PRODUCTOS_TB
+FOR EACH ROW
+BEGIN
+    UPDATE FIDE_PROVEEDORES_PRODUCTO_TB
+    SET FIDE_PROVEEDORES_PRODUCTO_V_ID_PRODUCTO_FK = :NEW.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK
+    WHERE FIDE_PROVEEDORES_PRODUCTO_V_ID_PRODUCTO_FK = :OLD.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+END;
+/
+create or replace TRIGGER FIDE_PRODUCTOS_UPDATE_CATALOGO_TRG
+AFTER UPDATE ON FIDE_PRODUCTOS_TB
+FOR EACH ROW
+DECLARE
+    v_exists NUMBER;
+BEGIN
+    SELECT COUNT(1) INTO v_exists 
+    FROM FIDE_CATALOGO_TB 
+    WHERE FIDE_CATALOGO_V_Id_producto_PK = :NEW.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+
+    IF v_exists > 0 THEN
+        IF (:OLD.V_NOM_PRODUCTO IS NULL AND :NEW.V_NOM_PRODUCTO IS NOT NULL) OR 
+           (:OLD.V_NOM_PRODUCTO IS NOT NULL AND :NEW.V_NOM_PRODUCTO IS NULL) OR 
+           (:OLD.V_NOM_PRODUCTO != :NEW.V_NOM_PRODUCTO) OR
+
+           (:OLD.V_PRECIO_PRODUCTO IS NULL AND :NEW.V_PRECIO_PRODUCTO IS NOT NULL) OR 
+           (:OLD.V_PRECIO_PRODUCTO IS NOT NULL AND :NEW.V_PRECIO_PRODUCTO IS NULL) OR 
+           (:OLD.V_PRECIO_PRODUCTO != :NEW.V_PRECIO_PRODUCTO) OR
+
+           (:OLD.V_DESCRIPCION_PRODUCTO IS NULL AND :NEW.V_DESCRIPCION_PRODUCTO IS NOT NULL) OR 
+           (:OLD.V_DESCRIPCION_PRODUCTO IS NOT NULL AND :NEW.V_DESCRIPCION_PRODUCTO IS NULL) OR 
+           (:OLD.V_DESCRIPCION_PRODUCTO != :NEW.V_DESCRIPCION_PRODUCTO) OR
+
+           (:OLD.V_CANTIDAD_PRODUCTO IS NULL AND :NEW.V_CANTIDAD_PRODUCTO IS NOT NULL) OR 
+           (:OLD.V_CANTIDAD_PRODUCTO IS NOT NULL AND :NEW.V_CANTIDAD_PRODUCTO IS NULL) OR 
+           (:OLD.V_CANTIDAD_PRODUCTO != :NEW.V_CANTIDAD_PRODUCTO) THEN
+
+            UPDATE FIDE_CATALOGO_TB
+            SET V_Nom_producto = :NEW.V_NOM_PRODUCTO,
+                V_Precio_producto = :NEW.V_PRECIO_PRODUCTO,
+                V_Descripcion_producto = :NEW.V_DESCRIPCION_PRODUCTO,
+                V_Cantidad_producto = :NEW.V_CANTIDAD_PRODUCTO,
+                V_Modificado_por = :NEW.V_MODIFICADO_POR,
+                V_Fecha_de_modificacion = SYSDATE,
+                V_Accion = 'UPDATE'
+            WHERE FIDE_CATALOGO_V_Id_producto_PK = :NEW.FIDE_PRODUCTOS_V_ID_PRODUCTO_PK;
+        END IF;
+    END IF;
+END;
+/
+create or replace TRIGGER FIDE_TIPO_DESCUENTO_TB_INACTIVO_TRG
+AFTER UPDATE OF V_ESTADO ON FIDE_TIPO_DESCUENTO_TB
+FOR EACH ROW
+BEGIN
+    IF :NEW.V_ESTADO = 'INACTIVO' THEN
+        UPDATE FIDE_DESCUENTOS_TB
+        SET V_ESTADO = 'INACTIVO'
+        WHERE FIDE_DESCUENTOS_V_Id_tipo_descuento_FK = :NEW.FIDE_TIPO_DESCUENTO_V_Id_tipo_descuento_PK;
+    END IF;
 END;
 /

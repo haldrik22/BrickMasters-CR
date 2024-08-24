@@ -66,7 +66,7 @@ async function populateClientDropdown() {
 // Function to populate the tipo descuento dropdown
 async function populateTipoDescuentoDropdown() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/tipo_descuento'); // Update this endpoint according to your API
+        const response = await fetch('http://127.0.0.1:5000/api/tipo_descuento'); 
         const tipos = await response.json();
         const dropdown = document.getElementById('descuento_tipo_fk');
 

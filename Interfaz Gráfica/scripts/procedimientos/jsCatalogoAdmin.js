@@ -65,7 +65,6 @@ async function editarImagenCatalogo() {
         const uploadData = await uploadResponse.json();
         const finalImagePath = uploadData.imagePath;
 
-        // Update the image path in the Catalogo table
         const response = await fetch(`http://127.0.0.1:5000/api/catalogo/${productId}`, {
             method: 'PUT',
             headers: {
@@ -98,7 +97,7 @@ async function removerDeCatalogo(productId) {
 
             if (response.ok) {
                 alert('Producto removido del catálogo exitosamente');
-                openCatalogoAdminView(); // Refresh the view
+                openCatalogoAdminView(); 
             } else {
                 const errorData = await response.json();
                 alert(`Error removing product from catalog: ${errorData.message}`);

@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     
         const locales = await fetchLocales();
-        const id_local = locales[0].FIDE_LOCALES_V_Id_local_PK; // Assuming the first local is selected
+        const id_local = locales[0].FIDE_LOCALES_V_Id_local_PK; 
         
         let facturaId = null; 
         let entregaId = null; 
@@ -230,15 +230,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
     
             const facturaData = await createFacturaResponse.json();
-            facturaId = facturaData.id_factura; // Retrieve the Factura ID
+            facturaId = facturaData.id_factura; 
             console.log(`Factura ID generated: ${facturaId}`);
 
-            // Fetching the related Entrega ID
             const fetchEntregaResponse = await fetch(`http://127.0.0.1:5000/api/entrega/factura/${facturaId}`);
             if (fetchEntregaResponse.ok) {
                 const entregaData = await fetchEntregaResponse.json();
                 entregaId = entregaData.id_entrega; 
-                console.log(`Entrega ID retrieved: ${entregaId}`);// Retrieve the Entrega ID
+                console.log(`Entrega ID retrieved: ${entregaId}`);
             } else {
                 alert("Error al obtener el ID de entrega.");
                 return;
@@ -247,7 +246,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log(`Factura ID generated: ${facturaId}, Entrega ID: ${entregaId}`);
         }
     
-        // Fetching product details again to ensure all info is correct
         for (let item of cartItems) {
             const productDetails = await fetchProductDetails(item.id);
             const product = productDetails[0];
@@ -273,7 +271,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     function generatePDF(clientAccount, cartData, facturaId, entregaId, id_local, descuento) {
         const doc = new jsPDF();
     
-        // Header
         doc.setFillColor(216, 19, 36);
         doc.rect(0, 0, 210, 30, 'F');
         doc.setFont("Helvetica", "bold");
@@ -281,7 +278,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         doc.setTextColor(255, 255, 255);
         doc.text("BrickMasters CR", 10, 20);
     
-        // Client Information
         doc.setFontSize(12);
         doc.setTextColor(11, 33, 84);
         doc.text(`Factura ID: ${facturaId}`, 10, 40);
@@ -290,12 +286,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         doc.text(`Teléfono: ${clientAccount.tel_cliente}`, 10, 70);
         doc.text(`Dirección: ${clientAccount.direccion_cliente}`, 10, 80);
     
-        // Product Table with Image
         const tableColumnHeaders = ["Producto", "Cantidad", "Precio", "Subtotal"];
         const tableRows = [];
     
         cartData.forEach((item, index) => {
-            // Add the product info to the table
             tableRows.push([
                 item.name,
                 item.quantity,
@@ -303,18 +297,17 @@ document.addEventListener("DOMContentLoaded", async function () {
                 `$${(item.quantity * item.price).toFixed(2)}`
             ]);
     
-            // Add the product image below the table row
             if (item.V_IMAGE_PATH) {
                 const img = new Image();
                 img.src = item.V_IMAGE_PATH;
-                doc.addImage(img, 'JPEG', 10, 100 + (index * 30), 50, 50); // Adjust the position and size as needed
+                doc.addImage(img, 'JPEG', 10, 100 + (index * 30), 50, 50); 
             }
         });
     
         doc.autoTable({
             head: [tableColumnHeaders],
             body: tableRows,
-            startY: 135 + cartData.length * 30, // Adjust start position to leave space for images
+            startY: 135 + cartData.length * 30, 
             theme: 'grid',
             styles: {
                 fontSize: 12,
@@ -330,7 +323,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             margin: { top: 100, left: 10, right: 10 },
         });
     
-        // Totals and IDs
         const subtotal = cartData.reduce((acc, item) => acc + (item.quantity * item.price), 0);
         const total = subtotal * (1 - descuento / 100);        
         doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 10, doc.previousAutoTable.finalY + 10);
@@ -341,7 +333,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         doc.text(`Entrega ID: ${entregaId}`, 10, doc.previousAutoTable.finalY + 40);
         doc.text(`Local ID: ${id_local}`, 10, doc.previousAutoTable.finalY + 50);
         
-        // Footer
         doc.setFillColor(11, 33, 84);
         doc.rect(0, 280, 210, 15, 'F');
         doc.setFontSize(10);

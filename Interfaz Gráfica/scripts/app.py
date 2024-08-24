@@ -729,10 +729,7 @@ def reactivate_catalogo(id_producto):
             cursor = conn.cursor()
             cursor.execute("""
                 UPDATE FIDE_CATALOGO_TB
-                SET V_ESTADO = 'Activo',
-                    V_Modificado_por = 'Admin',  -- Static value for the user who modifies
-                    V_Fecha_de_modificacion = SYSDATE,
-                    V_Accion = 'REACTIVATE'
+                SET V_ESTADO = 'Activo'
                 WHERE FIDE_CATALOGO_V_Id_producto_PK = :1
             """, [id_producto])
             conn.commit()
@@ -1970,6 +1967,28 @@ def get_entrega_by_factura(factura_id):
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
+# Ruta para obtener todos los registros de FIDE_ENTREGAS_TB
+@app.route('/api/entregas', methods=['GET'])
+def get_entregas():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT 
+                    FIDE_ENTREGAS_V_ID_ENTREGA_PK AS "ID Entrega",
+                    FIDE_ENTREGAS_V_ID_CLIENTE_FK AS "ID Cliente",
+                    V_DIRECCION_CLIENTE AS "Dirección Cliente",
+                    V_TEL_CLIENTE AS "Teléfono Cliente"
+                FROM FIDE_ENTREGAS_TB
+            """)
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # Ruta para obtener todos los registros de FIDE_VENTAS_TB
 @app.route('/api/ventas', methods=['GET'])
 def get_ventas():
@@ -1977,7 +1996,14 @@ def get_ventas():
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT * FROM FIDE_VENTAS_TB
+                SELECT 
+                    FIDE_VENTAS_V_ID_VENTA_PK AS "ID Venta",               
+                    FIDE_VENTAS_V_ID_FACTURA_FK AS "ID Factura",
+                    FIDE_VENTAS_V_ID_PRODUCTO_FK AS "ID Producto",
+                    FIDE_VENTAS_V_ID_LOCAL_FK AS "ID Local",
+                    FIDE_VENTAS_V_ID_ENTREGA_FK AS "ID Entrega"
+                FROM FIDE_VENTAS_TB
+                WHERE V_Estado != 'INACTIVO'
             """)
             rows = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
@@ -2073,9 +2099,6 @@ def delete_ventas(id_venta):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 #--------------------------------------------FUNCIONES--------------------------------------------
-@app.route('/')
-def index():
-    return send_from_directory('funciones', 'htmlFunciones.html')
 
 # Ruta para obtener el correo de un cliente por su ID
 @app.route('/obtener_correo_cliente', methods=['POST'])
@@ -2448,6 +2471,77 @@ def get_entregas_clientes_contacto():
         return jsonify([dict(zip(columns, row)) for row in rows])
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# Ruta para obtener datos de la vista FIDE_VENTAS_DETALLES_V
+@app.route('/api/vista/ventas_detalles', methods=['GET'])
+def get_ventas_detalles():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM FIDE_VENTAS_DETALLES_V")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para obtener datos de la vista FIDE_STOCK_PRODUCTOS_V
+@app.route('/api/vista/stock_productos', methods=['GET'])
+def get_stock_productos():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM FIDE_STOCK_PRODUCTOS_V")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para obtener datos de la vista FIDE_ORDENES_CLIENTES_V
+@app.route('/api/vista/ordenes_clientes', methods=['GET'])
+def get_ordenes_clientes():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM FIDE_ORDENES_CLIENTES_V")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para obtener datos de la vista FIDE_PROVEEDORES_RELACIONES_V
+@app.route('/api/vista/proveedores_relaciones', methods=['GET'])
+def get_proveedores_relaciones():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM FIDE_PROVEEDORES_RELACIONES_V")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Ruta para obtener datos de la vista FIDE_VENTAS_LOCALES_V
+@app.route('/api/vista/ventas_locales', methods=['GET'])
+def get_ventas_locales():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM FIDE_VENTAS_LOCALES_V")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            cursor.close()
+        return jsonify([dict(zip(columns, row)) for row in rows])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

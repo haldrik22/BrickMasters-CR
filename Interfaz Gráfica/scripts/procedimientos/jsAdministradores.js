@@ -71,7 +71,7 @@ async function fetchAdministradores() {
                 </tbody>
             `;
             const tbody = table.querySelector('tbody');
-            data.sort((a, b) => a.FIDE_ADMINISTRADORES_V_Id_administradores_PK - b.FIDE_ADMINISTRADORES_V_Id_administradores_PK); // Ordenar por ID ascendente
+            data.sort((a, b) => a.FIDE_ADMINISTRADORES_V_Id_administradores_PK - b.FIDE_ADMINISTRADORES_V_Id_administradores_PK);
             data.forEach(row => {
                 tbody.innerHTML += `
                     <tr>
@@ -211,11 +211,11 @@ function filterAdministradores() {
     const table = document.getElementById('administradores-table');
     const rows = table.getElementsByTagName('tr');
 
-    for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+    for (let i = 1; i < rows.length; i++) {
         const cells = rows[i].getElementsByTagName('td');
         let match = false;
 
-        // Check the appropriate cell based on search category
+        
         if (searchCategory === 'id' && cells[0].innerText.toLowerCase().includes(searchTerm)) {
             match = true;
         } else if (searchCategory === 'nombre' && cells[1].innerText.toLowerCase().includes(searchTerm)) {

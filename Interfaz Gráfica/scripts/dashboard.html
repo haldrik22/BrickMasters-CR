@@ -1,24 +1,81 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <meta charset="utf-8">
+    <title>Bienvenido - BrickMasters CR</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
-<body><!-- Pruebas -->
-    <div class="container">
-        <header>
-            <h1>Dashboard</h1>
-        </header>
-        <nav>
-            <ul>
-                <li><button onclick="navigateTo('funciones/htmlFunciones.html')">Funciones</button></li>
-                <li><button onclick="navigateTo('procedimientos/htmlProcedimientos.html')">Procedimientos</button></li>
-                <li><button onclick="navigateTo('vistas/htmlVistas.html')">Vistas</button></li>
-            </ul>
-        </nav>
+
+<body>
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
+        <div class="container-fluid page-header-inner py-5">
+            <div class="container text-center">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Bienvenido a BrickMasters CR</h1>
+            </div>
+        </div>
     </div>
-    <script src="dashboard.js"></script>
+    <!-- Page Header End -->
+
+    <!-- Welcome Options Start -->
+    <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+        <h2 class="mb-4">Seleccione una opción para continuar</h2>
+        <a href="Login.html" class="btn btn-primary btn-lg mb-3">Inicio de Sesión - Experiencia Clientes</a>
+        <a href="LoginAdmin.html" class="btn btn-secondary btn-lg mb-3">Inicio de Sesión - Experiencia Administrativa</a>
+    </div>
+    <!-- Welcome Options End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Dirección</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Zapote</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>9876-5432</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>brickmasterscr@gmail.com</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Horario de apertura</h4>
+                    <p class="mb-4">Lunes - Sabado: 09:00 AM - 06:00 PM</p>
+                    <p>Domingo: Cerrado</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Servicios</h4>
+                    <p>Gestión de Compañía</p>
+                    <p>Gestión de Negocio</p>
+                    <p>Herramientas Administrativas</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Boletín informativo</h4>
+                    <p>Si desea ser contactado por un asesor, déjenos su correo electrónico.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Tu correo electrónico">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
